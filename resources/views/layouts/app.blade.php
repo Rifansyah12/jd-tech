@@ -69,31 +69,16 @@
             background: rgba(10, 10, 10, 0.95);
         }
 
-        .logo {
+       .logo {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
-        .logo-box {
-            width: 45px;
-            height: 45px;
-            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            font-weight: 700;
-            color: #0a0a0a;
-            transform: rotate(10deg);
-            transition: all 0.3s ease;
-            box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
-        }
-
-        .logo:hover .logo-box {
-            transform: rotate(0deg) scale(1.1);
-            box-shadow: 0 0 30px rgba(0, 242, 254, 0.5);
+        .logo-img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
         }
 
         .logo-text {
@@ -1025,12 +1010,6 @@
             .logo-text {
                 font-size: 20px;
             }
-            
-            .logo-box {
-                width: 40px;
-                height: 40px;
-                font-size: 20px;
-            }
         }
 
         @media (max-width: 480px) {
@@ -1039,7 +1018,7 @@
             }
             
             .logo-text {
-                display: none;
+                font-size: 18px;
             }
         }
     </style>
