@@ -11,14 +11,15 @@
         <a href="{{ route('about') }}#about" class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}">About</a>
         <a href="{{ route('contact') }}#contact" class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a>
         
-        @auth
+       @auth
             <a href="{{ route('dashboard') }}" class="nav-link nav-btn">
                 <i class="fas fa-user-circle"></i> Dashboard
             </a>
         @else
-            <a href="{{ route('login') }}" class="nav-link nav-btn">
+            <a href="{{ url('/admin/login') }}" class="nav-link nav-btn">
                 <i class="fas fa-sign-in-alt"></i> Login
             </a>
         @endauth
+
     </div>
 </nav>

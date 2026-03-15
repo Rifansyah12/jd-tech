@@ -16,6 +16,8 @@ return [
     'defaults' => [
         'guard' => 'web',
         'passwords' => 'users',
+
+        
     ],
 
     /*
@@ -35,12 +37,19 @@ return [
     |
     */
 
-    'guards' => [
+   'guards' => [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        // Tambahkan guard untuk Filament
+        'filament' => [
+            'driver' => 'session',
+            'provider' => 'filament_users',
+        ],
     ],
+
 
     /*
     |--------------------------------------------------------------------------
@@ -59,17 +68,19 @@ return [
     |
     */
 
-    'providers' => [
+   'providers' => [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        // Provider untuk admin Filament
+        'filament_users' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class, // ganti sesuai model admin kamu
+        ],
     ],
+
 
     /*
     |--------------------------------------------------------------------------
