@@ -1,18 +1,17 @@
 version: "3.8"
-
 services:
     app:
-    image: composer:2.8-php8.1
-    container_name: jd_app
-    working_dir: /var/www/html
-    volumes:
-        - ./:/var/www/html
-    networks:
-        - jd_network
-    depends_on:
-        - db
-    command: php-fpm
-
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: jd_app
+        working_dir: /var/www/html
+        volumes:
+            - ./:/var/www/html
+        networks:
+            - jd_network
+        depends_on:
+            - db
     web:
         image: nginx:alpine
         container_name: jd_web
@@ -25,25 +24,21 @@ services:
             - jd_network
         depends_on:
             - app
-
     db:
         image: mysql:8.0
         container_name: jd_db
+        command: --default-authentication-plugin=mysql_native_password
         environment:
-            MYSQL_ROOT_PASSWORD: secret
+            MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
             MYSQL_DATABASE: jd_technology
-            MYSQL_USER: jd_user
-            MYSQL_PASSWORD: jd_pass
         ports:
             - "3306:3306"
         volumes:
             - db_data:/var/lib/mysql
         networks:
             - jd_network
-
 networks:
     jd_network:
         driver: bridge
-
 volumes:
     db_data:

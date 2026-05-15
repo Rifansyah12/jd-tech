@@ -92,7 +92,8 @@
             </div>
 
             <!-- Login Form -->
-            <form method="POST" action="{{ route('filament.auth.login') }}" class="login-form">
+            <form method="POST" action="{{ route('admin.login.post') }}" class="login-form">
+
                 @csrf
                 
                 <!-- Username/Email Field -->

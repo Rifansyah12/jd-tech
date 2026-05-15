@@ -48,6 +48,6 @@
         </div>
     </div>
     <div class="footer-bottom">
-        <p>&copy; 2024 JD Technology. All rights reserved. | Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})</p>
+        <p>&copy; 2026 JD Technology. All rights reserved.</p>
     </div>
 </footer>

@@ -12,7 +12,7 @@
     </div>
 
     <!-- Login Container -->
-    <<div class="login-container" style="display: grid; grid-template-columns: 1fr 1fr; max-width: 1100px; width: 100%; background: rgba(255,255,255,0.02); border: 1px solid rgba(0,242,254,0.1); border-radius: 50px; overflow: hidden; backdrop-filter: blur(10px); box-shadow: 0 0 50px rgba(0,242,254,0.1);">
+    <div class="login-container" style="display: grid; grid-template-columns: 1fr 1fr; max-width: 1100px; width: 100%; background: rgba(255,255,255,0.02); border: 1px solid rgba(0,242,254,0.1); border-radius: 50px; overflow: hidden; backdrop-filter: blur(10px); box-shadow: 0 0 50px rgba(0,242,254,0.1);">
         <!-- Left Side - Branding & Admin Features -->
         <div class="login-left" style="background: linear-gradient(135deg, rgba(0,242,254,0.1), rgba(79,172,254,0.1)); padding: 60px 40px; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden;">      
             <!-- Animated Elements -->
@@ -92,7 +92,7 @@
             </div>
 
             <!-- Login Form -->
-            <form method="POST" action="{{ route('login') }}" class="login-form">
+            <form method="POST" action="{{ route('admin.login.post') }}" class="login-form">
                 @csrf
                 
                 <!-- Username/Email Field -->

@@ -116,14 +116,60 @@ Route::get('/profile', function () {
     return view('profile');
 })->name('profile')->middleware('auth');
 
-// ============ ADMIN ROUTES (Opsional) ============
-Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
-    // Hanya user dengan role admin yang bisa akses
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('dashboard')->middleware('can:admin');
+// ============ ADMIN ROUTES ============
 
-    Route::get('/users', function () {
-        return view('admin.users');
-    })->name('users')->middleware('can:admin');
+// ============ ADMIN ROUTES ============
+Route::get('/admin/login', [App\Http\Controllers\AdminAuthController::class, 'showLogin'])
+    ->name('admin.login');
+
+Route::post('/admin/login', [App\Http\Controllers\AdminAuthController::class, 'login'])
+    ->name('admin.login.post');
+
+Route::prefix('admin')
+    ->name('admin.')
+    ->middleware('auth:filament')
+    ->group(function () {
+
+    // Redirect /admin ke dashboard
+    Route::get('/', fn() => redirect()->route('admin.dashboard'));
+
+    // Dashboard
+    Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])
+        ->name('dashboard');
+
+    // Portfolio
+    Route::resource('portfolio', App\Http\Controllers\Admin\PortfolioController::class);
+
+    // Services
+    Route::resource('services', App\Http\Controllers\Admin\ServiceController::class);
+
+    // Team
+    Route::resource('team', App\Http\Controllers\Admin\TeamController::class);
+
+    // Messages
+    Route::get('/messages', [App\Http\Controllers\Admin\MessageController::class, 'index'])
+        ->name('messages.index');
+    Route::get('/messages/{message}', [App\Http\Controllers\Admin\MessageController::class, 'show'])
+        ->name('messages.show');
+    Route::delete('/messages/{message}', [App\Http\Controllers\Admin\MessageController::class, 'destroy'])
+        ->name('messages.destroy');
+
+    // Settings
+    Route::get('/settings', [App\Http\Controllers\Admin\SettingsController::class, 'index'])
+        ->name('settings.index');
+    Route::post('/settings/profile', [App\Http\Controllers\Admin\SettingsController::class, 'updateProfile'])
+        ->name('settings.profile');
+    Route::post('/settings/password', [App\Http\Controllers\Admin\SettingsController::class, 'updatePassword'])
+        ->name('settings.password');
 });
+
+Route::post('/admin/logout', function () {
+
+    Auth::guard('filament')->logout();
+
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+
+    return redirect()->route('admin.login');
+
+})->name('admin.logout');
