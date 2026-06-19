@@ -28,7 +28,7 @@
         <!-- Foto -->
         <div style="width: 70px; height: 70px; border-radius: 50%; margin: 0 auto 12px; overflow: hidden; border: 2px solid rgba(0,242,254,0.3); background: rgba(0,242,254,0.08); display: flex; align-items: center; justify-content: center;">
             @if($m->photo)
-                <img src="{{ Storage::url($m->photo) }}" style="width: 100%; height: 100%; object-fit: cover;">
+                <img src="{{ asset('storage/' . $m->photo) }}" style="width: 100%; height: 100%; object-fit: cover;">
             @else
                 <i class="fas fa-user" style="color: #00f2fe; font-size: 1.5rem;"></i>
             @endif
@@ -36,8 +36,11 @@
 
         <h3 style="color: white; font-weight: 600; margin-bottom: 4px;">{{ $m->name }}</h3>
         <p style="color: #00f2fe; font-size: 0.82rem; margin-bottom: 8px;">{{ $m->position ?? '-' }}</p>
+        <p style="color: rgba(255,255,255,0.65); font-size: 0.8rem; margin-bottom: 10px;">
+            <i class="fas fa-briefcase" style="color:#00f2fe;"></i>
+            {{ $m->experience ?? 'No experience set' }}
+        </p>
         <p style="color: rgba(255,255,255,0.4); font-size: 0.78rem; margin-bottom: 15px;">{{ $m->email ?? '' }}</p>
-
         <!-- Links -->
         <div style="display: flex; justify-content: center; gap: 8px; margin-bottom: 15px;">
             @if($m->github_url)

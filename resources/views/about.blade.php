@@ -177,7 +177,7 @@
         </div>
     </section>
 
-    <!-- Team Section -->
+        <!-- Team Section -->
     <section style="padding: 100px 5%;">
         <div class="section-header" style="margin-bottom: 60px;">
             <div class="section-subtitle">OUR TEAM</div>
@@ -186,73 +186,57 @@
         </div>
 
         <div class="team-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto;">
-            <!-- Team Member 1 -->
-            <div class="team-member" data-member="1"
+            @forelse($members as $member)
+            <!-- Team Member -->
+            <div class="team-member" data-member="{{ $member->id }}"
                 style="background: rgba(255,255,255,0.02); border: 1px solid rgba(0,242,254,0.1); border-radius: 30px; padding: 40px 30px; text-align: center; transition: all 0.3s ease; position: relative; overflow: hidden; cursor: pointer;">
                 <div style="position: absolute; top: 0; right: 0; width: 100px; height: 100px; background: linear-gradient(135deg, #00f2fe, #4facfe); opacity: 0.1; border-radius: 0 0 0 100px;"></div>
-                <div style="width: 120px; height: 120px; margin: 0 auto 25px; background: linear-gradient(135deg, #00f2fe, #4facfe); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 30px rgba(0,242,254,0.3);">
-                    <span style="font-size: 48px; font-weight: 600; color: #0a0a0a;">JD</span>
+                <div style="
+                    width: 120px;
+                    height: 120px;
+                    margin: 0 auto 25px;
+                    border-radius: 50%;
+                    overflow: hidden;
+                    border: 3px solid rgba(0,242,254,0.3);
+                    background: rgba(0,242,254,0.08);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    box-shadow: 0 0 30px rgba(0,242,254,0.3);
+                ">
+                    @if($member->photo)
+                        <img 
+                            src="{{ asset('storage/' . $member->photo) }}"
+                            alt="{{ $member->name }}"
+                            style="
+                                width: 100%;
+                                height: 100%;
+                                object-fit: cover;
+                            "
+                        >
+                    @else
+                        <i class="fas fa-user" style="color: #00f2fe; font-size: 3rem;"></i>
+                    @endif
                 </div>
-                <h3 style="font-size: 1.8rem; margin-bottom: 5px;">John Doe</h3>
-                <p style="color: #00f2fe; margin-bottom: 20px;">Founder & CEO</p>
-                <p style="color: rgba(255,255,255,0.6); margin-bottom: 25px;">10+ years experience in tech industry</p>
+                <h3 style="font-size: 1.8rem; margin-bottom: 5px;">{{ $member->name }}</h3>
+                <p style="color: #00f2fe; margin-bottom: 20px;">{{ $member->position }}</p>
                 <div style="display: flex; justify-content: center; gap: 15px;">
-                    <a href="#" style="color: rgba(255,255,255,0.6); transition: color 0.3s;" onmouseover="this.style.color='#00f2fe'" onmouseout="this.style.color='rgba(255,255,255,0.6)'"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#" style="color: rgba(255,255,255,0.6); transition: color 0.3s;" onmouseover="this.style.color='#00f2fe'" onmouseout="this.style.color='rgba(255,255,255,0.6)'"><i class="fab fa-twitter"></i></a>
-                    <a href="#" style="color: rgba(255,255,255,0.6); transition: color 0.3s;" onmouseover="this.style.color='#00f2fe'" onmouseout="this.style.color='rgba(255,255,255,0.6)'"><i class="fab fa-github"></i></a>
+                    @if($member->linkedin_url)
+                    <a href="{{ $member->linkedin_url }}" target="_blank" style="color: rgba(255,255,255,0.6); transition: color 0.3s;" onmouseover="this.style.color='#00f2fe'" onmouseout="this.style.color='rgba(255,255,255,0.6)'"><i class="fab fa-linkedin-in"></i></a>
+                    @endif
+                    @if($member->twitter_url)
+                    <a href="{{ $member->twitter_url }}" target="_blank" style="color: rgba(255,255,255,0.6); transition: color 0.3s;" onmouseover="this.style.color='#00f2fe'" onmouseout="this.style.color='rgba(255,255,255,0.6)'"><i class="fab fa-twitter"></i></a>
+                    @endif
+                    @if($member->github_url)
+                    <a href="{{ $member->github_url }}" target="_blank" style="color: rgba(255,255,255,0.6); transition: color 0.3s;" onmouseover="this.style.color='#00f2fe'" onmouseout="this.style.color='rgba(255,255,255,0.6)'"><i class="fab fa-github"></i></a>
+                    @endif
                 </div>
             </div>
-
-            <!-- Team Member 2 -->
-            <div class="team-member" data-member="2"
-                style="background: rgba(255,255,255,0.02); border: 1px solid rgba(0,242,254,0.1); border-radius: 30px; padding: 40px 30px; text-align: center; transition: all 0.3s ease; position: relative; overflow: hidden; cursor: pointer;">
-                <div style="position: absolute; top: 0; right: 0; width: 100px; height: 100px; background: linear-gradient(135deg, #00f2fe, #4facfe); opacity: 0.1; border-radius: 0 0 0 100px;"></div>
-                <div style="width: 120px; height: 120px; margin: 0 auto 25px; background: linear-gradient(135deg, #00f2fe, #4facfe); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 30px rgba(0,242,254,0.3);">
-                    <span style="font-size: 48px; font-weight: 600; color: #0a0a0a;">JS</span>
-                </div>
-                <h3 style="font-size: 1.8rem; margin-bottom: 5px;">Jane Smith</h3>
-                <p style="color: #00f2fe; margin-bottom: 20px;">CTO</p>
-                <p style="color: rgba(255,255,255,0.6); margin-bottom: 25px;">8+ years in software development</p>
-                <div style="display: flex; justify-content: center; gap: 15px;">
-                    <a href="#" style="color: rgba(255,255,255,0.6); transition: color 0.3s;" onmouseover="this.style.color='#00f2fe'" onmouseout="this.style.color='rgba(255,255,255,0.6)'"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#" style="color: rgba(255,255,255,0.6); transition: color 0.3s;" onmouseover="this.style.color='#00f2fe'" onmouseout="this.style.color='rgba(255,255,255,0.6)'"><i class="fab fa-twitter"></i></a>
-                    <a href="#" style="color: rgba(255,255,255,0.6); transition: color 0.3s;" onmouseover="this.style.color='#00f2fe'" onmouseout="this.style.color='rgba(255,255,255,0.6)'"><i class="fab fa-github"></i></a>
-                </div>
+            @empty
+            <div style="text-align: center; padding: 60px; grid-column: 1/-1;">
+                <p style="color: rgba(255,255,255,0.6);">No team members found.</p>
             </div>
-
-            <!-- Team Member 3 -->
-            <div class="team-member" data-member="3"
-                style="background: rgba(255,255,255,0.02); border: 1px solid rgba(0,242,254,0.1); border-radius: 30px; padding: 40px 30px; text-align: center; transition: all 0.3s ease; position: relative; overflow: hidden; cursor: pointer;">
-                <div style="position: absolute; top: 0; right: 0; width: 100px; height: 100px; background: linear-gradient(135deg, #00f2fe, #4facfe); opacity: 0.1; border-radius: 0 0 0 100px;"></div>
-                <div style="width: 120px; height: 120px; margin: 0 auto 25px; background: linear-gradient(135deg, #00f2fe, #4facfe); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 30px rgba(0,242,254,0.3);">
-                    <span style="font-size: 48px; font-weight: 600; color: #0a0a0a;">MJ</span>
-                </div>
-                <h3 style="font-size: 1.8rem; margin-bottom: 5px;">Mike Johnson</h3>
-                <p style="color: #00f2fe; margin-bottom: 20px;">Lead Developer</p>
-                <p style="color: rgba(255,255,255,0.6); margin-bottom: 25px;">6+ years full stack development</p>
-                <div style="display: flex; justify-content: center; gap: 15px;">
-                    <a href="#" style="color: rgba(255,255,255,0.6); transition: color 0.3s;" onmouseover="this.style.color='#00f2fe'" onmouseout="this.style.color='rgba(255,255,255,0.6)'"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#" style="color: rgba(255,255,255,0.6); transition: color 0.3s;" onmouseover="this.style.color='#00f2fe'" onmouseout="this.style.color='rgba(255,255,255,0.6)'"><i class="fab fa-twitter"></i></a>
-                    <a href="#" style="color: rgba(255,255,255,0.6); transition: color 0.3s;" onmouseover="this.style.color='#00f2fe'" onmouseout="this.style.color='rgba(255,255,255,0.6)'"><i class="fab fa-github"></i></a>
-                </div>
-            </div>
-
-            <!-- Team Member 4 -->
-            <div class="team-member" data-member="4"
-                style="background: rgba(255,255,255,0.02); border: 1px solid rgba(0,242,254,0.1); border-radius: 30px; padding: 40px 30px; text-align: center; transition: all 0.3s ease; position: relative; overflow: hidden; cursor: pointer;">
-                <div style="position: absolute; top: 0; right: 0; width: 100px; height: 100px; background: linear-gradient(135deg, #00f2fe, #4facfe); opacity: 0.1; border-radius: 0 0 0 100px;"></div>
-                <div style="width: 120px; height: 120px; margin: 0 auto 25px; background: linear-gradient(135deg, #00f2fe, #4facfe); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 30px rgba(0,242,254,0.3);">
-                    <span style="font-size: 48px; font-weight: 600; color: #0a0a0a;">SW</span>
-                </div>
-                <h3 style="font-size: 1.8rem; margin-bottom: 5px;">Sarah Wilson</h3>
-                <p style="color: #00f2fe; margin-bottom: 20px;">UI/UX Designer</p>
-                <p style="color: rgba(255,255,255,0.6); margin-bottom: 25px;">5+ years design experience</p>
-                <div style="display: flex; justify-content: center; gap: 15px;">
-                    <a href="#" style="color: rgba(255,255,255,0.6); transition: color 0.3s;" onmouseover="this.style.color='#00f2fe'" onmouseout="this.style.color='rgba(255,255,255,0.6)'"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#" style="color: rgba(255,255,255,0.6); transition: color 0.3s;" onmouseover="this.style.color='#00f2fe'" onmouseout="this.style.color='rgba(255,255,255,0.6)'"><i class="fab fa-twitter"></i></a>
-                    <a href="#" style="color: rgba(255,255,255,0.6); transition: color 0.3s;" onmouseover="this.style.color='#00f2fe'" onmouseout="this.style.color='rgba(255,255,255,0.6)'"><i class="fab fa-dribbble"></i></a>
-                </div>
-            </div>
+            @endforelse
         </div>
     </section>
 
@@ -266,7 +250,26 @@
             <!-- Modal Content -->
             <div id="modalContent">
                 <div class="modal-avatar">
-                    <span id="modalInitials">JD</span>
+                    <img 
+                        id="modalPhoto"
+                        src=""
+                        alt="Member Photo"
+                        style="
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                            display: none;
+                        "
+                    >
+
+                    <i 
+                        id="modalDefaultIcon"
+                        class="fas fa-user"
+                        style="
+                            color: #0a0a0a;
+                            font-size: 2.5rem;
+                        "
+                    ></i>
                 </div>
                 <h2 class="modal-name" id="modalName">John Doe</h2>
                 <p class="modal-position" id="modalPosition">Founder & CEO</p>
@@ -792,68 +795,7 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Data team members
-    const teamMembers = {
-        1: {
-            initials: 'JD',
-            name: 'John Doe',
-            position: 'Founder & CEO',
-            experience: '10+ years in tech industry',
-            email: 'john.doe@jdtechnology.com',
-            phone: '+62 812 3456 7890',
-            education: 'M.Sc. Computer Science, Stanford University',
-            location: 'Jakarta, Indonesia',
-            bio: 'John adalah pendiri JD Technology dengan pengalaman lebih dari 10 tahun di industri teknologi.',
-            skills: ['Leadership', 'Strategic Planning', 'Full Stack', 'Cloud', 'Team Mgmt'],
-            linkedin: 'https://linkedin.com/in/johndoe',
-            twitter: 'https://twitter.com/johndoe',
-            github: 'https://github.com/johndoe'
-        },
-        2: {
-            initials: 'JS',
-            name: 'Jane Smith',
-            position: 'CTO',
-            experience: '8+ years in software development',
-            email: 'jane.smith@jdtechnology.com',
-            phone: '+62 812 3456 7891',
-            education: 'M.Sc. Software Engineering, MIT',
-            location: 'Jakarta, Indonesia',
-            bio: 'Jane adalah CTO JD Technology dengan spesialisasi di bidang arsitektur software.',
-            skills: ['System Arch', 'Cloud', 'DevOps', 'Leadership', 'Agile'],
-            linkedin: 'https://linkedin.com/in/janesmith',
-            twitter: 'https://twitter.com/janesmith',
-            github: 'https://github.com/janesmith'
-        },
-        3: {
-            initials: 'MJ',
-            name: 'Mike Johnson',
-            position: 'Lead Developer',
-            experience: '6+ years full stack development',
-            email: 'mike.johnson@jdtechnology.com',
-            phone: '+62 812 3456 7892',
-            education: 'B.Sc. Computer Science, University of Indonesia',
-            location: 'Jakarta, Indonesia',
-            bio: 'Mike adalah lead developer yang ahli dalam pengembangan web dan mobile.',
-            skills: ['Laravel', 'React', 'Node.js', 'MongoDB', 'Docker'],
-            linkedin: 'https://linkedin.com/in/mikejohnson',
-            twitter: 'https://twitter.com/mikejohnson',
-            github: 'https://github.com/mikejohnson'
-        },
-        4: {
-            initials: 'SW',
-            name: 'Sarah Wilson',
-            position: 'UI/UX Designer',
-            experience: '5+ years design experience',
-            email: 'sarah.wilson@jdtechnology.com',
-            phone: '+62 812 3456 7893',
-            education: 'B.Des Visual Communication, ITB',
-            location: 'Jakarta, Indonesia',
-            bio: 'Sarah adalah desainer UI/UX yang fokus pada user experience.',
-            skills: ['Figma', 'Adobe XD', 'User Research', 'Wireframing', 'Prototyping'],
-            linkedin: 'https://linkedin.com/in/sarahwilson',
-            twitter: 'https://twitter.com/sarahwilson',
-            dribbble: 'https://dribbble.com/sarahwilson'
-        }
-    };
+    const teamMembers = @json($teamMembers);
 
     // Get modal elements
     const modal = document.getElementById('teamModal');
@@ -868,10 +810,22 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!member) return;
 
         // Update modal content
-        document.getElementById('modalInitials').textContent = member.initials;
         document.getElementById('modalName').textContent = member.name;
         document.getElementById('modalPosition').textContent = member.position;
         document.getElementById('modalExperience').textContent = member.experience;
+
+        // Handle photo
+        const modalPhoto = document.getElementById('modalPhoto');
+        const modalDefaultIcon = document.getElementById('modalDefaultIcon');
+
+        if (member.photo) {
+            modalPhoto.src = `{{ asset('storage') }}/${member.photo}`;
+            modalPhoto.style.display = 'block';
+            modalDefaultIcon.style.display = 'none';
+        } else {
+            modalPhoto.style.display = 'none';
+            modalDefaultIcon.style.display = 'block';
+        }
 
         // Build info items
         const infoHTML = `

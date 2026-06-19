@@ -45,7 +45,22 @@
                 </div>
                 <h3 style="font-size: 1.5rem; margin-bottom: 15px; color: #00f2fe;">Call Us</h3>
                 <p style="color: rgba(255,255,255,0.7); line-height: 1.7;">
-                    +62 123 4567 890<br>+62 890 1234 567
+                    @php
+                        $phone1 = '+62 123 4567 890';
+                        $phone2 = '+62 890 1234 567';
+                        $cleanPhone1 = preg_replace('/[^0-9+]/', '', $phone1);
+                        $cleanPhone2 = preg_replace('/[^0-9+]/', '', $phone2);
+                    @endphp
+                    <a href="tel:{{ $cleanPhone1 }}" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.3s;" 
+                    onmouseover="this.style.color='#00f2fe'" 
+                    onmouseout="this.style.color='rgba(255,255,255,0.7)'">
+                        <i class="fas fa-phone" style="margin-right: 8px;"></i> {{ $phone1 }}
+                    </a><br>
+                    <a href="tel:{{ $cleanPhone2 }}" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.3s; margin-top: 8px; display: inline-block;" 
+                    onmouseover="this.style.color='#00f2fe'" 
+                    onmouseout="this.style.color='rgba(255,255,255,0.7)'">
+                        <i class="fas fa-phone" style="margin-right: 8px;"></i> {{ $phone2 }}
+                    </a>
                 </p>
             </div>
 
@@ -56,7 +71,18 @@
                 </div>
                 <h3 style="font-size: 1.5rem; margin-bottom: 15px; color: #00f2fe;">Email Us</h3>
                 <p style="color: rgba(255,255,255,0.7); line-height: 1.7;">
-                    info@jdtechnology.com<br>support@jdtechnology.com
+                    <a href="mailto:info@jdtechnology.com?subject=Inquiry%20from%20Website&body=Hello%20JD%20Technology%2C%0A%0AI%20would%20like%20to%20inquire%20about...%0A%0AThank%20you." 
+                    style="color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.3s ease; display: inline-block; margin-bottom: 8px;" 
+                    onmouseover="this.style.color='#00f2fe'" 
+                    onmouseout="this.style.color='rgba(255,255,255,0.7)'">
+                        <i class="fas fa-envelope" style="margin-right: 8px; font-size: 14px;"></i> info@jdtechnology.com
+                    </a><br>
+                    <a href="mailto:support@jdtechnology.com?subject=Support%20Request&body=Hello%20Support%20Team%2C%0A%0AI%20need%20help%20with...%0A%0AThank%20you." 
+                    style="color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.3s ease; display: inline-block;" 
+                    onmouseover="this.style.color='#00f2fe'" 
+                    onmouseout="this.style.color='rgba(255,255,255,0.7)'">
+                        <i class="fas fa-envelope" style="margin-right: 8px; font-size: 14px;"></i> support@jdtechnology.com
+                    </a>
                 </p>
             </div>
 
@@ -484,6 +510,27 @@
             font-size: 1rem !important;
         }
     }
+    
+    /* Untuk phone dan email links */
+.contact-link {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.contact-link:hover {
+    color: #00f2fe;
+    transform: translateX(5px);
+}
+
+.contact-link i {
+    font-size: 14px;
+    width: 16px;
+}
 </style>
 @endpush
 

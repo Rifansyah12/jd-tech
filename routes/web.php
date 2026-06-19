@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Models\TeamMember;
+use App\Http\Controllers\AboutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,9 +24,9 @@ Route::get('/portfolio', function () {
     return view('portfolio');
 })->name('portfolio');
 
-Route::get('/about', function () {
-    return view('about');
-})->name('about');
+// Route::get('/about', function () {
+//     $members = TeamMember::where('is_active', true)->get();
+Route::get('/about', [AboutController::class, 'index'])->name('about');
 
 Route::get('/contact', function () {
     return view('contact');
@@ -115,8 +117,6 @@ Route::get('/dashboard', function () {
 Route::get('/profile', function () {
     return view('profile');
 })->name('profile')->middleware('auth');
-
-// ============ ADMIN ROUTES ============
 
 // ============ ADMIN ROUTES ============
 Route::get('/admin/login', [App\Http\Controllers\AdminAuthController::class, 'showLogin'])

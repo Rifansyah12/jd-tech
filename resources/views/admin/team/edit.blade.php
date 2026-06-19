@@ -27,8 +27,40 @@
                     <input type="text" name="position" class="form-control" value="{{ old('position', $team->position) }}">
                 </div>
                 <div class="form-group">
+                    <label class="form-label">Experience</label>
+                    <input 
+                        type="text" 
+                        name="experience" 
+                        class="form-control" 
+                        value="{{ old('experience', $team->experience) }}"
+                        placeholder="5+ Years Experience"
+                    >
+                </div>
+                <div class="form-group">
                     <label class="form-label">Email</label>
                     <input type="email" name="email" class="form-control" value="{{ old('email', $team->email) }}">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Phone</label>
+                    <input type="text" name="phone" class="form-control" value="{{ old('phone', $team->phone ?? '') }}">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Education</label>
+                    <input type="text" name="education" class="form-control" value="{{ old('education', $team->education ?? '') }}">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Location</label>
+                    <input type="text" name="location" class="form-control" value="{{ old('location', $team->location ?? '') }}">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Bio</label>
+                    <textarea name="bio" class="form-control">{{ old('bio', $team->bio ?? '') }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Skills</label>
+                    <input type="text" name="skills" class="form-control"
+                        value="{{ old('skills', implode(',', $team->skills ?? [])) }}"
+                        placeholder="Laravel, React, Docker">
                 </div>
             </div>
             <div class="card">

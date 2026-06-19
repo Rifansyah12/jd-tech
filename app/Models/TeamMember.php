@@ -9,6 +9,23 @@ class TeamMember extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'position', 'photo', 'email', 'github_url', 'linkedin_url', 'is_active',
+        'name',
+        'position',
+        'experience',
+        'photo',
+        'email',
+        'phone',
+        'education',
+        'location',
+        'bio',
+        'skills',
+        'github_url',
+        'linkedin_url',
+        'twitter_url',
+        'is_active',
+    ];
+
+    protected $casts = [
+        'skills' => 'array',
     ];
 }

@@ -41,7 +41,7 @@ CREATE TABLE `admins` (
 
 LOCK TABLES `admins` WRITE;
 /*!40000 ALTER TABLE `admins` DISABLE KEYS */;
-INSERT INTO `admins` VALUES (1,'Admin','admin','$2y$10$ael4tQFts3bEn5y3Lb/0ZegXwtEyk9tCBo910YobyHZEv5OV4/lzC',NULL,'2026-05-15 15:28:24','2026-05-15 15:28:24');
+INSERT INTO `admins` VALUES (1,'Admin','admin','$2y$10$z7NyDW2VSkd8pdZKy2hZX.xsPRqqXjXxceReW96uDnC9hVIDnjiaS',NULL,'2026-05-17 07:40:13','2026-05-17 07:40:13');
 /*!40000 ALTER TABLE `admins` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -115,7 +115,7 @@ CREATE TABLE `migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -124,7 +124,7 @@ CREATE TABLE `migrations` (
 
 LOCK TABLES `migrations` WRITE;
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
-INSERT INTO `migrations` VALUES (1,'2014_10_12_000000_create_users_table',1),(2,'2014_10_12_100000_create_password_resets_table',1),(3,'2019_08_19_000000_create_failed_jobs_table',1),(4,'2019_12_14_000001_create_personal_access_tokens_table',1),(5,'2026_04_19_131935_create_admins_table',1),(6,'2026_04_22_054219_create_portfolios_table',1),(7,'2026_04_22_054330_create_services_table',1),(8,'2026_04_22_054433_create_team_members_table',1),(9,'2026_04_22_054521_create_messages_table',1);
+INSERT INTO `migrations` VALUES (1,'2014_10_12_000000_create_users_table',1),(2,'2014_10_12_100000_create_password_resets_table',1),(3,'2019_08_19_000000_create_failed_jobs_table',1),(4,'2019_12_14_000001_create_personal_access_tokens_table',1),(5,'2026_04_19_131935_create_admins_table',1),(6,'2026_04_22_054219_create_portfolios_table',1),(7,'2026_04_22_054330_create_services_table',1),(8,'2026_04_22_054433_create_team_members_table',1),(9,'2026_04_22_054521_create_messages_table',1),(10,'2026_05_17_075741_add_profile_fields_to_team_members_table',2),(11,'2026_05_18_122423_add_experience_to_team_members_table',3);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -257,15 +257,22 @@ CREATE TABLE `team_members` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `position` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `experience` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `photo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `education` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bio` text COLLATE utf8mb4_unicode_ci,
+  `skills` json DEFAULT NULL,
   `github_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `linkedin_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `twitter_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `is_active` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -274,6 +281,7 @@ CREATE TABLE `team_members` (
 
 LOCK TABLES `team_members` WRITE;
 /*!40000 ALTER TABLE `team_members` DISABLE KEYS */;
+INSERT INTO `team_members` VALUES (5,'Rifansyah Hidayatulloh','Mobile Dev','10+years','team/c3TXflZHSiNyO7w8Af8WG2QJ5toJJDlGS5Ip0pmh.jpg','syahr9610@gmail.com','089696120616','dasdasda','Bandung City','as','[\"Laravel\", \"react\"]','https://github.com/Rifansyah12','https://www.linkedin.com/in/rifansyah-hidayatulloh-82b048250/',NULL,1,'2026-06-17 18:59:43','2026-06-17 18:59:43');
 /*!40000 ALTER TABLE `team_members` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -316,4 +324,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-05-15 15:51:51
+-- Dump completed on 2026-06-17 19:31:32

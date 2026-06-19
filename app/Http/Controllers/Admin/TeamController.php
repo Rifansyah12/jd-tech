@@ -9,72 +9,96 @@ use Illuminate\Support\Facades\Storage;
 class TeamController extends Controller
 {
     public function index()
-    {
-        $members = TeamMember::latest()->paginate(10);
-        return view('admin.team.index', compact('members'));
-    }
+        {
+            $members = TeamMember::latest()->paginate(10);
+            return view('admin.team.index', compact('members'));
+        }
 
     public function create()
-    {
-        return view('admin.team.create');
-    }
+        {
+            return view('admin.team.create');
+        }
 
     public function store(Request $request)
-    {
-        $data = $request->validate([
-            'name'         => 'required|string|max:255',
-            'position'     => 'nullable|string|max:255',
-            'photo'        => 'nullable|image|max:2048',
-            'email'        => 'nullable|email',
-            'github_url'   => 'nullable|url',
-            'linkedin_url' => 'nullable|url',
-            'is_active'    => 'boolean',
-        ]);
+        {
+            $data = $request->validate([
+                'name'         => 'required|string|max:255',
+                'position'     => 'nullable|string|max:255',
+                'experience'   => 'nullable|string|max:255',
+                'photo'        => 'nullable|image|max:2048',
+                'email'        => 'nullable|email',
+                'github_url'   => 'nullable|url',
+                'linkedin_url' => 'nullable|url',
+                'twitter_url'  => 'nullable|url',
+                'phone'        => 'nullable|string|max:30',
+                'education'    => 'nullable|string|max:255',
+                'location'     => 'nullable|string|max:255',
+                'bio'          => 'nullable|string',
+                'skills'       => 'nullable|string', 
+                'is_active'    => 'boolean',
+            ]);
 
-        if ($request->hasFile('photo')) {
-            $data['photo'] = $request->file('photo')->store('team', 'public');
+            if ($request->hasFile('photo')) {
+                $data['photo'] = $request->file('photo')->store('team', 'public');
+            }
+
+            $data['is_active'] = $request->boolean('is_active', true);
+            $data['skills'] = $this->parseSkills($request->skills);
+
+            TeamMember::create($data);
+
+            return redirect()->route('admin.team.index')->with('success', 'Anggota tim berhasil ditambahkan!');
         }
-
-        $data['is_active'] = $request->boolean('is_active', true);
-
-        TeamMember::create($data);
-
-        return redirect()->route('admin.team.index')->with('success', 'Anggota tim berhasil ditambahkan!');
-    }
 
     public function edit(TeamMember $team)
-    {
-        return view('admin.team.edit', compact('team'));
-    }
-
-    public function update(Request $request, TeamMember $team)
-    {
-        $data = $request->validate([
-            'name'         => 'required|string|max:255',
-            'position'     => 'nullable|string|max:255',
-            'photo'        => 'nullable|image|max:2048',
-            'email'        => 'nullable|email',
-            'github_url'   => 'nullable|url',
-            'linkedin_url' => 'nullable|url',
-            'is_active'    => 'boolean',
-        ]);
-
-        if ($request->hasFile('photo')) {
-            if ($team->photo) Storage::disk('public')->delete($team->photo);
-            $data['photo'] = $request->file('photo')->store('team', 'public');
+        {
+            return view('admin.team.edit', compact('team'));
         }
 
-        $data['is_active'] = $request->boolean('is_active');
+    public function update(Request $request, TeamMember $team)
+        {
+            $data = $request->validate([
+                'name'         => 'required|string|max:255',
+                'position'     => 'nullable|string|max:255',
+                'photo'        => 'nullable|image|max:2048',
+                'experience'   => 'nullable|string|max:255',
+                'email'        => 'nullable|email',
+                'github_url'   => 'nullable|url',
+                'linkedin_url' => 'nullable|url',
+                'twitter_url'  => 'nullable|url',
+                'phone'        => 'nullable|string|max:30',
+                'education'    => 'nullable|string|max:255',
+                'location'     => 'nullable|string|max:255',
+                'bio'          => 'nullable|string',
+                'skills'       => 'nullable|string',
+                'is_active'    => 'boolean',
+            ]);
 
-        $team->update($data);
+            if ($request->hasFile('photo')) {
+                if ($team->photo) Storage::disk('public')->delete($team->photo);
+                $data['photo'] = $request->file('photo')->store('team', 'public');
+            }
 
-        return redirect()->route('admin.team.index')->with('success', 'Anggota tim berhasil diupdate!');
-    }
+            $data['is_active'] = $request->boolean('is_active', $team->is_active);
+
+            $data['skills'] = $this->parseSkills($request->skills);
+
+            $team->update($data);
+
+            return redirect()->route('admin.team.index')->with('success', 'Anggota tim berhasil diupdate!');
+        }
 
     public function destroy(TeamMember $team)
-    {
-        if ($team->photo) Storage::disk('public')->delete($team->photo);
-        $team->delete();
-        return redirect()->route('admin.team.index')->with('success', 'Anggota tim berhasil dihapus!');
-    }
+        {
+            if ($team->photo) Storage::disk('public')->delete($team->photo);
+            $team->delete();
+            return redirect()->route('admin.team.index')->with('success', 'Anggota tim berhasil dihapus!');
+        }
+
+    private function parseSkills($skills)
+        {
+            return $skills
+                ? array_map('trim', explode(',', $skills))
+                : null;
+        }
 }
