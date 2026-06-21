@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SocialFlow — Social Media App</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{min-height:100vh;background:linear-gradient(135deg,#0a0014,#1a0033,#0d0020);display:flex;align-items:center;justify-content:center;font-family:'Segoe UI',system-ui,sans-serif;padding:30px 20px;position:relative;overflow:hidden}
+body::before{content:'';position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(255,0,130,.06),transparent 70%);top:-100px;right:-100px}
+body::after{content:'';position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(130,0,255,.06),transparent 70%);bottom:-80px;left:-80px}
+.page-label{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,.08);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:6px 20px;color:#fff;font-size:.82rem;font-weight:600;z-index:200}
+.tech-badge{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:200}
+.tech-badge span{background:rgba(255,255,255,.08);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:5px 14px;color:#fff;font-size:.75rem;font-weight:600}
+
+.phone-wrap{position:relative;z-index:10}
+.phone{width:375px;background:#0a0014;border-radius:50px;padding:12px;box-shadow:0 0 0 2px #150024,0 0 0 4px #0a0014,0 50px 100px rgba(0,0,0,.8),0 20px 40px rgba(255,0,130,.08)}
+.phone-screen{border-radius:40px;overflow:hidden;height:780px;background:#0d0018;position:relative;display:flex;flex-direction:column}
+.notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:110px;height:30px;background:#0a0014;border-radius:0 0 18px 18px;z-index:50}
+.status{height:48px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 22px 8px;position:relative;z-index:10}
+.status-time{font-size:.78rem;font-weight:700;color:#fff}
+.status-icons{display:flex;align-items:center;gap:6px;color:#fff;font-size:.7rem}
+
+.app{flex:1;overflow-y:auto;overflow-x:hidden}
+.app::-webkit-scrollbar{display:none}
+
+/* HEADER */
+.app-header{background:#0d0018;padding:8px 18px 12px;position:sticky;top:0;z-index:20;border-bottom:1px solid rgba(255,255,255,.04)}
+.header-row{display:flex;align-items:center;justify-content:space-between}
+.logo-sf{font-size:1.2rem;font-weight:900;background:linear-gradient(135deg,#ff0084,#8200ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.header-actions{display:flex;gap:10px}
+.h-btn{width:36px;height:36px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:.88rem;position:relative}
+.h-btn .dot{position:absolute;top:6px;right:6px;width:7px;height:7px;background:#ff0084;border-radius:50%;border:2px solid #0d0018}
+
+/* STORIES */
+.stories{padding:12px 0 6px;overflow-x:auto;white-space:nowrap;background:#0d0018;border-bottom:1px solid rgba(255,255,255,.04)}
+.stories::-webkit-scrollbar{display:none}
+.story{display:inline-flex;flex-direction:column;align-items:center;gap:5px;margin:0 8px;width:58px}
+.story:first-child{margin-left:14px}
+.story-ring{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#ff0084,#8200ff);padding:2px;flex-shrink:0}
+.story-ring.add{background:rgba(255,255,255,.08);border:2px dashed rgba(255,255,255,.15)}
+.story-inner{width:100%;height:100%;border-radius:50%;border:2px solid #0d0018;background:#1a1040;display:flex;align-items:center;justify-content:center;font-size:1.1rem;overflow:hidden}
+.story-name{font-size:.6rem;color:#64748b;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%}
+
+/* POST */
+.post{background:#0d0018;border-bottom:1px solid rgba(255,255,255,.04);padding:14px 16px}
+.post-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.post-av{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;border:2px solid transparent;background-clip:padding-box}
+.post-av.grad1{background:linear-gradient(135deg,#ff0084,#8200ff) padding-box,linear-gradient(135deg,#ff0084,#8200ff) border-box;background-origin:border-box}
+.post-name{font-size:.85rem;font-weight:700;color:#f1f5f9}
+.post-handle{font-size:.72rem;color:#475569}
+.post-time{margin-left:auto;font-size:.7rem;color:#334155}
+.follow-btn{margin-left:8px;background:linear-gradient(135deg,#ff0084,#8200ff);border:none;border-radius:20px;color:#fff;font-size:.7rem;font-weight:700;padding:4px 12px;cursor:pointer}
+
+.post-content{margin-bottom:10px}
+.post-text{font-size:.83rem;color:#cbd5e1;line-height:1.5;margin-bottom:10px}
+.post-tags{font-size:.78rem;background:linear-gradient(135deg,#ff0084,#8200ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:600}
+
+.post-media{border-radius:14px;overflow:hidden;height:170px;display:flex;align-items:center;justify-content:center;font-size:56px;margin-bottom:12px;position:relative}
+.media-label{position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,.6);border-radius:8px;padding:3px 8px;font-size:.65rem;color:#fff;font-weight:600;display:flex;align-items:center;gap:4px}
+
+.post-actions{display:flex;align-items:center;gap:16px}
+.action-btn{display:flex;align-items:center;gap:6px;color:#475569;font-size:.8rem;cursor:pointer}
+.action-btn i{font-size:.95rem}
+.action-btn.liked i{color:#ff0084}
+.action-btn.liked span{color:#ff0084}
+.share-btn{margin-left:auto;color:#475569;font-size:.95rem;cursor:pointer}
+
+/* BOTTOM NAV */
+.bottom-nav{background:#09000f;border-top:1px solid rgba(255,255,255,.04);display:flex;height:72px;padding:0 8px;flex-shrink:0}
+.nav-tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer}
+.nav-tab i{font-size:1.1rem;color:#1e1030}
+.nav-tab span{font-size:.6rem;color:#1e1030;font-weight:500}
+.nav-tab.active i{color:#ff0084}
+.nav-tab.active span{color:#ff0084;font-weight:700}
+.create-btn{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#ff0084,#8200ff);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.2rem}
+@media(max-width:500px){
+  body{padding:0;align-items:flex-start}
+  .page-label,.tech-badge{display:none}
+  .phone-wrap{width:100%;min-height:100dvh;min-height:100vh}
+  .phone{width:100%;height:100%;border-radius:0;padding:0;box-shadow:none;background:transparent}
+  .phone-screen{border-radius:0;min-height:100dvh;min-height:100vh;height:auto}
+  .notch{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="page-label">📱 Demo Mobile App — SocialFlow</div>
+
+<div class="phone-wrap">
+  <div class="phone">
+    <div class="phone-screen">
+      <div class="notch"></div>
+      <div class="status">
+        <span class="status-time">9:41</span>
+        <div class="status-icons"><i class="fas fa-signal"></i><i class="fas fa-wifi"></i><i class="fas fa-battery-full"></i></div>
+      </div>
+
+      <div class="app">
+        <!-- HEADER -->
+        <div class="app-header">
+          <div class="header-row">
+            <div class="logo-sf">SocialFlow</div>
+            <div class="header-actions">
+              <div class="h-btn"><i class="fas fa-search"></i></div>
+              <div class="h-btn"><i class="fas fa-paper-plane"></i><div class="dot"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STORIES -->
+        <div class="stories">
+          <div class="story">
+            <div class="story-ring add"><div class="story-inner" style="background:rgba(255,255,255,.04);border:none">➕</div></div>
+            <span class="story-name">Kamu</span>
+          </div>
+          <div class="story"><div class="story-ring"><div class="story-inner">🎨</div></div><span class="story-name">Rina</span></div>
+          <div class="story"><div class="story-ring"><div class="story-inner">📸</div></div><span class="story-name">Dimas</span></div>
+          <div class="story"><div class="story-ring"><div class="story-inner">🎵</div></div><span class="story-name">Sari</span></div>
+          <div class="story"><div class="story-ring"><div class="story-inner">✏️</div></div><span class="story-name">Fajar</span></div>
+          <div class="story"><div class="story-ring"><div class="story-inner">🌿</div></div><span class="story-name">Maya</span></div>
+        </div>
+
+        <!-- POST 1 -->
+        <div class="post">
+          <div class="post-header">
+            <div class="post-av grad1" style="background:linear-gradient(135deg,#ff0084,#8200ff)">🎨</div>
+            <div>
+              <div class="post-name">Rina Artspace</div>
+              <div class="post-handle">@rina.creates · Seniman Digital</div>
+            </div>
+            <div class="post-time">2 jam lalu</div>
+          </div>
+          <div class="post-content">
+            <div class="post-media" style="background:linear-gradient(135deg,#1a0533,#ff0084)">🎨
+              <div class="media-label"><i class="fas fa-image"></i> Karya Terbaru</div>
+            </div>
+            <div class="post-text">Selesai juga project digital art pertama bulan ini! 🎉 Udah lama mau eksplor gaya neo-brutalism, akhirnya kesampaian juga.</div>
+            <div class="post-tags">#DigitalArt #NeoFuturism #CreativeCommunity</div>
+          </div>
+          <div class="post-actions">
+            <div class="action-btn liked"><i class="fas fa-heart"></i><span>1.2K</span></div>
+            <div class="action-btn"><i class="far fa-comment"></i><span>284</span></div>
+            <div class="action-btn"><i class="fas fa-retweet"></i><span>96</span></div>
+            <div class="share-btn"><i class="fas fa-share-nodes"></i></div>
+          </div>
+        </div>
+
+        <!-- POST 2 -->
+        <div class="post">
+          <div class="post-header">
+            <div class="post-av" style="background:linear-gradient(135deg,#0088cc,#00d4ff);width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">📸</div>
+            <div>
+              <div class="post-name">Dimas Photoworks</div>
+              <div class="post-handle">@dimasphoto · Fotografer</div>
+            </div>
+            <div class="post-time">5 jam lalu</div>
+            <button class="follow-btn">+ Follow</button>
+          </div>
+          <div class="post-content">
+            <div class="post-media" style="background:linear-gradient(135deg,#001233,#0077b6)">🌃
+              <div class="media-label"><i class="fas fa-camera"></i> Street Photography</div>
+            </div>
+            <div class="post-text">Golden hour di Kota Tua kemarin, cahayanya epic banget! 🌅 Kapan bisa balik lagi kesini buat shoot...</div>
+            <div class="post-tags">#Photography #GoldenHour #KotaTua #StreetPhoto</div>
+          </div>
+          <div class="post-actions">
+            <div class="action-btn"><i class="far fa-heart"></i><span>847</span></div>
+            <div class="action-btn"><i class="far fa-comment"></i><span>132</span></div>
+            <div class="action-btn"><i class="fas fa-retweet"></i><span>54</span></div>
+            <div class="share-btn"><i class="fas fa-share-nodes"></i></div>
+          </div>
+        </div>
+
+        <!-- POST 3 -->
+        <div class="post">
+          <div class="post-header">
+            <div class="post-av" style="background:linear-gradient(135deg,#047857,#10b981);width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">🎵</div>
+            <div>
+              <div class="post-name">Sari Musik</div>
+              <div class="post-handle">@sarimuzik · Musisi Indie</div>
+            </div>
+            <div class="post-time">8 jam lalu</div>
+            <button class="follow-btn">+ Follow</button>
+          </div>
+          <div class="post-content">
+            <div class="post-media" style="background:linear-gradient(135deg,#0a1a0a,#10b981)">🎸
+              <div class="media-label"><i class="fas fa-music"></i> New Single</div>
+            </div>
+            <div class="post-text">Single baru "Jejak Kaki" udah bisa didengar sekarang! 🎶 Ini lagu yang paling personal buat aku. Dengerin ya 🥺</div>
+            <div class="post-tags">#IndieMusic #JejakKaki #NewSingle</div>
+          </div>
+          <div class="post-actions">
+            <div class="action-btn liked"><i class="fas fa-heart"></i><span>3.4K</span></div>
+            <div class="action-btn"><i class="far fa-comment"></i><span>521</span></div>
+            <div class="action-btn"><i class="fas fa-retweet"></i><span>890</span></div>
+            <div class="share-btn"><i class="fas fa-share-nodes"></i></div>
+          </div>
+        </div>
+
+        <div style="height:12px"></div>
+      </div>
+
+      <div class="bottom-nav">
+        <div class="nav-tab active"><i class="fas fa-home"></i><span>Home</span></div>
+        <div class="nav-tab"><i class="fas fa-search"></i><span>Explore</span></div>
+        <div class="nav-tab" style="justify-content:center"><div class="create-btn"><i class="fas fa-plus"></i></div></div>
+        <div class="nav-tab"><i class="fas fa-bell"></i><span>Notif</span></div>
+        <div class="nav-tab"><i class="far fa-user-circle"></i><span>Profil</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="tech-badge">
+  <span>Flutter</span>
+  <span><i class="fas fa-fire" style="margin-right:4px;color:#f97316"></i>Firebase</span>
+</div>
+
+</body>
+</html>

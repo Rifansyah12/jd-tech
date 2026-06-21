@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduLearn — Platform Belajar Online</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--purple:#7c3aed;--orange:#f97316;--bg:#faf5ff;--card:#fff;--border:#ede9fe;--text:#1e1b4b;--muted:#6b7280;--sidebar:#2d1b69}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh;font-size:14px}
+a{text-decoration:none;color:inherit}
+
+.sidebar{width:240px;background:var(--sidebar);position:fixed;top:0;left:0;height:100vh;display:flex;flex-direction:column;overflow-y:auto;z-index:100}
+.logo{padding:20px 16px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:10px}
+.logo-icon{width:38px;height:38px;background:linear-gradient(135deg,#a855f7,#7c3aed);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;flex-shrink:0}
+.logo h2{color:#fff;font-size:1rem;font-weight:700;line-height:1.2}
+.logo small{color:rgba(255,255,255,.4);font-size:.65rem}
+.nav-label{color:rgba(255,255,255,.3);font-size:.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:14px 16px 4px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 16px;color:rgba(255,255,255,.65);cursor:pointer;transition:all .2s;font-size:.85rem}
+.nav-item:hover,.nav-item.active{background:rgba(255,255,255,.08);color:#fff}
+.nav-item.active{background:linear-gradient(90deg,rgba(167,85,247,.35),transparent);border-left:3px solid #a855f7}
+.nav-item i{width:18px;text-align:center;font-size:.9rem}
+.nav-badge{margin-left:auto;background:#f97316;color:#fff;font-size:.65rem;padding:2px 6px;border-radius:10px;font-weight:700}
+.sidebar-footer{margin-top:auto;padding:12px;border-top:1px solid rgba(255,255,255,.08)}
+.sidebar-user{display:flex;align-items:center;gap:8px;padding:8px;border-radius:8px;cursor:pointer}
+.sidebar-user:hover{background:rgba(255,255,255,.05)}
+.s-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#f97316,#ea580c);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;flex-shrink:0}
+.s-name{color:#fff;font-size:.8rem;font-weight:600}
+.s-role{color:rgba(255,255,255,.35);font-size:.7rem}
+
+.main{margin-left:240px;flex:1;display:flex;flex-direction:column}
+.topbar{background:#fff;border-bottom:1px solid var(--border);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.topbar h1{font-size:1.1rem;font-weight:700}
+.topbar p{font-size:.75rem;color:var(--muted)}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.btn-primary{background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;border:none;padding:8px 14px;border-radius:8px;font-size:.8rem;cursor:pointer;display:flex;align-items:center;gap:6px;font-weight:600}
+.icon-btn{width:36px;height:36px;border-radius:8px;border:1px solid var(--border);background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);position:relative;font-size:.85rem}
+.icon-btn .dot{position:absolute;top:7px;right:7px;width:7px;height:7px;background:#f97316;border-radius:50%;border:2px solid #fff}
+.avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#f97316,#ea580c);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;cursor:pointer}
+
+.content{padding:24px;flex:1}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.stat-card{background:var(--card);border-radius:14px;padding:18px;border:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between}
+.stat-label{font-size:.75rem;color:var(--muted);margin-bottom:6px;font-weight:500}
+.stat-value{font-size:1.7rem;font-weight:800;line-height:1}
+.stat-change{display:flex;align-items:center;gap:4px;margin-top:6px;font-size:.75rem;font-weight:500;color:#10b981}
+.stat-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:18px}
+.card{background:var(--card);border-radius:14px;border:1px solid var(--border);overflow:hidden}
+.card-head{padding:16px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-head h3{font-size:.9rem;font-weight:700}
+.sub{font-size:.75rem;color:var(--muted)}
+.view-all{color:var(--purple);font-size:.8rem;font-weight:600}
+
+/* COURSE CARD */
+.course-card{background:var(--card);border-radius:14px;border:1px solid var(--border);overflow:hidden}
+.course-thumb{height:120px;display:flex;align-items:center;justify-content:center;font-size:48px}
+.course-body{padding:14px}
+.course-title{font-size:.88rem;font-weight:700;margin-bottom:4px;color:var(--text)}
+.course-meta{font-size:.72rem;color:var(--muted);margin-bottom:10px}
+.prog-bar-wrap{margin-bottom:8px}
+.prog-label{display:flex;justify-content:space-between;font-size:.72rem;margin-bottom:4px}
+.prog-bar{height:5px;background:#ede9fe;border-radius:10px;overflow:hidden}
+.prog-fill{height:100%;border-radius:10px}
+.course-footer{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
+.badge{padding:3px 9px;border-radius:20px;font-size:.7rem;font-weight:700;display:inline-block}
+.b-purple{background:#f5f3ff;color:#7c3aed}
+.b-orange{background:#fff7ed;color:#ea580c}
+.b-green{background:#f0fdf4;color:#16a34a}
+.b-blue{background:#eff6ff;color:#2563eb}
+
+/* LIVE CLASS */
+.live-item{display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--border)}
+.live-item:last-child{border-bottom:none}
+.live-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1rem}
+.live-title{font-size:.83rem;font-weight:600}
+.live-meta{font-size:.72rem;color:var(--muted)}
+.live-time{margin-left:auto;text-align:right;font-size:.72rem}
+.live-soon{color:#7c3aed;font-weight:700}
+.live-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#ef4444;margin-right:4px;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* LEADERBOARD */
+table{width:100%;border-collapse:collapse}
+thead th{padding:9px 14px;background:#f9fafb;font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;text-align:left;border-bottom:1px solid var(--border)}
+tbody td{padding:11px 14px;font-size:.82rem;border-bottom:1px solid var(--border);vertical-align:middle}
+tbody tr:last-child td{border-bottom:none}
+.rank{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem}
+
+/* RESPONSIVE */
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:98}
+.hamburger{display:none;width:36px;height:36px;border-radius:8px;border:1px solid var(--border);background:transparent;cursor:pointer;align-items:center;justify-content:center;color:var(--muted);font-size:1rem;flex-shrink:0}
+@media(max-width:900px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .grid-3{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  .sidebar{transform:translateX(-240px);transition:transform .3s ease}
+  .sidebar.open{transform:translateX(0)}
+  .sidebar-overlay.open{display:block}
+  .main{margin-left:0}
+  .hamburger{display:flex}
+  .topbar{padding:0 16px;gap:8px}
+  .topbar p{display:none}
+  .grid-2{grid-template-columns:1fr}
+  .col-gap{gap:12px}
+  .content{padding:16px}
+  table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+}
+@media(max-width:480px){
+  .stats{grid-template-columns:1fr}
+  .grid-3{grid-template-columns:1fr}
+  .topbar h1{font-size:.95rem}
+}
+</style>
+</head>
+<body>
+
+<div class="sidebar-overlay" id="sb-overlay"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="logo">
+    <div class="logo-icon"><i class="fas fa-graduation-cap"></i></div>
+    <div><h2>EduLearn</h2><small>Platform Belajar Online</small></div>
+  </div>
+  <div class="nav-label">Menu Utama</div>
+  <a class="nav-item active" href="#"><i class="fas fa-home"></i> Dashboard</a>
+  <a class="nav-item" href="#"><i class="fas fa-book-open"></i> Kursus Saya</a>
+  <a class="nav-item" href="#"><i class="fas fa-compass"></i> Jelajahi Kursus</a>
+  <a class="nav-item" href="#"><i class="fas fa-video"></i> Live Class <span class="nav-badge">2</span></a>
+  <a class="nav-item" href="#"><i class="fas fa-calendar-alt"></i> Jadwal</a>
+  <a class="nav-item" href="#"><i class="fas fa-certificate"></i> Sertifikat</a>
+  <div class="nav-label">Komunitas</div>
+  <a class="nav-item" href="#"><i class="fas fa-comments"></i> Forum</a>
+  <a class="nav-item" href="#"><i class="fas fa-trophy"></i> Leaderboard</a>
+  <div class="nav-label">Akun</div>
+  <a class="nav-item" href="#"><i class="fas fa-user-circle"></i> Profil</a>
+  <a class="nav-item" href="#"><i class="fas fa-cog"></i> Pengaturan</a>
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <div class="s-avatar">AR</div>
+      <div><div class="s-name">Aldi Ramadan</div><div class="s-role">Pelajar Premium</div></div>
+    </div>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <button class="hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
+    <div><h1>Dashboard Belajar</h1><p>Kamis, 19 Juni 2026 &nbsp;·&nbsp; Terus semangat belajar!</p></div>
+    <div class="topbar-right">
+      <div class="icon-btn"><i class="fas fa-search"></i></div>
+      <div class="icon-btn"><i class="fas fa-bell"></i><span class="dot"></span></div>
+      <button class="btn-primary"><i class="fas fa-plus"></i> Kursus Baru</button>
+      <div class="avatar">AR</div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="stats">
+      <div class="stat-card">
+        <div><div class="stat-label">Kursus Aktif</div><div class="stat-value">4</div><div class="stat-change"><i class="fas fa-arrow-up"></i> 1 kursus baru</div></div>
+        <div class="stat-icon" style="background:#f5f3ff;color:#7c3aed"><i class="fas fa-book"></i></div>
+      </div>
+      <div class="stat-card">
+        <div><div class="stat-label">Total Pelajar</div><div class="stat-value">2,341</div><div class="stat-change"><i class="fas fa-arrow-up"></i> 124 bulan ini</div></div>
+        <div class="stat-icon" style="background:#fff7ed;color:#f97316"><i class="fas fa-users"></i></div>
+      </div>
+      <div class="stat-card">
+        <div><div class="stat-label">Rata Penyelesaian</div><div class="stat-value">87%</div><div class="stat-change"><i class="fas fa-arrow-up"></i> 5% minggu ini</div></div>
+        <div class="stat-icon" style="background:#f0fdf4;color:#10b981"><i class="fas fa-check-circle"></i></div>
+      </div>
+      <div class="stat-card">
+        <div><div class="stat-label">Live Class Hari Ini</div><div class="stat-value">5</div><div class="stat-change"><i class="fas fa-circle" style="color:#ef4444;font-size:.6rem"></i> 2 sedang live</div></div>
+        <div class="stat-icon" style="background:#eff6ff;color:#2563eb"><i class="fas fa-broadcast-tower"></i></div>
+      </div>
+    </div>
+
+    <!-- My Courses -->
+    <div style="margin-bottom:8px;display:flex;justify-content:space-between;align-items:center">
+      <h3 style="font-size:.95rem;font-weight:700">Kursus Saya</h3>
+      <a style="font-size:.8rem;color:var(--purple);font-weight:600" href="#">Lihat Semua →</a>
+    </div>
+    <div class="grid-3" style="margin-bottom:24px">
+      <div class="course-card">
+        <div class="course-thumb" style="background:linear-gradient(135deg,#667eea,#764ba2)">🎨</div>
+        <div class="course-body">
+          <div class="course-title">UI/UX Design Mastery</div>
+          <div class="course-meta">by Rina Purnama &nbsp;·&nbsp; 42 video</div>
+          <div class="prog-bar-wrap">
+            <div class="prog-label"><span>Progress</span><span>72%</span></div>
+            <div class="prog-bar"><div class="prog-fill" style="width:72%;background:linear-gradient(90deg,#7c3aed,#a855f7)"></div></div>
+          </div>
+          <div class="course-footer"><span class="badge b-purple">Desain</span><span style="font-size:.72rem;color:var(--muted)">30 jam tersisa</span></div>
+        </div>
+      </div>
+      <div class="course-card">
+        <div class="course-thumb" style="background:linear-gradient(135deg,#f97316,#ea580c)">⚡</div>
+        <div class="course-body">
+          <div class="course-title">JavaScript Fundamental</div>
+          <div class="course-meta">by Dian Kusuma &nbsp;·&nbsp; 68 video</div>
+          <div class="prog-bar-wrap">
+            <div class="prog-label"><span>Progress</span><span>45%</span></div>
+            <div class="prog-bar"><div class="prog-fill" style="width:45%;background:linear-gradient(90deg,#f97316,#fbbf24)"></div></div>
+          </div>
+          <div class="course-footer"><span class="badge b-orange">Coding</span><span style="font-size:.72rem;color:var(--muted)">52 jam tersisa</span></div>
+        </div>
+      </div>
+      <div class="course-card">
+        <div class="course-thumb" style="background:linear-gradient(135deg,#10b981,#059669)">📊</div>
+        <div class="course-body">
+          <div class="course-title">Data Science dengan Python</div>
+          <div class="course-meta">by Hendra Wijaya &nbsp;·&nbsp; 55 video</div>
+          <div class="prog-bar-wrap">
+            <div class="prog-label"><span>Progress</span><span>91%</span></div>
+            <div class="prog-bar"><div class="prog-fill" style="width:91%;background:linear-gradient(90deg,#10b981,#34d399)"></div></div>
+          </div>
+          <div class="course-footer"><span class="badge b-green">Data</span><span style="font-size:.72rem;color:var(--muted)">5 jam tersisa</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <!-- Live Class -->
+      <div class="card">
+        <div class="card-head">
+          <div><h3>Live Class Hari Ini</h3><div class="sub">5 kelas berlangsung</div></div>
+          <a class="view-all" href="#">Jadwal →</a>
+        </div>
+        <div class="live-item">
+          <div class="live-icon" style="background:#fef2f2;color:#ef4444"><i class="fas fa-video"></i></div>
+          <div>
+            <div class="live-title">Advanced React Hooks</div>
+            <div class="live-meta">oleh Budi Santoso &nbsp;·&nbsp; 234 peserta</div>
+          </div>
+          <div class="live-time"><div class="live-soon"><span class="live-dot"></span>LIVE</div><div style="color:var(--muted)">09:00 - 11:00</div></div>
+        </div>
+        <div class="live-item">
+          <div class="live-icon" style="background:#f0fdf4;color:#10b981"><i class="fas fa-code"></i></div>
+          <div>
+            <div class="live-title">Laravel API Development</div>
+            <div class="live-meta">oleh Rina Purnama &nbsp;·&nbsp; 187 peserta</div>
+          </div>
+          <div class="live-time"><div class="live-soon"><span class="live-dot"></span>LIVE</div><div style="color:var(--muted)">10:00 - 12:00</div></div>
+        </div>
+        <div class="live-item">
+          <div class="live-icon" style="background:#f5f3ff;color:#7c3aed"><i class="fas fa-paint-brush"></i></div>
+          <div>
+            <div class="live-title">Figma untuk Pemula</div>
+            <div class="live-meta">oleh Dewi Lestari &nbsp;·&nbsp; 412 peserta</div>
+          </div>
+          <div class="live-time"><div style="color:#7c3aed;font-weight:700;font-size:.75rem">13:00</div><div style="color:var(--muted)">Mulai 2 jam lagi</div></div>
+        </div>
+        <div class="live-item">
+          <div class="live-icon" style="background:#fff7ed;color:#f97316"><i class="fas fa-database"></i></div>
+          <div>
+            <div class="live-title">SQL untuk Data Analyst</div>
+            <div class="live-meta">oleh Hendra W. &nbsp;·&nbsp; 156 peserta</div>
+          </div>
+          <div class="live-time"><div style="color:#7c3aed;font-weight:700;font-size:.75rem">15:00</div><div style="color:var(--muted)">Mulai 4 jam lagi</div></div>
+        </div>
+      </div>
+
+      <!-- Leaderboard -->
+      <div class="card">
+        <div class="card-head"><h3>Leaderboard Minggu Ini</h3><a class="view-all" href="#">Lihat Semua →</a></div>
+        <table>
+          <thead><tr><th>#</th><th>Pelajar</th><th>XP</th><th>Kursus</th></tr></thead>
+          <tbody>
+            <tr><td><div class="rank" style="background:#fef9c3;color:#854d0e">1</div></td><td><strong>Mega Wulandari</strong></td><td style="color:#7c3aed;font-weight:700">4,820</td><td>12</td></tr>
+            <tr><td><div class="rank" style="background:#f1f5f9;color:#475569">2</div></td><td><strong>Fajar Nugroho</strong></td><td style="color:#7c3aed;font-weight:700">4,350</td><td>10</td></tr>
+            <tr><td><div class="rank" style="background:#fff7ed;color:#9a3412">3</div></td><td><strong>Layla Putri</strong></td><td style="color:#7c3aed;font-weight:700">3,980</td><td>9</td></tr>
+            <tr><td><div class="rank" style="background:#f5f3ff;color:#7c3aed">4</div></td><td><strong style="color:#7c3aed">Aldi Ramadan</strong> <span style="font-size:.7rem">(Kamu)</span></td><td style="color:#7c3aed;font-weight:700">3,710</td><td>7</td></tr>
+            <tr><td><div class="rank" style="background:#f9fafb;color:#6b7280">5</div></td><td><strong>Rizky Pratama</strong></td><td style="color:#7c3aed;font-weight:700">3,290</td><td>8</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var ham=document.getElementById('hamburger');
+  var sb=document.getElementById('sidebar');
+  var ov=document.getElementById('sb-overlay');
+  ham.addEventListener('click',function(){sb.classList.toggle('open');ov.classList.toggle('open')});
+  ov.addEventListener('click',function(){sb.classList.remove('open');ov.classList.remove('open')});
+})();
+</script>
+</body>
+</html>

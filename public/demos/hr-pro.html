@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HR Pro — Human Resource Management</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#3b82f6;--bg:#f8fafc;--card:#fff;--border:#e2e8f0;--text:#0f172a;--muted:#64748b;--sidebar:#1e293b;--success:#10b981;--warn:#f59e0b;--danger:#ef4444}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh;font-size:14px}
+a{text-decoration:none;color:inherit}
+
+.sidebar{width:240px;background:var(--sidebar);position:fixed;top:0;left:0;height:100vh;display:flex;flex-direction:column;overflow-y:auto;z-index:100}
+.logo{padding:20px 16px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:10px}
+.logo-icon{width:38px;height:38px;background:linear-gradient(135deg,#3b82f6,#1d4ed8);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;flex-shrink:0}
+.logo h2{color:#fff;font-size:1rem;font-weight:700;line-height:1.2}
+.logo small{color:rgba(255,255,255,.35);font-size:.65rem}
+.nav-label{color:rgba(255,255,255,.2);font-size:.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:14px 16px 4px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 16px;color:rgba(255,255,255,.55);cursor:pointer;transition:all .2s;font-size:.85rem}
+.nav-item:hover,.nav-item.active{color:#fff}
+.nav-item.active{background:rgba(59,130,246,.2);border-left:3px solid #3b82f6}
+.nav-item i{width:18px;text-align:center;font-size:.9rem}
+.nav-badge{margin-left:auto;background:#ef4444;color:#fff;font-size:.65rem;padding:2px 6px;border-radius:10px;font-weight:700}
+.sidebar-footer{margin-top:auto;padding:12px;border-top:1px solid rgba(255,255,255,.06)}
+.sidebar-user{display:flex;align-items:center;gap:8px;padding:8px;border-radius:8px;cursor:pointer}
+.sidebar-user:hover{background:rgba(255,255,255,.04)}
+.s-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#1d4ed8);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;flex-shrink:0}
+.s-name{color:#fff;font-size:.8rem;font-weight:600}
+.s-role{color:rgba(255,255,255,.35);font-size:.7rem}
+
+.main{margin-left:240px;flex:1;display:flex;flex-direction:column}
+.topbar{background:#fff;border-bottom:1px solid var(--border);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.topbar h1{font-size:1.1rem;font-weight:700}
+.topbar p{font-size:.75rem;color:var(--muted)}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.btn-primary{background:var(--primary);color:#fff;border:none;padding:8px 14px;border-radius:8px;font-size:.8rem;cursor:pointer;display:flex;align-items:center;gap:6px;font-weight:600}
+.icon-btn{width:36px;height:36px;border-radius:8px;border:1px solid var(--border);background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);position:relative;font-size:.85rem}
+.icon-btn .dot{position:absolute;top:7px;right:7px;width:7px;height:7px;background:var(--danger);border-radius:50%;border:2px solid #fff}
+.search-box{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:0 12px;height:36px;width:220px}
+.search-box input{border:none;background:transparent;font-size:.82rem;outline:none;color:var(--text);width:100%}
+.avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#1d4ed8);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;cursor:pointer}
+
+.content{padding:24px;flex:1}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.stat-card{background:var(--card);border-radius:14px;padding:18px;border:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between}
+.stat-label{font-size:.75rem;color:var(--muted);margin-bottom:6px;font-weight:500}
+.stat-value{font-size:1.7rem;font-weight:800;line-height:1}
+.stat-change{display:flex;align-items:center;gap:4px;margin-top:6px;font-size:.75rem;font-weight:500}
+.up{color:var(--success)}.down{color:var(--danger)}
+.stat-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+
+.grid-2{display:grid;grid-template-columns:1.8fr 1fr;gap:18px;margin-bottom:18px}
+.col-gap{display:flex;flex-direction:column;gap:18px}
+.card{background:var(--card);border-radius:14px;border:1px solid var(--border);overflow:hidden}
+.card-head{padding:16px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-head h3{font-size:.9rem;font-weight:700}
+.sub{font-size:.75rem;color:var(--muted)}
+.view-all{color:var(--primary);font-size:.8rem;font-weight:600}
+
+table{width:100%;border-collapse:collapse}
+thead th{padding:9px 14px;background:#f8fafc;font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;text-align:left;border-bottom:1px solid var(--border)}
+tbody td{padding:12px 14px;font-size:.82rem;border-bottom:1px solid var(--border);vertical-align:middle}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:#fafbfc}
+
+.badge{padding:3px 9px;border-radius:20px;font-size:.7rem;font-weight:700;display:inline-block}
+.b-success{background:#f0fdf4;color:#16a34a}
+.b-warn{background:#fffbeb;color:#d97706}
+.b-danger{background:#fef2f2;color:#dc2626}
+.b-blue{background:#eff6ff;color:#2563eb}
+.b-purple{background:#faf5ff;color:#7c3aed}
+.b-gray{background:#f1f5f9;color:#475569}
+
+.emp-row{display:flex;align-items:center;gap:10px}
+.emp-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#fff;flex-shrink:0}
+.emp-name{font-weight:600;font-size:.82rem}
+.emp-id{font-size:.7rem;color:var(--muted)}
+
+/* LEAVE ITEM */
+.leave-item{display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--border)}
+.leave-item:last-child{border-bottom:none}
+.leave-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:#fff;flex-shrink:0}
+.leave-name{font-size:.83rem;font-weight:600}
+.leave-meta{font-size:.72rem;color:var(--muted)}
+.leave-days{font-size:.78rem;font-weight:700;color:var(--primary);margin-left:auto;white-space:nowrap}
+
+/* ATTENDANCE */
+.att-item{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;border-bottom:1px solid var(--border)}
+.att-item:last-child{border-bottom:none}
+.att-label{font-size:.82rem;color:var(--muted)}
+.att-value{font-size:.9rem;font-weight:700}
+.att-bar{height:4px;background:var(--border);border-radius:10px;overflow:hidden;margin-top:4px;width:80px}
+.att-fill{height:100%;border-radius:10px}
+
+/* RESPONSIVE */
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:98}
+.hamburger{display:none;width:36px;height:36px;border-radius:8px;border:1px solid var(--border);background:transparent;cursor:pointer;align-items:center;justify-content:center;color:var(--muted);font-size:1rem;flex-shrink:0}
+@media(max-width:900px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:768px){
+  .sidebar{transform:translateX(-240px);transition:transform .3s ease}
+  .sidebar.open{transform:translateX(0)}
+  .sidebar-overlay.open{display:block}
+  .main{margin-left:0}
+  .hamburger{display:flex}
+  .topbar{padding:0 16px;gap:8px}
+  .topbar p,.search-box{display:none}
+  .grid-2{grid-template-columns:1fr}
+  .col-gap{gap:12px}
+  .content{padding:16px}
+  table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+}
+@media(max-width:480px){
+  .stats{grid-template-columns:1fr}
+  .topbar h1{font-size:.95rem}
+}
+</style>
+</head>
+<body>
+
+<div class="sidebar-overlay" id="sb-overlay"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="logo">
+    <div class="logo-icon"><i class="fas fa-users-cog"></i></div>
+    <div><h2>HR Pro</h2><small>Human Resource Management</small></div>
+  </div>
+  <div class="nav-label">Menu Utama</div>
+  <a class="nav-item active" href="#"><i class="fas fa-th-large"></i> Dashboard</a>
+  <a class="nav-item" href="#"><i class="fas fa-users"></i> Karyawan</a>
+  <a class="nav-item" href="#"><i class="fas fa-money-check-alt"></i> Penggajian</a>
+  <a class="nav-item" href="#"><i class="fas fa-calendar-times"></i> Cuti <span class="nav-badge">5</span></a>
+  <a class="nav-item" href="#"><i class="fas fa-clock"></i> Kehadiran</a>
+  <div class="nav-label">Rekrutmen</div>
+  <a class="nav-item" href="#"><i class="fas fa-user-plus"></i> Rekrutmen</a>
+  <a class="nav-item" href="#"><i class="fas fa-file-alt"></i> Kontrak</a>
+  <div class="nav-label">Laporan</div>
+  <a class="nav-item" href="#"><i class="fas fa-chart-bar"></i> Laporan</a>
+  <a class="nav-item" href="#"><i class="fas fa-cog"></i> Pengaturan</a>
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <div class="s-avatar">HP</div>
+      <div><div class="s-name">Hendra Pratama</div><div class="s-role">HR Manager</div></div>
+    </div>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <button class="hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
+    <div><h1>Dashboard HR</h1><p>Kamis, 19 Juni 2026</p></div>
+    <div class="topbar-right">
+      <div class="search-box"><i class="fas fa-search" style="color:var(--muted);font-size:.8rem"></i><input type="text" placeholder="Cari karyawan..."></div>
+      <div class="icon-btn"><i class="fas fa-bell"></i><span class="dot"></span></div>
+      <button class="btn-primary"><i class="fas fa-user-plus"></i> Tambah Karyawan</button>
+      <div class="avatar">HP</div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="stats">
+      <div class="stat-card">
+        <div><div class="stat-label">Total Karyawan</div><div class="stat-value">247</div><div class="stat-change up"><i class="fas fa-arrow-up"></i> +8 bulan ini</div></div>
+        <div class="stat-icon" style="background:#eff6ff;color:#3b82f6"><i class="fas fa-users"></i></div>
+      </div>
+      <div class="stat-card">
+        <div><div class="stat-label">Hadir Hari Ini</div><div class="stat-value">198</div><div class="stat-change up"><i class="fas fa-check-circle"></i> 80.2% kehadiran</div></div>
+        <div class="stat-icon" style="background:#f0fdf4;color:#10b981"><i class="fas fa-user-check"></i></div>
+      </div>
+      <div class="stat-card">
+        <div><div class="stat-label">Sedang Cuti</div><div class="stat-value">12</div><div class="stat-change" style="color:var(--warn)"><i class="fas fa-calendar-times"></i> 5 menunggu</div></div>
+        <div class="stat-icon" style="background:#fffbeb;color:#f59e0b"><i class="fas fa-umbrella-beach"></i></div>
+      </div>
+      <div class="stat-card">
+        <div><div class="stat-label">Karyawan Baru</div><div class="stat-value">8</div><div class="stat-change up"><i class="fas fa-arrow-up"></i> bulan ini</div></div>
+        <div class="stat-icon" style="background:#faf5ff;color:#7c3aed"><i class="fas fa-user-plus"></i></div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <!-- Employee Table -->
+      <div class="card">
+        <div class="card-head">
+          <div><h3>Direktori Karyawan</h3><div class="sub">247 karyawan aktif</div></div>
+          <a class="view-all" href="#">Lihat Semua →</a>
+        </div>
+        <table>
+          <thead><tr><th>Karyawan</th><th>Divisi</th><th>Jabatan</th><th>Bergabung</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td><div class="emp-row"><div class="emp-av" style="background:#3b82f6">AS</div><div><div class="emp-name">Ahmad Suryadi</div><div class="emp-id">EMP-001</div></div></div></td><td>Engineering</td><td>Senior Dev</td><td>Jan 2024</td><td><span class="badge b-success">Aktif</span></td></tr>
+            <tr><td><div class="emp-row"><div class="emp-av" style="background:#8b5cf6">SN</div><div><div class="emp-name">Siti Nurhasanah</div><div class="emp-id">EMP-002</div></div></div></td><td>Design</td><td>UI/UX Lead</td><td>Mar 2024</td><td><span class="badge b-success">Aktif</span></td></tr>
+            <tr><td><div class="emp-row"><div class="emp-av" style="background:#f59e0b">BW</div><div><div class="emp-name">Budi Wijaya</div><div class="emp-id">EMP-003</div></div></div></td><td>Marketing</td><td>Manager</td><td>Jun 2023</td><td><span class="badge b-warn">Cuti</span></td></tr>
+            <tr><td><div class="emp-row"><div class="emp-av" style="background:#10b981">DL</div><div><div class="emp-name">Dewi Lestari</div><div class="emp-id">EMP-004</div></div></div></td><td>Finance</td><td>Analyst</td><td>Sep 2023</td><td><span class="badge b-success">Aktif</span></td></tr>
+            <tr><td><div class="emp-row"><div class="emp-av" style="background:#ef4444">RH</div><div><div class="emp-name">Rudi Hermawan</div><div class="emp-id">EMP-005</div></div></div></td><td>Engineering</td><td>Backend Dev</td><td>Nov 2024</td><td><span class="badge b-success">Aktif</span></td></tr>
+            <tr><td><div class="emp-row"><div class="emp-av" style="background:#06b6d4">YP</div><div><div class="emp-name">Yuni Pratiwi</div><div class="emp-id">EMP-006</div></div></div></td><td>HR</td><td>Recruiter</td><td>Feb 2025</td><td><span class="badge b-blue">Onboarding</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Right side -->
+      <div class="col-gap">
+        <!-- Leave Requests -->
+        <div class="card">
+          <div class="card-head"><div><h3>Pengajuan Cuti</h3><div class="sub">5 menunggu persetujuan</div></div></div>
+          <div class="leave-item">
+            <div class="leave-av" style="background:#3b82f6">BW</div>
+            <div><div class="leave-name">Budi Wijaya</div><div class="leave-meta">Cuti Tahunan · 20-26 Jun</div></div>
+            <div style="text-align:right"><span class="badge b-warn">Pending</span><div class="leave-days">7 hari</div></div>
+          </div>
+          <div class="leave-item">
+            <div class="leave-av" style="background:#8b5cf6">MP</div>
+            <div><div class="leave-name">Maya Putri</div><div class="leave-meta">Cuti Sakit · 19 Jun</div></div>
+            <div style="text-align:right"><span class="badge b-warn">Pending</span><div class="leave-days">1 hari</div></div>
+          </div>
+          <div class="leave-item">
+            <div class="leave-av" style="background:#10b981">FR</div>
+            <div><div class="leave-name">Fajar Rahman</div><div class="leave-meta">Cuti Tahunan · 25-28 Jun</div></div>
+            <div style="text-align:right"><span class="badge b-success">Disetujui</span><div class="leave-days">4 hari</div></div>
+          </div>
+          <div class="leave-item">
+            <div class="leave-av" style="background:#ef4444">LW</div>
+            <div><div class="leave-name">Linda Wahyuni</div><div class="leave-meta">Cuti Melahirkan · 1 Jul</div></div>
+            <div style="text-align:right"><span class="badge b-purple">Special</span><div class="leave-days">90 hari</div></div>
+          </div>
+        </div>
+
+        <!-- Attendance Today -->
+        <div class="card">
+          <div class="card-head"><h3>Kehadiran Hari Ini</h3></div>
+          <div class="att-item">
+            <div><div class="att-label">Hadir</div><div style="display:flex;align-items:center;gap:8px"><div class="att-value" style="color:#10b981">198</div><div><div class="att-bar"><div class="att-fill" style="width:80%;background:#10b981"></div></div></div></div></div>
+            <span style="font-size:.78rem;color:#10b981;font-weight:700">80.2%</span>
+          </div>
+          <div class="att-item">
+            <div><div class="att-label">Terlambat</div><div style="display:flex;align-items:center;gap:8px"><div class="att-value" style="color:#f59e0b">24</div><div><div class="att-bar"><div class="att-fill" style="width:9.7%;background:#f59e0b"></div></div></div></div></div>
+            <span style="font-size:.78rem;color:#f59e0b;font-weight:700">9.7%</span>
+          </div>
+          <div class="att-item">
+            <div><div class="att-label">Tidak Hadir</div><div style="display:flex;align-items:center;gap:8px"><div class="att-value" style="color:#ef4444">13</div><div><div class="att-bar"><div class="att-fill" style="width:5.3%;background:#ef4444"></div></div></div></div></div>
+            <span style="font-size:.78rem;color:#ef4444;font-weight:700">5.3%</span>
+          </div>
+          <div class="att-item">
+            <div><div class="att-label">WFH</div><div style="display:flex;align-items:center;gap:8px"><div class="att-value" style="color:#3b82f6">12</div><div><div class="att-bar"><div class="att-fill" style="width:4.8%;background:#3b82f6"></div></div></div></div></div>
+            <span style="font-size:.78rem;color:#3b82f6;font-weight:700">4.8%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var ham=document.getElementById('hamburger');
+  var sb=document.getElementById('sidebar');
+  var ov=document.getElementById('sb-overlay');
+  ham.addEventListener('click',function(){sb.classList.toggle('open');ov.classList.toggle('open')});
+  ov.addEventListener('click',function(){sb.classList.remove('open');ov.classList.remove('open')});
+})();
+</script>
+</body>
+</html>

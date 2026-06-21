@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HelpDesk Bot — Customer Service Telegram Bot</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{min-height:100vh;background:linear-gradient(135deg,#0d1117,#161b22,#0d1117);display:flex;align-items:center;justify-content:center;font-family:'Segoe UI',system-ui,sans-serif;padding:30px 20px;position:relative;overflow:hidden}
+body::before{content:'';position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(88,166,255,.04),transparent 70%);top:-80px;right:-80px}
+body::after{content:'';position:absolute;width:300px;height:300px;background:radial-gradient(circle,rgba(63,185,80,.04),transparent 70%);bottom:-60px;left:-60px}
+
+.page-label{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,.08);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:6px 20px;color:#fff;font-size:.82rem;font-weight:600;z-index:200;white-space:nowrap}
+.tech-badge{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:200}
+.tech-badge span{background:rgba(255,255,255,.08);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:5px 14px;color:#fff;font-size:.75rem;font-weight:600}
+
+/* PHONE */
+.phone-wrap{position:relative;z-index:10}
+.phone{width:375px;background:#0d1117;border-radius:50px;padding:12px;box-shadow:0 0 0 2px #161b22,0 0 0 4px #0d1117,0 50px 100px rgba(0,0,0,.7),0 20px 40px rgba(88,166,255,.06)}
+.phone-screen{border-radius:40px;overflow:hidden;height:780px;background:#17212b;position:relative;display:flex;flex-direction:column}
+.notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:110px;height:30px;background:#0d1117;border-radius:0 0 18px 18px;z-index:50}
+
+.status{height:48px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 22px 8px;background:#17212b;position:relative;z-index:10}
+.status-time{font-size:.78rem;font-weight:700;color:#fff}
+.status-icons{display:flex;align-items:center;gap:6px;color:#fff;font-size:.7rem}
+
+/* TG HEADER */
+.tg-header{background:#17212b;border-bottom:1px solid rgba(255,255,255,.05);padding:10px 14px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:20}
+.back-btn{color:#29b6f6;font-size:1.1rem;cursor:pointer;padding:4px}
+.bot-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#3fb950,#238636);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.bot-name{font-size:.92rem;font-weight:700;color:#fff}
+.bot-status{font-size:.72rem;color:#3fb950}
+.header-actions{margin-left:auto;display:flex;gap:14px;color:#94a3b8;font-size:1rem}
+
+/* CHAT */
+.chat{flex:1;overflow-y:auto;padding:10px 12px;background:#17212b;display:flex;flex-direction:column;gap:2px}
+.chat::-webkit-scrollbar{display:none}
+
+.date-div{text-align:center;margin:8px 0}
+.date-div span{background:rgba(0,0,0,.3);color:#8899a6;font-size:.68rem;padding:4px 10px;border-radius:10px}
+
+.msg{display:flex;align-items:flex-end;gap:6px;margin:3px 0}
+.msg.bot{justify-content:flex-start}
+.msg.user{justify-content:flex-end}
+.msg-av{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#3fb950,#238636);display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;margin-bottom:2px}
+.bubble{max-width:265px;padding:8px 12px;border-radius:16px;font-size:.82rem;line-height:1.5;position:relative}
+.bubble.bot{background:#182533;color:#e2e8f0;border-radius:4px 16px 16px 16px}
+.bubble.user{background:#2b5278;color:#fff;border-radius:16px 16px 4px 16px}
+.bubble .time{font-size:.62rem;color:#64748b;margin-top:4px;text-align:right}
+.bubble.user .time{color:rgba(255,255,255,.4)}
+.bubble h4{font-size:.85rem;font-weight:700;margin-bottom:6px;color:#3fb950}
+.bubble p{font-size:.78rem;color:#cbd5e1;line-height:1.5}
+.bubble .divider{border-top:1px solid rgba(255,255,255,.06);margin:8px 0}
+
+/* INLINE KEYBOARD */
+.inline-kb{margin:4px 0 8px 34px;display:flex;flex-wrap:wrap;gap:6px}
+.kb-btn{background:#182533;border:1px solid rgba(255,255,255,.08);color:#c9d1d9;font-size:.76rem;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:500;transition:all .2s;display:flex;align-items:center;gap:6px}
+.kb-btn.green{border-color:rgba(63,185,80,.3);color:#3fb950}
+.kb-btn.blue{border-color:rgba(88,166,255,.3);color:#58a6ff}
+.kb-btn.red{border-color:rgba(248,81,73,.3);color:#f85149}
+.kb-btn.yellow{border-color:rgba(210,153,34,.3);color:#d29922}
+.kb-btn.full{flex:1 1 100%}
+.kb-btn.half{flex:1 1 calc(50% - 3px)}
+.kb-btn.confirm{background:linear-gradient(135deg,#238636,#3fb950);color:#fff;border-color:transparent}
+.kb-btn.selected{background:rgba(63,185,80,.1)}
+
+/* TICKET CARD */
+.ticket-card{background:#0d1117;border-radius:12px;padding:12px;border:1px solid rgba(255,255,255,.06);margin:2px 0}
+.ticket-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.ticket-id{font-size:.78rem;font-weight:700;color:#58a6ff;display:flex;align-items:center;gap:6px}
+.ticket-badge{font-size:.65rem;padding:3px 8px;border-radius:10px;font-weight:700}
+.tb-open{background:rgba(63,185,80,.15);color:#3fb950}
+.tb-pending{background:rgba(210,153,34,.15);color:#d29922}
+.tb-closed{background:rgba(248,81,73,.15);color:#f85149}
+.ticket-row{display:flex;justify-content:space-between;font-size:.74rem;margin-bottom:4px}
+.ticket-row span:first-child{color:#64748b}
+.ticket-row span:last-child{color:#c9d1d9;font-weight:500}
+.ticket-desc{font-size:.75rem;color:#8b949e;margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.05);line-height:1.4}
+
+/* AGENT MESSAGE */
+.agent-header{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.agent-av{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#58a6ff,#1f6feb);display:flex;align-items:center;justify-content:center;font-size:.6rem;color:#fff;font-weight:700;flex-shrink:0}
+.agent-name{font-size:.72rem;font-weight:700;color:#58a6ff}
+.agent-role{font-size:.65rem;color:#64748b}
+
+/* RATING */
+.rating-stars{display:flex;gap:6px;margin:8px 0}
+.star{font-size:1.4rem;cursor:pointer}
+
+/* INPUT */
+.tg-input{background:#17212b;border-top:1px solid rgba(255,255,255,.05);padding:8px 12px;display:flex;align-items:center;gap:8px;flex-shrink:0}
+.input-box{flex:1;background:#182533;border-radius:20px;padding:9px 14px;font-size:.82rem;color:#64748b;border:none}
+.input-actions{display:flex;gap:10px;color:#8899a6;font-size:1rem}
+.send-btn{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#3fb950,#238636);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.85rem;cursor:pointer}
+@media(max-width:500px){
+  body{padding:0;align-items:flex-start}
+  .page-label,.tech-badge{display:none}
+  .phone-wrap{width:100%;min-height:100dvh;min-height:100vh}
+  .phone{width:100%;height:100%;border-radius:0;padding:0;box-shadow:none;background:transparent}
+  .phone-screen{border-radius:0;min-height:100dvh;min-height:100vh;height:auto}
+  .notch{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="page-label">🤖 Demo Bot Telegram — HelpDesk Bot</div>
+
+<div class="phone-wrap">
+  <div class="phone">
+    <div class="phone-screen">
+      <div class="notch"></div>
+      <div class="status">
+        <span class="status-time">10:15</span>
+        <div class="status-icons"><i class="fas fa-signal"></i><i class="fas fa-wifi"></i><i class="fas fa-battery-three-quarters"></i></div>
+      </div>
+
+      <div class="tg-header">
+        <div class="back-btn"><i class="fas fa-chevron-left"></i></div>
+        <div class="bot-avatar">🎧</div>
+        <div>
+          <div class="bot-name">HelpDesk Bot</div>
+          <div class="bot-status"><i class="fas fa-circle" style="font-size:.5rem;margin-right:3px"></i>bot · online 24/7</div>
+        </div>
+        <div class="header-actions">
+          <i class="fas fa-search"></i>
+          <i class="fas fa-ellipsis-v"></i>
+        </div>
+      </div>
+
+      <div class="chat">
+        <div class="date-div"><span>Kamis, 19 Juni 2026</span></div>
+
+        <!-- WELCOME -->
+        <div class="msg bot">
+          <div class="msg-av">🎧</div>
+          <div class="bubble bot">
+            <h4>👋 Halo! Selamat datang di HelpDesk</h4>
+            <p>Saya siap membantu kamu 24/7. Pilih kategori bantuan yang kamu butuhkan:</p>
+            <div class="time">10:12</div>
+          </div>
+        </div>
+        <div class="inline-kb">
+          <div class="kb-btn blue full">🛒 Masalah Pesanan</div>
+          <div class="kb-btn yellow full selected">💳 Masalah Pembayaran</div>
+          <div class="kb-btn green full">🚚 Masalah Pengiriman</div>
+          <div class="kb-btn full">💬 Pertanyaan Umum</div>
+        </div>
+
+        <div class="msg user">
+          <div class="bubble user">💳 Masalah Pembayaran<div class="time">10:13</div></div>
+        </div>
+
+        <!-- PAYMENT ISSUES -->
+        <div class="msg bot">
+          <div class="msg-av">🎧</div>
+          <div class="bubble bot">
+            <h4>💳 Masalah Pembayaran</h4>
+            <p>Apa yang kamu alami terkait pembayaran?</p>
+            <div class="time">10:13</div>
+          </div>
+        </div>
+        <div class="inline-kb">
+          <div class="kb-btn half yellow selected">❌ Pembayaran Gagal</div>
+          <div class="kb-btn half">💸 Refund / Pengembalian</div>
+          <div class="kb-btn half">🧾 Bukti Pembayaran</div>
+          <div class="kb-btn half">🔒 Keamanan Akun</div>
+          <div class="kb-btn full">⬅️ Kembali</div>
+        </div>
+
+        <div class="msg user">
+          <div class="bubble user">❌ Pembayaran Gagal<div class="time">10:13</div></div>
+        </div>
+
+        <!-- DETAIL ISSUE -->
+        <div class="msg bot">
+          <div class="msg-av">🎧</div>
+          <div class="bubble bot">
+            <h4>📋 Detail Masalah</h4>
+            <p>Tolong ceritakan lebih detail. Kapan pembayaran gagal dan berapa nominalnya?</p>
+            <div class="time">10:13</div>
+          </div>
+        </div>
+
+        <div class="msg user">
+          <div class="bubble user">Tadi pagi jam 09.30 saya coba bayar pesanan #ORD-8823 senilai Rp 285.000 via DANA tapi gagal terus, saldo saya sudah terpotong tapi pesanan belum terkonfirmasi<div class="time">10:14</div></div>
+        </div>
+
+        <!-- TICKET CREATED -->
+        <div class="msg bot">
+          <div class="msg-av">🎧</div>
+          <div class="bubble bot">
+            <p style="margin-bottom:8px">✅ Informasi diterima! Saya buat tiket untuk masalah ini:</p>
+            <div class="ticket-card">
+              <div class="ticket-header">
+                <div class="ticket-id"><i class="fas fa-ticket-alt"></i> #TKT-2406-00847</div>
+                <div class="ticket-badge tb-open">🟢 Open</div>
+              </div>
+              <div class="ticket-row"><span>Kategori</span><span>Pembayaran Gagal</span></div>
+              <div class="ticket-row"><span>Pesanan</span><span>#ORD-8823</span></div>
+              <div class="ticket-row"><span>Nominal</span><span>Rp 285.000</span></div>
+              <div class="ticket-row"><span>Metode</span><span>DANA</span></div>
+              <div class="ticket-row"><span>Prioritas</span><span>🔴 Tinggi</span></div>
+              <div class="ticket-row"><span>Estimasi</span><span>< 2 jam</span></div>
+              <div class="ticket-desc">Pembayaran via DANA gagal pada pukul 09.30, saldo terpotong namun pesanan belum terkonfirmasi. Perlu verifikasi ke tim keuangan.</div>
+            </div>
+            <div class="time">10:14</div>
+          </div>
+        </div>
+        <div class="inline-kb">
+          <div class="kb-btn blue full">📎 Lampirkan Screenshot</div>
+          <div class="kb-btn full">👨‍💼 Hubungi Agent Langsung</div>
+        </div>
+
+        <!-- AGENT JOINS -->
+        <div class="msg bot">
+          <div class="msg-av">🎧</div>
+          <div class="bubble bot">
+            <div class="agent-header">
+              <div class="agent-av">RA</div>
+              <div><div class="agent-name">Rizky Amara</div><div class="agent-role">Customer Service Agent</div></div>
+            </div>
+            <div class="divider"></div>
+            <p>Halo! Saya Rizky dari tim Customer Service. Saya sudah melihat laporan kamu. Kami sedang cek dengan tim keuangan ya. Biasanya proses ini memakan waktu 30-60 menit. Nanti saldo akan kembali atau pesanan dikonfirmasi otomatis.</p>
+            <div class="time">10:15</div>
+          </div>
+        </div>
+
+        <!-- USER THANKS -->
+        <div class="msg user">
+          <div class="bubble user">Oke, terima kasih ya. Ditunggu kabarnya 🙏<div class="time">10:15</div></div>
+        </div>
+
+        <!-- RESOLUTION -->
+        <div class="msg bot">
+          <div class="msg-av">🎧</div>
+          <div class="bubble bot">
+            <div class="ticket-card" style="border-left:3px solid #3fb950;border-color:rgba(63,185,80,.3)">
+              <div class="ticket-header">
+                <div class="ticket-id"><i class="fas fa-check-circle" style="color:#3fb950"></i> #TKT-2406-00847</div>
+                <div class="ticket-badge tb-open">✅ Resolved</div>
+              </div>
+              <div class="ticket-desc" style="color:#c9d1d9;border-top:none;margin-top:0;padding-top:0">Dana Rp 285.000 sudah berhasil dikembalikan ke akun DANA kamu. Mohon cek saldo dalam 5-10 menit. Maaf atas ketidaknyamanannya!</div>
+            </div>
+            <p style="margin-top:8px;font-size:.72rem;color:#8b949e">Bagaimana pengalaman kamu hari ini?</p>
+            <div class="rating-stars">
+              <span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span>
+            </div>
+            <div class="time">10:47</div>
+          </div>
+        </div>
+        <div class="inline-kb">
+          <div class="kb-btn confirm full">⭐⭐⭐⭐⭐ Beri Rating 5 Bintang</div>
+          <div class="kb-btn full">🏠 Kembali ke Menu Utama</div>
+        </div>
+
+        <div style="height:4px"></div>
+      </div>
+
+      <div class="tg-input">
+        <div class="input-actions"><i class="fas fa-paperclip"></i></div>
+        <div class="input-box">Ketik pesan...</div>
+        <i class="fas fa-microphone" style="color:#8899a6;font-size:1rem"></i>
+        <div class="send-btn"><i class="fas fa-paper-plane" style="font-size:.75rem"></i></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="tech-badge">
+  <span><i class="fab fa-node-js" style="margin-right:4px;color:#3fb950"></i>Node.js</span>
+  <span>⚡ Telegraf</span>
+</div>
+
+</body>
+</html>

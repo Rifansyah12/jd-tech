@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LogiTrack — Logistics Tracking App</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{min-height:100vh;background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);display:flex;align-items:center;justify-content:center;font-family:'Segoe UI',system-ui,sans-serif;padding:30px 20px;position:relative;overflow:hidden}
+body::before{content:'';position:absolute;width:350px;height:350px;background:rgba(0,212,255,.04);border-radius:50%;top:-100px;right:-80px;border:1px solid rgba(0,212,255,.08)}
+body::after{content:'';position:absolute;width:250px;height:250px;background:rgba(0,212,255,.04);border-radius:50%;bottom:-60px;left:-60px;border:1px solid rgba(0,212,255,.08)}
+.page-label{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:6px 20px;color:#fff;font-size:.82rem;font-weight:600;z-index:200}
+.tech-badge{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:200}
+.tech-badge span{background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:5px 14px;color:#fff;font-size:.75rem;font-weight:600}
+
+.phone-wrap{position:relative;z-index:10}
+.phone{width:375px;background:#0d1117;border-radius:50px;padding:12px;box-shadow:0 0 0 2px #1f2937,0 0 0 4px #111827,0 50px 100px rgba(0,0,0,.6),0 20px 40px rgba(0,212,255,.1)}
+.phone-screen{border-radius:40px;overflow:hidden;height:780px;background:#0f1724;position:relative;display:flex;flex-direction:column}
+.notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:110px;height:30px;background:#0d1117;border-radius:0 0 18px 18px;z-index:50}
+.status{height:48px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 22px 8px;background:#0f1724;position:relative;z-index:10}
+.status-time{font-size:.78rem;font-weight:700;color:#fff}
+.status-icons{display:flex;align-items:center;gap:6px;color:#fff;font-size:.7rem}
+
+.app{flex:1;overflow-y:auto;overflow-x:hidden}
+.app::-webkit-scrollbar{display:none}
+
+/* HEADER */
+.app-header{background:#131d2e;padding:12px 18px 16px;position:sticky;top:0;z-index:20}
+.header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.header-greet small{color:#64748b;font-size:.72rem}
+.header-greet h2{color:#fff;font-size:1rem;font-weight:800}
+.h-avatar{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#00d4ff,#0088cc);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.85rem}
+.track-input{background:#1e2d42;border-radius:14px;display:flex;align-items:center;gap:10px;padding:11px 16px}
+.track-input i{color:#00d4ff;font-size:.9rem}
+.track-input span{color:#64748b;font-size:.83rem}
+.track-input .scan-btn{margin-left:auto;width:32px;height:32px;background:linear-gradient(135deg,#00d4ff,#0088cc);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.8rem}
+
+/* ACTIVE DELIVERY */
+.active-card{margin:12px 14px;background:linear-gradient(135deg,#0055a5,#00adef);border-radius:20px;padding:16px;position:relative;overflow:hidden}
+.active-card::before{content:'🚛';position:absolute;right:-8px;bottom:-8px;font-size:64px;opacity:.2}
+.active-label{font-size:.68rem;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.active-id{font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:4px}
+.active-dest{font-size:.78rem;color:rgba(255,255,255,.8);margin-bottom:14px;display:flex;align-items:center;gap:6px}
+.progress-track{background:rgba(255,255,255,.2);height:4px;border-radius:10px;overflow:hidden;margin-bottom:6px}
+.progress-fill{height:100%;background:#fff;border-radius:10px;width:65%}
+.progress-labels{display:flex;justify-content:space-between;font-size:.65rem;color:rgba(255,255,255,.7)}
+.active-footer{display:flex;align-items:center;justify-content:space-between;margin-top:14px}
+.eta{color:#fff;font-size:.8rem}
+.eta strong{font-size:.95rem;font-weight:800}
+.driver-info{display:flex;align-items:center;gap:8px}
+.driver-av{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:#fff}
+.driver-name{font-size:.72rem;color:rgba(255,255,255,.8);font-weight:600}
+
+/* MAP PLACEHOLDER */
+.map-area{margin:0 14px 12px;border-radius:18px;overflow:hidden;height:120px;background:#1e2d42;position:relative;display:flex;align-items:center;justify-content:center}
+.map-dots{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 24px,rgba(0,212,255,.04) 24px,rgba(0,212,255,.04) 25px),repeating-linear-gradient(90deg,transparent,transparent 24px,rgba(0,212,255,.04) 24px,rgba(0,212,255,.04) 25px)}
+.map-route{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:180px;height:2px;background:linear-gradient(90deg,#00d4ff,#0088cc);border-radius:4px}
+.map-route::before{content:'';position:absolute;left:-5px;top:-4px;width:10px;height:10px;background:#00d4ff;border-radius:50%;box-shadow:0 0 8px #00d4ff}
+.map-route::after{content:'';position:absolute;right:-5px;top:-4px;width:10px;height:10px;background:#0088cc;border-radius:50%;border:2px solid #fff}
+.map-truck{position:absolute;left:calc(50% - 90px + 117px);top:50%;transform:translateY(-50%);font-size:1.4rem}
+
+/* SECTION */
+.section-label{display:flex;align-items:center;justify-content:space-between;padding:0 14px;margin-bottom:10px}
+.section-label h4{color:#fff;font-size:.88rem;font-weight:700}
+.section-label span{color:#00d4ff;font-size:.75rem;font-weight:600}
+
+/* HISTORY */
+.hist-item{background:#131d2e;margin:0 14px 10px;border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px}
+.hist-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.hist-id{font-size:.82rem;font-weight:700;color:#e2e8f0;margin-bottom:2px}
+.hist-route{font-size:.72rem;color:#64748b;margin-bottom:4px}
+.hist-date{font-size:.68rem;color:#475569}
+.badge{padding:4px 10px;border-radius:20px;font-size:.68rem;font-weight:700;margin-left:auto;flex-shrink:0}
+.b-ok{background:rgba(16,185,129,.15);color:#10b981}
+.b-go{background:rgba(0,212,255,.15);color:#00d4ff}
+.b-wait{background:rgba(245,158,11,.15);color:#f59e0b}
+
+/* BOTTOM NAV */
+.bottom-nav{background:#131d2e;border-top:1px solid rgba(255,255,255,.06);display:flex;height:72px;padding:0 8px;flex-shrink:0}
+.nav-tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer}
+.nav-tab i{font-size:1.1rem;color:#334155}
+.nav-tab span{font-size:.6rem;color:#334155;font-weight:500}
+.nav-tab.active i{color:#00d4ff}
+.nav-tab.active span{color:#00d4ff;font-weight:700}
+@media(max-width:500px){
+  body{padding:0;align-items:flex-start}
+  .page-label,.tech-badge{display:none}
+  .phone-wrap{width:100%;min-height:100dvh;min-height:100vh}
+  .phone{width:100%;height:100%;border-radius:0;padding:0;box-shadow:none;background:transparent}
+  .phone-screen{border-radius:0;min-height:100dvh;min-height:100vh;height:auto}
+  .notch{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="page-label">📱 Demo Mobile App — LogiTrack</div>
+
+<div class="phone-wrap">
+  <div class="phone">
+    <div class="phone-screen">
+      <div class="notch"></div>
+      <div class="status">
+        <span class="status-time">9:41</span>
+        <div class="status-icons"><i class="fas fa-signal"></i><i class="fas fa-wifi"></i><i class="fas fa-battery-full"></i></div>
+      </div>
+
+      <div class="app">
+        <div class="app-header">
+          <div class="header-row">
+            <div class="header-greet"><small>Selamat Pagi 👋</small><h2>Eko Prasetyo</h2></div>
+            <div class="h-avatar">EP</div>
+          </div>
+          <div class="track-input">
+            <i class="fas fa-box"></i>
+            <span>Masukkan No. Resi...</span>
+            <div class="scan-btn"><i class="fas fa-qrcode"></i></div>
+          </div>
+        </div>
+
+        <!-- ACTIVE DELIVERY -->
+        <div class="active-card">
+          <div class="active-label"><i class="fas fa-circle" style="color:#4ade80;font-size:.5rem;margin-right:4px"></i> Pengiriman Aktif</div>
+          <div class="active-id">LGT-2406-78342</div>
+          <div class="active-dest"><i class="fas fa-map-marker-alt" style="color:rgba(255,255,255,.6)"></i> Jakarta → Surabaya</div>
+          <div class="progress-track"><div class="progress-fill"></div></div>
+          <div class="progress-labels"><span>Dikirim</span><span>Dalam Perjalanan</span><span>Terkirim</span></div>
+          <div class="active-footer">
+            <div class="eta"><small>Estimasi Tiba</small><br><strong>Besok, 20 Jun</strong></div>
+            <div class="driver-info">
+              <div class="driver-av">BS</div>
+              <div><div class="driver-name">Budi Setiawan</div><div style="font-size:.65rem;color:rgba(255,255,255,.5)"><i class="fas fa-star" style="color:#fbbf24"></i> 4.9</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MAP -->
+        <div class="map-area">
+          <div class="map-dots"></div>
+          <div class="map-route"></div>
+          <div class="map-truck">🚛</div>
+          <div style="position:absolute;bottom:8px;right:12px;background:rgba(0,212,255,.15);border:1px solid rgba(0,212,255,.3);border-radius:8px;padding:4px 10px;font-size:.65rem;color:#00d4ff;font-weight:700">📍 Live Tracking</div>
+        </div>
+
+        <!-- HISTORY -->
+        <div class="section-label"><h4>Riwayat Pengiriman</h4><span>Lihat Semua</span></div>
+
+        <div class="hist-item">
+          <div class="hist-icon" style="background:rgba(16,185,129,.1)"><i class="fas fa-check-circle" style="color:#10b981"></i></div>
+          <div>
+            <div class="hist-id">LGT-2406-77121</div>
+            <div class="hist-route">Bandung → Yogyakarta</div>
+            <div class="hist-date">17 Jun 2026</div>
+          </div>
+          <span class="badge b-ok">Terkirim</span>
+        </div>
+
+        <div class="hist-item">
+          <div class="hist-icon" style="background:rgba(0,212,255,.1)"><i class="fas fa-shipping-fast" style="color:#00d4ff"></i></div>
+          <div>
+            <div class="hist-id">LGT-2406-78342</div>
+            <div class="hist-route">Jakarta → Surabaya</div>
+            <div class="hist-date">19 Jun 2026</div>
+          </div>
+          <span class="badge b-go">Di Jalan</span>
+        </div>
+
+        <div class="hist-item">
+          <div class="hist-icon" style="background:rgba(245,158,11,.1)"><i class="fas fa-warehouse" style="color:#f59e0b"></i></div>
+          <div>
+            <div class="hist-id">LGT-2406-79004</div>
+            <div class="hist-route">Medan → Jakarta</div>
+            <div class="hist-date">19 Jun 2026</div>
+          </div>
+          <span class="badge b-wait">Proses</span>
+        </div>
+
+        <div class="hist-item">
+          <div class="hist-icon" style="background:rgba(16,185,129,.1)"><i class="fas fa-check-circle" style="color:#10b981"></i></div>
+          <div>
+            <div class="hist-id">LGT-2406-75890</div>
+            <div class="hist-route">Surabaya → Bali</div>
+            <div class="hist-date">15 Jun 2026</div>
+          </div>
+          <span class="badge b-ok">Terkirim</span>
+        </div>
+
+        <div style="height:12px"></div>
+      </div>
+
+      <div class="bottom-nav">
+        <div class="nav-tab active"><i class="fas fa-home"></i><span>Home</span></div>
+        <div class="nav-tab"><i class="fas fa-map-marker-alt"></i><span>Lacak</span></div>
+        <div class="nav-tab"><i class="fas fa-history"></i><span>Riwayat</span></div>
+        <div class="nav-tab"><i class="fas fa-bell"></i><span>Notifikasi</span></div>
+        <div class="nav-tab"><i class="far fa-user-circle"></i><span>Profil</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="tech-badge">
+  <span>Kotlin</span>
+  <span><i class="fas fa-fire" style="margin-right:4px;color:#f97316"></i>Firebase</span>
+</div>
+
+</body>
+</html>
