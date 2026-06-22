@@ -13,6 +13,14 @@
     <a href="{{ route('admin.team.create') }}" class="btn-cyan"><i class="fas fa-user-plus"></i> Tambah Anggota</a>
 </div>
 
+<form method="GET" action="{{ route('admin.team.index') }}" style="margin-bottom: 16px; display: flex; gap: 10px;">
+    <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama atau posisi..." style="flex: 1; max-width: 360px; background: rgba(255,255,255,0.04); border: 1px solid rgba(0,242,254,0.15); border-radius: 10px; padding: 10px 16px; color: #fff; font-size: 0.9rem;">
+    <button type="submit" class="btn-outline" style="padding: 10px 18px;"><i class="fas fa-search"></i></button>
+    @if(request('search'))
+    <a href="{{ route('admin.team.index') }}" class="btn-outline" style="padding: 10px 18px;"><i class="fas fa-times"></i></a>
+    @endif
+</form>
+
 <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px;">
     @forelse($members as $m)
     <div class="card" style="padding: 20px; text-align: center; position: relative;">

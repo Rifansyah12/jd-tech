@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Career - JD Technology')
+@section('title', 'Karir - Bergabung Bersama Jannah Digital Teknologi | Web Developer Bandung')
+
+@section('meta_description', 'Bergabunglah dengan tim Jannah Digital Teknologi. Kami mencari web developer, mobile developer, dan bot developer berbakat di Bandung untuk bersama membangun solusi digital.')
+
+@section('meta_keywords', 'lowongan web developer Bandung, karir jasa IT Bandung, lowongan programmer Bandung, join Jannah Digital Teknologi, web developer Bandung')
 
 @section('content')
     <section style="color: white; padding: 50px 0;">

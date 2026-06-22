@@ -3,12 +3,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Message;
+use Illuminate\Http\Request;
 
 class MessageController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $messages = Message::latest()->paginate(15);
+        $messages = Message::when($request->search, fn($q) => $q->where('name', 'like', "%{$request->search}%")
+                ->orWhere('email', 'like', "%{$request->search}%")
+                ->orWhere('subject', 'like', "%{$request->search}%"))
+            ->latest()->paginate(15)->withQueryString();
         return view('admin.messages.index', compact('messages'));
     }
 

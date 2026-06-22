@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Our Services - JD Technology')
+@section('title', 'Layanan Kami - Jasa Web, Aplikasi, Bot Telegram | Jannah Digital Teknologi')
+
+@section('meta_description', 'Layanan Jannah Digital Teknologi: jasa pembuatan website company profile, toko online, aplikasi Android & iOS, bot Telegram, sistem informasi, dan API integration. Profesional & bergaransi.')
+
+@section('meta_keywords', 'jasa pembuatan website company profile, jasa pembuatan website toko online, jasa pembuatan aplikasi android, jasa pembuatan aplikasi ios, jasa bot telegram, jasa pembuatan web laravel, jasa pembuatan web wordpress, jasa pembuatan aplikasi flutter, jasa API integration, jasa pembuatan website UMKM, jasa pembuatan aplikasi kasir, jasa pembuatan aplikasi absensi')
 
 @section('content')
     <!-- Services Hero Section -->
@@ -20,127 +24,28 @@
 
     <!-- Services Grid -->
     <section class="services-section" style="padding: 50px 5% 100px;">
+        @if($services->count() > 0)
         <div class="services-grid">
-            <!-- Web Development -->
+            @foreach($services as $service)
             <div class="service-card">
                 <div class="service-icon">
-                    <i class="fas fa-globe"></i>
+                    <i class="{{ $service->icon ?? 'fas fa-cog' }}"></i>
                 </div>
-                <h3 class="service-title">Web Development</h3>
-                <p class="service-description">
-                    Pembuatan website profesional dengan teknologi terkini, responsive dan SEO friendly.
-                    Kami membangun website company profile, landing page, hingga web application kompleks.
-                </p>
-                <div style="display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0;">
-                    <span style="background: rgba(0,242,254,0.1); padding: 5px 15px; border-radius: 50px; font-size: 0.9rem; border: 1px solid rgba(0,242,254,0.2);">Laravel</span>
-                    <span style="background: rgba(0,242,254,0.1); padding: 5px 15px; border-radius: 50px; font-size: 0.9rem; border: 1px solid rgba(0,242,254,0.2);">React</span>
-                    <span style="background: rgba(0,242,254,0.1); padding: 5px 15px; border-radius: 50px; font-size: 0.9rem; border: 1px solid rgba(0,242,254,0.2);">Vue.js</span>
-                </div>
+                <h3 class="service-title">{{ $service->title }}</h3>
+                <p class="service-description">{{ $service->description }}</p>
                 <a href="{{ route('contact') }}" class="service-link">
                     Get Quote <i class="fas fa-arrow-right"></i>
                 </a>
             </div>
-
-            <!-- Mobile Apps -->
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-mobile-alt"></i>
-                </div>
-                <h3 class="service-title">Mobile Apps</h3>
-                <p class="service-description">
-                    Aplikasi mobile Android & iOS dengan performa tinggi dan UI/UX yang menarik.
-                    Kami mengembangkan native dan cross-platform apps sesuai kebutuhan Anda.
-                </p>
-                <div style="display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0;">
-                    <span style="background: rgba(0,242,254,0.1); padding: 5px 15px; border-radius: 50px; font-size: 0.9rem; border: 1px solid rgba(0,242,254,0.2);">React Native</span>
-                    <span style="background: rgba(0,242,254,0.1); padding: 5px 15px; border-radius: 50px; font-size: 0.9rem; border: 1px solid rgba(0,242,254,0.2);">Flutter</span>
-                    <span style="background: rgba(0,242,254,0.1); padding: 5px 15px; border-radius: 50px; font-size: 0.9rem; border: 1px solid rgba(0,242,254,0.2);">Kotlin</span>
-                </div>
-                <a href="{{ route('contact') }}" class="service-link">
-                    Get Quote <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-
-            <!-- E-Commerce -->
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-shopping-cart"></i>
-                </div>
-                <h3 class="service-title">E-Commerce</h3>
-                <p class="service-description">
-                    Solusi toko online lengkap dengan sistem pembayaran terintegrasi.
-                    Fitur manajemen produk, inventory, dan laporan penjualan real-time.
-                </p>
-                <div style="display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0;">
-                    <span style="background: rgba(0,242,254,0.1); padding: 5px 15px; border-radius: 50px; font-size: 0.9rem; border: 1px solid rgba(0,242,254,0.2);">Shopify</span>
-                    <span style="background: rgba(0,242,254,0.1); padding: 5px 15px; border-radius: 50px; font-size: 0.9rem; border: 1px solid rgba(0,242,254,0.2);">WooCommerce</span>
-                    <span style="background: rgba(0,242,254,0.1); padding: 5px 15px; border-radius: 50px; font-size: 0.9rem; border: 1px solid rgba(0,242,254,0.2);">Custom</span>
-                </div>
-                <a href="{{ route('contact') }}" class="service-link">
-                    Get Quote <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-
-            <!-- UI/UX Design -->
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-paint-brush"></i>
-                </div>
-                <h3 class="service-title">UI/UX Design</h3>
-                <p class="service-description">
-                    Desain antarmuka yang modern, intuitif, dan user-friendly.
-                    Kami fokus pada user experience untuk memastikan produk Anda mudah digunakan.
-                </p>
-                <div style="display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0;">
-                    <span style="background: rgba(0,242,254,0.1); padding: 5px 15px; border-radius: 50px; font-size: 0.9rem; border: 1px solid rgba(0,242,254,0.2);">Figma</span>
-                    <span style="background: rgba(0,242,254,0.1); padding: 5px 15px; border-radius: 50px; font-size: 0.9rem; border: 1px solid rgba(0,242,254,0.2);">Adobe XD</span>
-                    <span style="background: rgba(0,242,254,0.1); padding: 5px 15px; border-radius: 50px; font-size: 0.9rem; border: 1px solid rgba(0,242,254,0.2);">Sketch</span>
-                </div>
-                <a href="{{ route('contact') }}" class="service-link">
-                    Get Quote <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-
-            <!-- Database Management -->
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-database"></i>
-                </div>
-                <h3 class="service-title">Database Management</h3>
-                <p class="service-description">
-                    Pengelolaan database yang aman, cepat, dan scalable.
-                    Layanan migrasi, optimasi, dan maintenance database.
-                </p>
-                <div style="display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0;">
-                    <span style="background: rgba(0,242,254,0.1); padding: 5px 15px; border-radius: 50px; font-size: 0.9rem; border: 1px solid rgba(0,242,254,0.2);">MySQL</span>
-                    <span style="background: rgba(0,242,254,0.1); padding: 5px 15px; border-radius: 50px; font-size: 0.9rem; border: 1px solid rgba(0,242,254,0.2);">PostgreSQL</span>
-                    <span style="background: rgba(0,242,254,0.1); padding: 5px 15px; border-radius: 50px; font-size: 0.9rem; border: 1px solid rgba(0,242,254,0.2);">MongoDB</span>
-                </div>
-                <a href="{{ route('contact') }}" class="service-link">
-                    Get Quote <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-
-            <!-- Cloud Solutions -->
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-cloud"></i>
-                </div>
-                <h3 class="service-title">Cloud Solutions</h3>
-                <p class="service-description">
-                    Deployment dan hosting di cloud untuk performa optimal.
-                    Kami menyediakan solusi cloud computing yang scalable dan reliable.
-                </p>
-                <div style="display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0;">
-                    <span style="background: rgba(0,242,254,0.1); padding: 5px 15px; border-radius: 50px; font-size: 0.9rem; border: 1px solid rgba(0,242,254,0.2);">AWS</span>
-                    <span style="background: rgba(0,242,254,0.1); padding: 5px 15px; border-radius: 50px; font-size: 0.9rem; border: 1px solid rgba(0,242,254,0.2);">Google Cloud</span>
-                    <span style="background: rgba(0,242,254,0.1); padding: 5px 15px; border-radius: 50px; font-size: 0.9rem; border: 1px solid rgba(0,242,254,0.2);">Azure</span>
-                </div>
-                <a href="{{ route('contact') }}" class="service-link">
-                    Get Quote <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
+            @endforeach
         </div>
+        @else
+        <div style="text-align: center; padding: 80px 20px; max-width: 600px; margin: 0 auto;">
+            <i class="fas fa-cogs" style="font-size: 4rem; color: rgba(0,242,254,0.2); margin-bottom: 20px; display: block;"></i>
+            <h3 style="font-size: 1.8rem; color: rgba(255,255,255,0.5); margin-bottom: 15px;">Layanan Segera Hadir</h3>
+            <p style="color: rgba(255,255,255,0.3);">Kami sedang mempersiapkan daftar layanan terbaik kami. Nantikan updatenya!</p>
+        </div>
+        @endif
     </section>
 
     <!-- Why Choose Us Section -->

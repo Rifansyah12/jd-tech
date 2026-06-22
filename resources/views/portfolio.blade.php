@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Our Portfolio - JD Technology')
+@section('title', 'Portfolio Proyek - Jannah Digital Teknologi | Web, Aplikasi & Bot Telegram')
+
+@section('meta_description', 'Lihat hasil karya Jannah Digital Teknologi — website company profile, toko online, aplikasi mobile, bot Telegram, dan sistem informasi. Proyek nyata untuk bisnis nyata.')
+
+@section('meta_keywords', 'portfolio web developer Bandung, contoh website company profile, contoh aplikasi android, contoh bot telegram bisnis, proyek jasa pembuatan website, hasil karya Jannah Digital Teknologi, jasa pembuatan web portofolio')
 
 @section('content')
     <!-- Portfolio Hero Section -->
@@ -30,235 +34,67 @@
 
     <!-- Portfolio Grid -->
     <section class="portfolio-section" style="padding: 0 5% 100px;">
+        @php
+        $categoryMap = [
+            'Web Development' => 'web',
+            'Mobile App'      => 'mobile',
+            'Bot Telegram'    => 'bot-telegram',
+            'UI/UX Design'    => 'design',
+            'Data Science'    => 'data',
+            'Other'           => 'other',
+        ];
+        @endphp
+
+        @if($portfolios->count() > 0)
         <div class="portfolio-grid" id="portfolio-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; max-width: 1400px; margin: 0 auto;">
-            <!-- E-Commerce App - Mobile -->
-            <div class="portfolio-item" data-category="mobile" style="position: relative; border-radius: 30px; overflow: hidden; height: 350px; cursor: pointer; transition: all 0.3s ease;">
+            @foreach($portfolios as $portfolio)
+            @php
+                $filterValue = $categoryMap[$portfolio->category] ?? 'other';
+            @endphp
+            <div class="portfolio-item" data-category="{{ $filterValue }}" style="position: relative; border-radius: 30px; overflow: hidden; height: 350px; cursor: pointer; transition: all 0.3s ease;">
                 <div class="portfolio-image" style="width: 100%; height: 100%; position: relative; overflow: hidden; transition: transform 0.5s ease;">
-                    <iframe src="/demos/shopease.html" scrolling="no" loading="lazy" style="position: absolute; top: 0; left: 0; width: 660px; height: 900px; border: none; pointer-events: none; transform: scale(0.530); transform-origin: top left;"></iframe>
+                    @if($portfolio->thumbnail)
+                        <img src="{{ Storage::url($portfolio->thumbnail) }}" alt="{{ $portfolio->title }}" style="width: 100%; height: 100%; object-fit: cover;">
+                    @else
+                        <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-briefcase" style="font-size: 5rem; color: rgba(0,242,254,0.2);"></i>
+                        </div>
+                    @endif
                 </div>
                 <div class="portfolio-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(0,242,254,0.95), rgba(79,172,254,0.95)); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; padding: 20px; text-align: center;">
-                    <h3 class="portfolio-title" style="font-size: 1.8rem; font-weight: 700; color: #0a0a0a; margin-bottom: 10px;">ShopEase</h3>
-                    <p class="portfolio-category" style="color: #0a0a0a; font-size: 1rem; opacity: 0.8; margin-bottom: 15px;">Mobile App</p>
-                    <div style="display: flex; gap: 10px; margin: 15px 0; flex-wrap: wrap; justify-content: center;">
-                        <span style="background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; color: #0a0a0a;">React Native</span>
-                        <span style="background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; color: #0a0a0a;">Node.js</span>
+                    <h3 class="portfolio-title" style="font-size: 1.8rem; font-weight: 700; color: #0a0a0a; margin-bottom: 10px;">{{ $portfolio->title }}</h3>
+                    <p class="portfolio-category" style="color: #0a0a0a; font-size: 1rem; opacity: 0.8; margin-bottom: 15px;">{{ $portfolio->category }}</p>
+                    @if($portfolio->tags && count($portfolio->tags) > 0)
+                    <div style="display: flex; gap: 10px; margin: 10px 0; flex-wrap: wrap; justify-content: center;">
+                        @foreach(array_slice($portfolio->tags, 0, 3) as $tag)
+                        <span style="background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; color: #0a0a0a;">{{ $tag }}</span>
+                        @endforeach
                     </div>
-                    <p style="font-size: 0.9rem; opacity: 0.9; color: #0a0a0a;">Fashion Store Mobile App dengan fitur AR Try-On</p>
-                    <a href="/demos/shopease.html" target="_blank" style="margin-top: 14px; display: inline-flex; align-items: center; gap: 6px; background: #0a0a0a; color: #00f2fe; padding: 8px 18px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; text-decoration: none;">
+                    @endif
+                    @if($portfolio->description)
+                    <p style="font-size: 0.9rem; opacity: 0.9; color: #0a0a0a; margin-top: 5px;">{{ Str::limit($portfolio->description, 80) }}</p>
+                    @endif
+                    @if($portfolio->demo_url)
+                    <a href="{{ $portfolio->demo_url }}" target="_blank" style="margin-top: 14px; display: inline-flex; align-items: center; gap: 6px; background: #0a0a0a; color: #00f2fe; padding: 8px 18px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; text-decoration: none;">
                         <i class="fas fa-external-link-alt"></i> Lihat Demo
                     </a>
-                </div>
-            </div>
-
-            <!-- Clinic Management - Web -->
-            <div class="portfolio-item" data-category="web" style="position: relative; border-radius: 30px; overflow: hidden; height: 350px; cursor: pointer; transition: all 0.3s ease;">
-                <div class="portfolio-image" style="width: 100%; height: 100%; position: relative; overflow: hidden; transition: transform 0.5s ease;">
-                    <iframe src="/demos/medicare-pro.html" scrolling="no" loading="lazy" style="position: absolute; top: 0; left: 0; width: 1200px; height: 1200px; border: none; pointer-events: none; transform: scale(0.292); transform-origin: top left;"></iframe>
-                </div>
-                <div class="portfolio-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(0,242,254,0.95), rgba(79,172,254,0.95)); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; padding: 20px; text-align: center;">
-                    <h3 class="portfolio-title" style="font-size: 1.8rem; font-weight: 700; color: #0a0a0a; margin-bottom: 10px;">MediCare Pro</h3>
-                    <p class="portfolio-category" style="color: #0a0a0a; font-size: 1rem; opacity: 0.8; margin-bottom: 15px;">Web App</p>
-                    <div style="display: flex; gap: 10px; margin: 15px 0; flex-wrap: wrap; justify-content: center;">
-                        <span style="background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; color: #0a0a0a;">Laravel</span>
-                        <span style="background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; color: #0a0a0a;">Vue.js</span>
-                    </div>
-                    <p style="font-size: 0.9rem; opacity: 0.9; color: #0a0a0a;">Sistem Manajemen Klinik dengan fitur telemedicine</p>
-                    <a href="/demos/medicare-pro.html" target="_blank" style="margin-top: 14px; display: inline-flex; align-items: center; gap: 6px; background: #0a0a0a; color: #00f2fe; padding: 8px 18px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; text-decoration: none;">
-                        <i class="fas fa-external-link-alt"></i> Lihat Demo
+                    @endif
+                    @if($portfolio->github_url)
+                    <a href="{{ $portfolio->github_url }}" target="_blank" style="margin-top: 8px; display: inline-flex; align-items: center; gap: 6px; background: rgba(10,10,10,0.6); color: #fff; padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; text-decoration: none;">
+                        <i class="fab fa-github"></i> GitHub
                     </a>
+                    @endif
                 </div>
             </div>
-
-            <!-- E-Learning Platform - Web & Mobile -->
-            <div class="portfolio-item" data-category="web mobile" style="position: relative; border-radius: 30px; overflow: hidden; height: 350px; cursor: pointer; transition: all 0.3s ease;">
-                <div class="portfolio-image" style="width: 100%; height: 100%; position: relative; overflow: hidden; transition: transform 0.5s ease;">
-                    <iframe src="/demos/edulearn.html" scrolling="no" loading="lazy" style="position: absolute; top: 0; left: 0; width: 1200px; height: 1200px; border: none; pointer-events: none; transform: scale(0.292); transform-origin: top left;"></iframe>
-                </div>
-                <div class="portfolio-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(0,242,254,0.95), rgba(79,172,254,0.95)); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; padding: 20px; text-align: center;">
-                    <h3 class="portfolio-title" style="font-size: 1.8rem; font-weight: 700; color: #0a0a0a; margin-bottom: 10px;">EduLearn</h3>
-                    <p class="portfolio-category" style="color: #0a0a0a; font-size: 1rem; opacity: 0.8; margin-bottom: 15px;">Web & Mobile</p>
-                    <div style="display: flex; gap: 10px; margin: 15px 0; flex-wrap: wrap; justify-content: center;">
-                        <span style="background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; color: #0a0a0a;">React</span>
-                        <span style="background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; color: #0a0a0a;">Flutter</span>
-                    </div>
-                    <p style="font-size: 0.9rem; opacity: 0.9; color: #0a0a0a;">Platform Belajar Online dengan fitur live class</p>
-                    <a href="/demos/edulearn.html" target="_blank" style="margin-top: 14px; display: inline-flex; align-items: center; gap: 6px; background: #0a0a0a; color: #00f2fe; padding: 8px 18px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; text-decoration: none;">
-                        <i class="fas fa-external-link-alt"></i> Lihat Demo
-                    </a>
-                </div>
-            </div>
-
-            <!-- Order Bot - Bot Telegram -->
-            <div class="portfolio-item" data-category="bot-telegram" style="position: relative; border-radius: 30px; overflow: hidden; height: 350px; cursor: pointer; transition: all 0.3s ease;">
-                <div class="portfolio-image" style="width: 100%; height: 100%; position: relative; overflow: hidden; transition: transform 0.5s ease;">
-                    <iframe src="/demos/orderbot.html" scrolling="no" loading="lazy" style="position: absolute; top: 0; left: 0; width: 660px; height: 900px; border: none; pointer-events: none; transform: scale(0.530); transform-origin: top left;"></iframe>
-                </div>
-                <div class="portfolio-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(0,242,254,0.95), rgba(79,172,254,0.95)); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; padding: 20px; text-align: center;">
-                    <h3 class="portfolio-title" style="font-size: 1.8rem; font-weight: 700; color: #0a0a0a; margin-bottom: 10px;">OrderBot</h3>
-                    <p class="portfolio-category" style="color: #0a0a0a; font-size: 1rem; opacity: 0.8; margin-bottom: 15px;">Bot Telegram</p>
-                    <div style="display: flex; gap: 10px; margin: 15px 0; flex-wrap: wrap; justify-content: center;">
-                        <span style="background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; color: #0a0a0a;">Python</span>
-                        <span style="background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; color: #0a0a0a;">Aiogram</span>
-                    </div>
-                    <p style="font-size: 0.9rem; opacity: 0.9; color: #0a0a0a;">Bot pemesanan makanan otomatis dengan notifikasi real-time</p>
-                    <a href="/demos/orderbot.html" target="_blank" style="margin-top: 14px; display: inline-flex; align-items: center; gap: 6px; background: #0a0a0a; color: #00f2fe; padding: 8px 18px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; text-decoration: none;">
-                        <i class="fas fa-external-link-alt"></i> Lihat Demo
-                    </a>
-                </div>
-            </div>
-
-            <!-- Analytics Dashboard - Web -->
-            <div class="portfolio-item" data-category="web" style="position: relative; border-radius: 30px; overflow: hidden; height: 350px; cursor: pointer; transition: all 0.3s ease;">
-                <div class="portfolio-image" style="width: 100%; height: 100%; position: relative; overflow: hidden; transition: transform 0.5s ease;">
-                    <iframe src="/demos/findash.html" scrolling="no" loading="lazy" style="position: absolute; top: 0; left: 0; width: 1200px; height: 1200px; border: none; pointer-events: none; transform: scale(0.292); transform-origin: top left;"></iframe>
-                </div>
-                <div class="portfolio-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(0,242,254,0.95), rgba(79,172,254,0.95)); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; padding: 20px; text-align: center;">
-                    <h3 class="portfolio-title" style="font-size: 1.8rem; font-weight: 700; color: #0a0a0a; margin-bottom: 10px;">FinDash</h3>
-                    <p class="portfolio-category" style="color: #0a0a0a; font-size: 1rem; opacity: 0.8; margin-bottom: 15px;">Web App</p>
-                    <div style="display: flex; gap: 10px; margin: 15px 0; flex-wrap: wrap; justify-content: center;">
-                        <span style="background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; color: #0a0a0a;">Next.js</span>
-                        <span style="background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; color: #0a0a0a;">D3.js</span>
-                    </div>
-                    <p style="font-size: 0.9rem; opacity: 0.9; color: #0a0a0a;">Dashboard Analisis Data dengan real-time updates</p>
-                    <a href="/demos/findash.html" target="_blank" style="margin-top: 14px; display: inline-flex; align-items: center; gap: 6px; background: #0a0a0a; color: #00f2fe; padding: 8px 18px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; text-decoration: none;">
-                        <i class="fas fa-external-link-alt"></i> Lihat Demo
-                    </a>
-                </div>
-            </div>
-
-            <!-- Logistics System - Mobile -->
-            <div class="portfolio-item" data-category="mobile" style="position: relative; border-radius: 30px; overflow: hidden; height: 350px; cursor: pointer; transition: all 0.3s ease;">
-                <div class="portfolio-image" style="width: 100%; height: 100%; position: relative; overflow: hidden; transition: transform 0.5s ease;">
-                    <iframe src="/demos/logitrack.html" scrolling="no" loading="lazy" style="position: absolute; top: 0; left: 0; width: 660px; height: 900px; border: none; pointer-events: none; transform: scale(0.530); transform-origin: top left;"></iframe>
-                </div>
-                <div class="portfolio-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(0,242,254,0.95), rgba(79,172,254,0.95)); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; padding: 20px; text-align: center;">
-                    <h3 class="portfolio-title" style="font-size: 1.8rem; font-weight: 700; color: #0a0a0a; margin-bottom: 10px;">LogiTrack</h3>
-                    <p class="portfolio-category" style="color: #0a0a0a; font-size: 1rem; opacity: 0.8; margin-bottom: 15px;">Mobile App</p>
-                    <div style="display: flex; gap: 10px; margin: 15px 0; flex-wrap: wrap; justify-content: center;">
-                        <span style="background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; color: #0a0a0a;">Kotlin</span>
-                        <span style="background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; color: #0a0a0a;">Firebase</span>
-                    </div>
-                    <p style="font-size: 0.9rem; opacity: 0.9; color: #0a0a0a;">Sistem Manajemen Logistik dengan GPS tracking</p>
-                    <a href="/demos/logitrack.html" target="_blank" style="margin-top: 14px; display: inline-flex; align-items: center; gap: 6px; background: #0a0a0a; color: #00f2fe; padding: 8px 18px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; text-decoration: none;">
-                        <i class="fas fa-external-link-alt"></i> Lihat Demo
-                    </a>
-                </div>
-            </div>
-
-            <!-- Hotel Booking - Web -->
-            <div class="portfolio-item" data-category="web" style="position: relative; border-radius: 30px; overflow: hidden; height: 350px; cursor: pointer; transition: all 0.3s ease;">
-                <div class="portfolio-image" style="width: 100%; height: 100%; position: relative; overflow: hidden; transition: transform 0.5s ease;">
-                    <iframe src="/demos/stayeasy.html" scrolling="no" loading="lazy" style="position: absolute; top: 0; left: 0; width: 1200px; height: 1200px; border: none; pointer-events: none; transform: scale(0.292); transform-origin: top left;"></iframe>
-                </div>
-                <div class="portfolio-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(0,242,254,0.95), rgba(79,172,254,0.95)); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; padding: 20px; text-align: center;">
-                    <h3 class="portfolio-title" style="font-size: 1.8rem; font-weight: 700; color: #0a0a0a; margin-bottom: 10px;">StayEasy</h3>
-                    <p class="portfolio-category" style="color: #0a0a0a; font-size: 1rem; opacity: 0.8; margin-bottom: 15px;">Web App</p>
-                    <div style="display: flex; gap: 10px; margin: 15px 0; flex-wrap: wrap; justify-content: center;">
-                        <span style="background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; color: #0a0a0a;">PHP</span>
-                        <span style="background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; color: #0a0a0a;">MySQL</span>
-                    </div>
-                    <p style="font-size: 0.9rem; opacity: 0.9; color: #0a0a0a;">Sistem Reservasi Hotel dengan payment gateway</p>
-                    <a href="/demos/stayeasy.html" target="_blank" style="margin-top: 14px; display: inline-flex; align-items: center; gap: 6px; background: #0a0a0a; color: #00f2fe; padding: 8px 18px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; text-decoration: none;">
-                        <i class="fas fa-external-link-alt"></i> Lihat Demo
-                    </a>
-                </div>
-            </div>
-
-            <!-- Banking App - Mobile -->
-            <div class="portfolio-item" data-category="mobile" style="position: relative; border-radius: 30px; overflow: hidden; height: 350px; cursor: pointer; transition: all 0.3s ease;">
-                <div class="portfolio-image" style="width: 100%; height: 100%; position: relative; overflow: hidden; transition: transform 0.5s ease;">
-                    <iframe src="/demos/bankease.html" scrolling="no" loading="lazy" style="position: absolute; top: 0; left: 0; width: 660px; height: 900px; border: none; pointer-events: none; transform: scale(0.530); transform-origin: top left;"></iframe>
-                </div>
-                <div class="portfolio-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(0,242,254,0.95), rgba(79,172,254,0.95)); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; padding: 20px; text-align: center;">
-                    <h3 class="portfolio-title" style="font-size: 1.8rem; font-weight: 700; color: #0a0a0a; margin-bottom: 10px;">BankEase</h3>
-                    <p class="portfolio-category" style="color: #0a0a0a; font-size: 1rem; opacity: 0.8; margin-bottom: 15px;">Mobile App</p>
-                    <div style="display: flex; gap: 10px; margin: 15px 0; flex-wrap: wrap; justify-content: center;">
-                        <span style="background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; color: #0a0a0a;">Swift</span>
-                        <span style="background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; color: #0a0a0a;">Kotlin</span>
-                    </div>
-                    <p style="font-size: 0.9rem; opacity: 0.9; color: #0a0a0a;">Aplikasi Mobile Banking dengan biometric auth</p>
-                    <a href="/demos/bankease.html" target="_blank" style="margin-top: 14px; display: inline-flex; align-items: center; gap: 6px; background: #0a0a0a; color: #00f2fe; padding: 8px 18px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; text-decoration: none;">
-                        <i class="fas fa-external-link-alt"></i> Lihat Demo
-                    </a>
-                </div>
-            </div>
-
-            <!-- Game Development - Mobile -->
-            <div class="portfolio-item" data-category="mobile" style="position: relative; border-radius: 30px; overflow: hidden; height: 350px; cursor: pointer; transition: all 0.3s ease;">
-                <div class="portfolio-image" style="width: 100%; height: 100%; position: relative; overflow: hidden; transition: transform 0.5s ease;">
-                    <iframe src="/demos/edugame.html" scrolling="no" loading="lazy" style="position: absolute; top: 0; left: 0; width: 660px; height: 900px; border: none; pointer-events: none; transform: scale(0.530); transform-origin: top left;"></iframe>
-                </div>
-                <div class="portfolio-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(0,242,254,0.95), rgba(79,172,254,0.95)); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; padding: 20px; text-align: center;">
-                    <h3 class="portfolio-title" style="font-size: 1.8rem; font-weight: 700; color: #0a0a0a; margin-bottom: 10px;">EduGame</h3>
-                    <p class="portfolio-category" style="color: #0a0a0a; font-size: 1rem; opacity: 0.8; margin-bottom: 15px;">Mobile Game</p>
-                    <div style="display: flex; gap: 10px; margin: 15px 0; flex-wrap: wrap; justify-content: center;">
-                        <span style="background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; color: #0a0a0a;">Unity</span>
-                        <span style="background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; color: #0a0a0a;">C#</span>
-                    </div>
-                    <p style="font-size: 0.9rem; opacity: 0.9; color: #0a0a0a;">Game Edukasi Anak dengan sistem reward</p>
-                    <a href="/demos/edugame.html" target="_blank" style="margin-top: 14px; display: inline-flex; align-items: center; gap: 6px; background: #0a0a0a; color: #00f2fe; padding: 8px 18px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; text-decoration: none;">
-                        <i class="fas fa-external-link-alt"></i> Lihat Demo
-                    </a>
-                </div>
-            </div>
-
-            <!-- HR Management - Web -->
-            <div class="portfolio-item" data-category="web" style="position: relative; border-radius: 30px; overflow: hidden; height: 350px; cursor: pointer; transition: all 0.3s ease;">
-                <div class="portfolio-image" style="width: 100%; height: 100%; position: relative; overflow: hidden; transition: transform 0.5s ease;">
-                    <iframe src="/demos/hr-pro.html" scrolling="no" loading="lazy" style="position: absolute; top: 0; left: 0; width: 1200px; height: 1200px; border: none; pointer-events: none; transform: scale(0.292); transform-origin: top left;"></iframe>
-                </div>
-                <div class="portfolio-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(0,242,254,0.95), rgba(79,172,254,0.95)); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; padding: 20px; text-align: center;">
-                    <h3 class="portfolio-title" style="font-size: 1.8rem; font-weight: 700; color: #0a0a0a; margin-bottom: 10px;">HR Pro</h3>
-                    <p class="portfolio-category" style="color: #0a0a0a; font-size: 1rem; opacity: 0.8; margin-bottom: 15px;">Web App</p>
-                    <div style="display: flex; gap: 10px; margin: 15px 0; flex-wrap: wrap; justify-content: center;">
-                        <span style="background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; color: #0a0a0a;">Laravel</span>
-                        <span style="background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; color: #0a0a0a;">Vue.js</span>
-                    </div>
-                    <p style="font-size: 0.9rem; opacity: 0.9; color: #0a0a0a;">Sistem Manajemen HR dengan payroll automation</p>
-                    <a href="/demos/hr-pro.html" target="_blank" style="margin-top: 14px; display: inline-flex; align-items: center; gap: 6px; background: #0a0a0a; color: #00f2fe; padding: 8px 18px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; text-decoration: none;">
-                        <i class="fas fa-external-link-alt"></i> Lihat Demo
-                    </a>
-                </div>
-            </div>
-
-            <!-- Social Media App - Mobile -->
-            <div class="portfolio-item" data-category="mobile" style="position: relative; border-radius: 30px; overflow: hidden; height: 350px; cursor: pointer; transition: all 0.3s ease;">
-                <div class="portfolio-image" style="width: 100%; height: 100%; position: relative; overflow: hidden; transition: transform 0.5s ease;">
-                    <iframe src="/demos/socialflow.html" scrolling="no" loading="lazy" style="position: absolute; top: 0; left: 0; width: 660px; height: 900px; border: none; pointer-events: none; transform: scale(0.530); transform-origin: top left;"></iframe>
-                </div>
-                <div class="portfolio-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(0,242,254,0.95), rgba(79,172,254,0.95)); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; padding: 20px; text-align: center;">
-                    <h3 class="portfolio-title" style="font-size: 1.8rem; font-weight: 700; color: #0a0a0a; margin-bottom: 10px;">SocialFlow</h3>
-                    <p class="portfolio-category" style="color: #0a0a0a; font-size: 1rem; opacity: 0.8; margin-bottom: 15px;">Mobile App</p>
-                    <div style="display: flex; gap: 10px; margin: 15px 0; flex-wrap: wrap; justify-content: center;">
-                        <span style="background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; color: #0a0a0a;">Flutter</span>
-                        <span style="background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; color: #0a0a0a;">Firebase</span>
-                    </div>
-                    <p style="font-size: 0.9rem; opacity: 0.9; color: #0a0a0a;">Aplikasi Social Media untuk komunitas kreatif</p>
-                    <a href="/demos/socialflow.html" target="_blank" style="margin-top: 14px; display: inline-flex; align-items: center; gap: 6px; background: #0a0a0a; color: #00f2fe; padding: 8px 18px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; text-decoration: none;">
-                        <i class="fas fa-external-link-alt"></i> Lihat Demo
-                    </a>
-                </div>
-            </div>
-
-            <!-- Customer Service Bot - Bot Telegram -->
-            <div class="portfolio-item" data-category="bot-telegram" style="position: relative; border-radius: 30px; overflow: hidden; height: 350px; cursor: pointer; transition: all 0.3s ease;">
-                <div class="portfolio-image" style="width: 100%; height: 100%; position: relative; overflow: hidden; transition: transform 0.5s ease;">
-                    <iframe src="/demos/helpdesk-bot.html" scrolling="no" loading="lazy" style="position: absolute; top: 0; left: 0; width: 660px; height: 900px; border: none; pointer-events: none; transform: scale(0.530); transform-origin: top left;"></iframe>
-                </div>
-                <div class="portfolio-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(0,242,254,0.95), rgba(79,172,254,0.95)); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; padding: 20px; text-align: center;">
-                    <h3 class="portfolio-title" style="font-size: 1.8rem; font-weight: 700; color: #0a0a0a; margin-bottom: 10px;">HelpDesk Bot</h3>
-                    <p class="portfolio-category" style="color: #0a0a0a; font-size: 1rem; opacity: 0.8; margin-bottom: 15px;">Bot Telegram</p>
-                    <div style="display: flex; gap: 10px; margin: 15px 0; flex-wrap: wrap; justify-content: center;">
-                        <span style="background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; color: #0a0a0a;">Node.js</span>
-                        <span style="background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; color: #0a0a0a;">Telegraf</span>
-                    </div>
-                    <p style="font-size: 0.9rem; opacity: 0.9; color: #0a0a0a;">Bot customer service otomatis dengan integrasi CRM</p>
-                    <a href="/demos/helpdesk-bot.html" target="_blank" style="margin-top: 14px; display: inline-flex; align-items: center; gap: 6px; background: #0a0a0a; color: #00f2fe; padding: 8px 18px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; text-decoration: none;">
-                        <i class="fas fa-external-link-alt"></i> Lihat Demo
-                    </a>
-                </div>
-            </div>
+            @endforeach
         </div>
+        @else
+        <div style="text-align: center; padding: 80px 20px; max-width: 600px; margin: 0 auto;">
+            <i class="fas fa-briefcase" style="font-size: 4rem; color: rgba(0,242,254,0.2); margin-bottom: 20px; display: block;"></i>
+            <h3 style="font-size: 1.8rem; color: rgba(255,255,255,0.5); margin-bottom: 15px;">Portfolio Segera Hadir</h3>
+            <p style="color: rgba(255,255,255,0.3);">Kami sedang mempersiapkan showcase project terbaik kami. Nantikan updatenya!</p>
+        </div>
+        @endif
     </section>
 
     <!-- Testimonials Section -->

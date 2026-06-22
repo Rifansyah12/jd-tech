@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'JD Technology - Digital Innovation')
+@section('title', 'Jannah Digital Teknologi - Jasa Pembuatan Website, Aplikasi & Bot Telegram Bandung')
+
+@section('meta_description', 'Jannah Digital Teknologi — jasa pembuatan website, aplikasi mobile, dan bot Telegram terpercaya di Bandung. Web developer profesional, murah, cepat, bergaransi. Melayani seluruh Indonesia.')
+
+@section('meta_keywords', 'jasa pembuatan website, jasa pembuatan aplikasi, jasa bot telegram, web developer Bandung, jasa pembuatan web murah, jasa pembuatan website terpercaya, Jannah Digital Teknologi, jasa IT Bandung, jasa pembuatan website Indonesia, jasa web developer')
 
 @section('content')
     <!-- Hero Section -->
@@ -66,83 +70,55 @@
         </div>
         
         <div class="services-grid">
+            @forelse($featuredServices as $service)
             <div class="service-card">
                 <div class="service-icon">
-                    <i class="fas fa-globe"></i>
+                    <i class="{{ $service->icon ?? 'fas fa-cog' }}"></i>
                 </div>
+                <h3 class="service-title">{{ $service->title }}</h3>
+                <p class="service-description">{{ Str::limit($service->description, 120) }}</p>
+                <a href="{{ route('services') }}" class="service-link">
+                    Learn More <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            @empty
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-globe"></i></div>
                 <h3 class="service-title">Web Development</h3>
-                <p class="service-description">
-                    Custom websites and web applications built with Laravel, React, and modern technologies. Fast, secure, and scalable solutions.
-                </p>
-                <a href="{{ route('services') }}" class="service-link">
-                    Learn More <i class="fas fa-arrow-right"></i>
-                </a>
+                <p class="service-description">Custom websites and web applications built with modern technologies. Fast, secure, and scalable solutions.</p>
+                <a href="{{ route('services') }}" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
             </div>
-
             <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-mobile-alt"></i>
-                </div>
+                <div class="service-icon"><i class="fas fa-mobile-alt"></i></div>
                 <h3 class="service-title">Mobile Apps</h3>
-                <p class="service-description">
-                    Native and cross-platform mobile applications for iOS and Android with stunning UI/UX and optimal performance.
-                </p>
-                <a href="{{ route('services') }}" class="service-link">
-                    Learn More <i class="fas fa-arrow-right"></i>
-                </a>
+                <p class="service-description">Native and cross-platform mobile applications for iOS and Android with stunning UI/UX and optimal performance.</p>
+                <a href="{{ route('services') }}" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
             </div>
-
             <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-cloud"></i>
-                </div>
+                <div class="service-icon"><i class="fas fa-cloud"></i></div>
                 <h3 class="service-title">Cloud Solutions</h3>
-                <p class="service-description">
-                    Scalable cloud infrastructure, deployment, and management services on AWS, Google Cloud, and Azure platforms.
-                </p>
-                <a href="{{ route('services') }}" class="service-link">
-                    Learn More <i class="fas fa-arrow-right"></i>
-                </a>
+                <p class="service-description">Scalable cloud infrastructure, deployment, and management services on AWS, Google Cloud, and Azure platforms.</p>
+                <a href="{{ route('services') }}" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
             </div>
-
             <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-robot"></i>
-                </div>
-                <h3 class="service-title">AI & Machine Learning</h3>
-                <p class="service-description">
-                    Intelligent solutions powered by AI and machine learning to automate processes and gain valuable insights.
-                </p>
-                <a href="{{ route('services') }}" class="service-link">
-                    Learn More <i class="fas fa-arrow-right"></i>
-                </a>
+                <div class="service-icon"><i class="fas fa-robot"></i></div>
+                <h3 class="service-title">Bot & Automation</h3>
+                <p class="service-description">Intelligent bot solutions and automation tools to streamline your business processes.</p>
+                <a href="{{ route('services') }}" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
             </div>
-
             <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-shopping-cart"></i>
-                </div>
+                <div class="service-icon"><i class="fas fa-shopping-cart"></i></div>
                 <h3 class="service-title">E-Commerce</h3>
-                <p class="service-description">
-                    Full-featured online stores with secure payment gateways, inventory management, and marketing tools.
-                </p>
-                <a href="{{ route('services') }}" class="service-link">
-                    Learn More <i class="fas fa-arrow-right"></i>
-                </a>
+                <p class="service-description">Full-featured online stores with secure payment gateways, inventory management, and marketing tools.</p>
+                <a href="{{ route('services') }}" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
             </div>
-
             <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-chart-line"></i>
-                </div>
-                <h3 class="service-title">Digital Strategy</h3>
-                <p class="service-description">
-                    Expert consulting and digital strategy to help your business grow and stay ahead of the competition.
-                </p>
-                <a href="{{ route('services') }}" class="service-link">
-                    Learn More <i class="fas fa-arrow-right"></i>
-                </a>
+                <div class="service-icon"><i class="fas fa-paint-brush"></i></div>
+                <h3 class="service-title">UI/UX Design</h3>
+                <p class="service-description">Modern, intuitive interface design focused on user experience to ensure your product is easy to use.</p>
+                <a href="{{ route('services') }}" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
             </div>
+            @endforelse
         </div>
     </section>
 
@@ -155,65 +131,44 @@
         </div>
 
         <div class="portfolio-grid">
+            @forelse($featuredPortfolios as $portfolio)
             <div class="portfolio-item">
-                <div class="portfolio-image">
-                    <i class="fas fa-store"></i>
+                <div class="portfolio-image" style="{{ $portfolio->thumbnail ? 'background: url(' . Storage::url($portfolio->thumbnail) . ') center/cover no-repeat;' : '' }}">
+                    @if(!$portfolio->thumbnail)
+                        <i class="fas fa-briefcase"></i>
+                    @endif
                 </div>
                 <div class="portfolio-overlay">
-                    <h3 class="portfolio-title">ShopEase</h3>
-                    <p class="portfolio-category">E-Commerce Platform</p>
+                    <h3 class="portfolio-title">{{ $portfolio->title }}</h3>
+                    <p class="portfolio-category">{{ $portfolio->category }}</p>
                 </div>
             </div>
-
+            @empty
             <div class="portfolio-item">
-                <div class="portfolio-image">
-                    <i class="fas fa-hospital"></i>
-                </div>
-                <div class="portfolio-overlay">
-                    <h3 class="portfolio-title">MediCare</h3>
-                    <p class="portfolio-category">Healthcare App</p>
-                </div>
+                <div class="portfolio-image"><i class="fas fa-store"></i></div>
+                <div class="portfolio-overlay"><h3 class="portfolio-title">ShopEase</h3><p class="portfolio-category">E-Commerce Platform</p></div>
             </div>
-
             <div class="portfolio-item">
-                <div class="portfolio-image">
-                    <i class="fas fa-university"></i>
-                </div>
-                <div class="portfolio-overlay">
-                    <h3 class="portfolio-title">EduLearn</h3>
-                    <p class="portfolio-category">E-Learning Platform</p>
-                </div>
+                <div class="portfolio-image"><i class="fas fa-hospital"></i></div>
+                <div class="portfolio-overlay"><h3 class="portfolio-title">MediCare</h3><p class="portfolio-category">Healthcare App</p></div>
             </div>
-
             <div class="portfolio-item">
-                <div class="portfolio-image">
-                    <i class="fas fa-chart-pie"></i>
-                </div>
-                <div class="portfolio-overlay">
-                    <h3 class="portfolio-title">FinDash</h3>
-                    <p class="portfolio-category">Financial Dashboard</p>
-                </div>
+                <div class="portfolio-image"><i class="fas fa-university"></i></div>
+                <div class="portfolio-overlay"><h3 class="portfolio-title">EduLearn</h3><p class="portfolio-category">E-Learning Platform</p></div>
             </div>
-
             <div class="portfolio-item">
-                <div class="portfolio-image">
-                    <i class="fas fa-truck"></i>
-                </div>
-                <div class="portfolio-overlay">
-                    <h3 class="portfolio-title">LogiTrack</h3>
-                    <p class="portfolio-category">Logistics System</p>
-                </div>
+                <div class="portfolio-image"><i class="fas fa-chart-pie"></i></div>
+                <div class="portfolio-overlay"><h3 class="portfolio-title">FinDash</h3><p class="portfolio-category">Financial Dashboard</p></div>
             </div>
-
             <div class="portfolio-item">
-                <div class="portfolio-image">
-                    <i class="fas fa-hotel"></i>
-                </div>
-                <div class="portfolio-overlay">
-                    <h3 class="portfolio-title">StayEasy</h3>
-                    <p class="portfolio-category">Hotel Booking</p>
-                </div>
+                <div class="portfolio-image"><i class="fas fa-truck"></i></div>
+                <div class="portfolio-overlay"><h3 class="portfolio-title">LogiTrack</h3><p class="portfolio-category">Logistics System</p></div>
             </div>
+            <div class="portfolio-item">
+                <div class="portfolio-image"><i class="fas fa-hotel"></i></div>
+                <div class="portfolio-overlay"><h3 class="portfolio-title">StayEasy</h3><p class="portfolio-category">Hotel Booking</p></div>
+            </div>
+            @endforelse
         </div>
     </section>
 
@@ -287,18 +242,25 @@
                 </div>
             </div>
 
-            <form class="contact-form">
+            @if(session('success'))
+            <div style="margin-bottom: 20px; padding: 15px; background: rgba(0,242,254,0.1); border: 1px solid #00f2fe; border-radius: 10px; color: #00f2fe; text-align: center;">
+                <i class="fas fa-check-circle"></i> {{ session('success') }}
+            </div>
+            @endif
+
+            <form class="contact-form" method="POST" action="{{ route('contact.store') }}">
+                @csrf
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Your Name" required>
+                    <input type="text" name="name" class="form-control" placeholder="Your Name" value="{{ old('name') }}" required>
                 </div>
                 <div class="form-group">
-                    <input type="email" class="form-control" placeholder="Email Address" required>
+                    <input type="email" name="email" class="form-control" placeholder="Email Address" value="{{ old('email') }}" required>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Subject">
+                    <input type="text" name="subject" class="form-control" placeholder="Subject" value="{{ old('subject') }}">
                 </div>
                 <div class="form-group">
-                    <textarea class="form-control" placeholder="Tell us about your project..." required></textarea>
+                    <textarea name="message" class="form-control" placeholder="Tell us about your project..." required>{{ old('message') }}</textarea>
                 </div>
                 <button type="submit" class="btn-submit">
                     Send Message <i class="fas fa-paper-plane"></i>
@@ -619,67 +581,6 @@
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Form submission handling
-    const contactForm = document.querySelector('.contact-form');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Simple form validation
-            const inputs = this.querySelectorAll('input[required], textarea[required]');
-            let isValid = true;
-            
-            inputs.forEach(input => {
-                if (!input.value.trim()) {
-                    isValid = false;
-                    input.style.borderColor = '#ff4444';
-                    
-                    // Reset border after 3 seconds
-                    setTimeout(() => {
-                        input.style.borderColor = 'rgba(0,242,254,0.2)';
-                    }, 3000);
-                }
-            });
-            
-            if (isValid) {
-                // Show loading state
-                const submitBtn = this.querySelector('button[type="submit"]');
-                const originalText = submitBtn.innerHTML;
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-                submitBtn.disabled = true;
-                
-                // Simulate form submission
-                setTimeout(() => {
-                    // Show success message
-                    const successMessage = document.createElement('div');
-                    successMessage.className = 'success-message';
-                    successMessage.innerHTML = '<i class="fas fa-check-circle"></i> Thank you! We\'ll contact you soon.';
-                    successMessage.style.cssText = `
-                        margin-top: 20px;
-                        padding: 15px;
-                        background: rgba(0,242,254,0.1);
-                        border: 1px solid #00f2fe;
-                        border-radius: 10px;
-                        color: #00f2fe;
-                        text-align: center;
-                    `;
-                    
-                    this.appendChild(successMessage);
-                    
-                    // Reset form
-                    this.reset();
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-                    
-                    // Remove success message after 5 seconds
-                    setTimeout(() => {
-                        successMessage.remove();
-                    }, 5000);
-                }, 2000);
-            }
-        });
-    }
-    
     // Smooth scroll for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {

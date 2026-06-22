@@ -8,9 +8,10 @@ use Illuminate\Support\Facades\Storage;
 
 class TeamController extends Controller
 {
-    public function index()
+    public function index(Request $request)
         {
-            $members = TeamMember::latest()->paginate(10);
+            $members = TeamMember::when($request->search, fn($q) => $q->where('name', 'like', "%{$request->search}%")->orWhere('position', 'like', "%{$request->search}%"))
+                ->latest()->paginate(10)->withQueryString();
             return view('admin.team.index', compact('members'));
         }
 

@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Contact Us - JD Technology')
+@section('title', 'Konsultasi Gratis - Jannah Digital Teknologi | Jasa Web & Aplikasi Bandung')
+
+@section('meta_description', 'Hubungi Jannah Digital Teknologi untuk konsultasi gratis pembuatan website, aplikasi, atau bot Telegram. Harga terjangkau, garansi, dan tim profesional di Bandung.')
+
+@section('meta_keywords', 'konsultasi pembuatan website, harga jasa pembuatan website, biaya bikin aplikasi android, tarif jasa bot telegram, jasa pembuatan website murah Bandung, jasa pembuatan web garansi, jasa pembuatan website cepat, kontak Jannah Digital Teknologi')
 
 @section('content')
     <!-- Contact Hero Section -->
@@ -110,22 +114,37 @@
                     <p style="color: rgba(255,255,255,0.6);">Isi form di bawah ini dan tim kami akan segera menghubungi Anda</p>
                 </div>
 
-                <form id="contactForm" style="display: flex; flex-direction: column; gap: 20px;">
+                @if(session('success'))
+                <div style="margin-bottom: 20px; padding: 15px; background: rgba(0,242,254,0.1); border: 1px solid #00f2fe; border-radius: 10px; color: #00f2fe; text-align: center;">
+                    <i class="fas fa-check-circle"></i> {{ session('success') }}
+                </div>
+                @endif
+
+                @if($errors->any())
+                <div style="margin-bottom: 20px; padding: 15px; background: rgba(255,100,100,0.1); border: 1px solid rgba(255,100,100,0.5); border-radius: 10px; color: #ff6b6b;">
+                    @foreach($errors->all() as $error)
+                        <p><i class="fas fa-exclamation-circle"></i> {{ $error }}</p>
+                    @endforeach
+                </div>
+                @endif
+
+                <form id="contactForm" method="POST" action="{{ route('contact.store') }}" style="display: flex; flex-direction: column; gap: 20px;">
+                    @csrf
                     <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Your Name" required style="background: rgba(255,255,255,0.03); border: 1px solid rgba(0,242,254,0.2); border-radius: 15px; padding: 16px 20px; color: #fff; width: 100%;">
+                            <input type="text" name="name" class="form-control" placeholder="Your Name" value="{{ old('name') }}" required style="background: rgba(255,255,255,0.03); border: 1px solid rgba(0,242,254,0.2); border-radius: 15px; padding: 16px 20px; color: #fff; width: 100%;">
                         </div>
                         <div class="form-group">
-                            <input type="email" class="form-control" placeholder="Your Email" required style="background: rgba(255,255,255,0.03); border: 1px solid rgba(0,242,254,0.2); border-radius: 15px; padding: 16px 20px; color: #fff; width: 100%;">
+                            <input type="email" name="email" class="form-control" placeholder="Your Email" value="{{ old('email') }}" required style="background: rgba(255,255,255,0.03); border: 1px solid rgba(0,242,254,0.2); border-radius: 15px; padding: 16px 20px; color: #fff; width: 100%;">
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Subject" required style="background: rgba(255,255,255,0.03); border: 1px solid rgba(0,242,254,0.2); border-radius: 15px; padding: 16px 20px; color: #fff; width: 100%;">
+                        <input type="text" name="subject" class="form-control" placeholder="Subject" value="{{ old('subject') }}" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(0,242,254,0.2); border-radius: 15px; padding: 16px 20px; color: #fff; width: 100%;">
                     </div>
-                    
+
                     <div class="form-group">
-                        <textarea class="form-control" placeholder="Tell us about your project..." rows="5" required style="background: rgba(255,255,255,0.03); border: 1px solid rgba(0,242,254,0.2); border-radius: 15px; padding: 16px 20px; color: #fff; width: 100%; resize: vertical;"></textarea>
+                        <textarea name="message" class="form-control" placeholder="Tell us about your project..." rows="5" required style="background: rgba(255,255,255,0.03); border: 1px solid rgba(0,242,254,0.2); border-radius: 15px; padding: 16px 20px; color: #fff; width: 100%; resize: vertical;">{{ old('message') }}</textarea>
                     </div>
 
                     <div class="form-actions" style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
@@ -137,11 +156,6 @@
                         </span>
                     </div>
                 </form>
-
-                <!-- Form Success Message (hidden by default) -->
-                <div id="successMessage" style="display: none; margin-top: 20px; padding: 15px; background: rgba(0,242,254,0.1); border: 1px solid #00f2fe; border-radius: 10px; color: #00f2fe; text-align: center;">
-                    <i class="fas fa-check-circle"></i> Thank you! Your message has been sent successfully.
-                </div>
             </div>
 
             <!-- Additional Info & Map -->
@@ -537,31 +551,6 @@
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Form submission handling
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Show loading state
-            const submitBtn = this.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-            submitBtn.disabled = true;
-
-            // Simulate form submission (replace with actual AJAX)
-            setTimeout(() => {
-                // Hide form and show success message
-                this.style.display = 'none';
-                document.getElementById('successMessage').style.display = 'block';
-                
-                // Reset button (for demo purposes)
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-            }, 2000);
-        });
-    }
-
     // Add hover effects for info cards (backup for inline styles)
     const infoCards = document.querySelectorAll('.info-card');
     infoCards.forEach(card => {

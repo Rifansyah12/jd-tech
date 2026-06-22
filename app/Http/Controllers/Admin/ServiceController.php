@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $services = Service::latest()->paginate(10);
+        $services = Service::when($request->search, fn($q) => $q->where('title', 'like', "%{$request->search}%"))
+            ->latest()->paginate(10)->withQueryString();
         return view('admin.services.index', compact('services'));
     }
 

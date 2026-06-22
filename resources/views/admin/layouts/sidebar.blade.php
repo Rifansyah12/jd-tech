@@ -1,3 +1,7 @@
+@php
+    $unreadCount = \App\Models\Message::where('is_read', false)->count();
+@endphp
+
 <aside class="sidebar" id="sidebar">
 
     <!-- Brand -->
@@ -17,22 +21,30 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="{{ request()->routeIs('admin.messages*') ? 'active' : '' }}">
+                <a href="{{ route('admin.messages.index') }}" class="{{ request()->routeIs('admin.messages*') ? 'active' : '' }}">
                     <span class="nav-icon"><i class="fas fa-envelope"></i></span>
                     Pesan Masuk
-                    <span class="nav-badge">0</span>
+                    @if($unreadCount > 0)
+                        <span class="nav-badge">{{ $unreadCount }}</span>
+                    @endif
                 </a>
             </li>
             <li>
-                <a href="#" class="{{ request()->routeIs('admin.portfolio*') ? 'active' : '' }}">
+                <a href="{{ route('admin.portfolio.index') }}" class="{{ request()->routeIs('admin.portfolio*') ? 'active' : '' }}">
                     <span class="nav-icon"><i class="fas fa-briefcase"></i></span>
                     Portfolio
                 </a>
             </li>
             <li>
-                <a href="#" class="{{ request()->routeIs('admin.services*') ? 'active' : '' }}">
+                <a href="{{ route('admin.services.index') }}" class="{{ request()->routeIs('admin.services*') ? 'active' : '' }}">
                     <span class="nav-icon"><i class="fas fa-cogs"></i></span>
                     Layanan
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('admin.team.index') }}" class="{{ request()->routeIs('admin.team*') ? 'active' : '' }}">
+                    <span class="nav-icon"><i class="fas fa-user-friends"></i></span>
+                    Anggota Tim
                 </a>
             </li>
         </ul>
@@ -43,12 +55,6 @@
         <p class="sidebar-section-title">Sistem</p>
         <ul class="sidebar-nav">
             <li>
-                <a href="#" class="{{ request()->routeIs('admin.users*') ? 'active' : '' }}">
-                    <span class="nav-icon"><i class="fas fa-users"></i></span>
-                    Pengguna
-                </a>
-            </li>
-            <li>
                 <a href="{{ route('admin.settings.index') }}" class="{{ request()->routeIs('admin.settings*') ? 'active' : '' }}">
                     <span class="nav-icon"><i class="fas fa-sliders-h"></i></span>
                     Pengaturan
@@ -58,12 +64,6 @@
                 <a href="{{ route('home') }}" target="_blank">
                     <span class="nav-icon"><i class="fas fa-globe"></i></span>
                     Lihat Website
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('admin.team.index') }}" class="{{ request()->routeIs('admin.team*') ? 'active' : '' }}">
-                    <span class="nav-icon"><i class="fas fa-user-friends"></i></span>
-                    Anggota Tim
                 </a>
             </li>
         </ul>

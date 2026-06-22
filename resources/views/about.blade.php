@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'About Us - JD Technology')
+@section('title', 'Tentang Kami - Jannah Digital Teknologi | Web Developer Bandung Terpercaya')
+
+@section('meta_description', 'Jannah Digital Teknologi adalah jasa digital profesional di Bandung, Jawa Barat. Tim berpengalaman di bidang web development, mobile app, dan bot Telegram untuk bisnis Anda.')
+
+@section('meta_keywords', 'Jannah Digital Teknologi, jasa digital Jannah, web developer Bandung terbaik, review Jannah Digital Teknologi, jasa IT Bandung, web developer terbaik Bandung, jasa pembuatan website Bandung, jasa pembuatan aplikasi Bandung')
 
 @section('content')
     <!-- About Hero Section -->

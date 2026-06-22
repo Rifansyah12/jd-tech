@@ -12,6 +12,14 @@
     <h2><i class="fas fa-envelope" style="color: #00f2fe; margin-right: 10px;"></i>Pesan Masuk</h2>
 </div>
 
+<form method="GET" action="{{ route('admin.messages.index') }}" style="margin-bottom: 16px; display: flex; gap: 10px;">
+    <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama, email, atau subject..." style="flex: 1; max-width: 360px; background: rgba(255,255,255,0.04); border: 1px solid rgba(0,242,254,0.15); border-radius: 10px; padding: 10px 16px; color: #fff; font-size: 0.9rem;">
+    <button type="submit" class="btn-outline" style="padding: 10px 18px;"><i class="fas fa-search"></i></button>
+    @if(request('search'))
+    <a href="{{ route('admin.messages.index') }}" class="btn-outline" style="padding: 10px 18px;"><i class="fas fa-times"></i></a>
+    @endif
+</form>
+
 <div class="card">
     <div class="table-wrap">
         <table>

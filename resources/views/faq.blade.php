@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'FAQ - JD Technology')
+@section('title', 'FAQ - Pertanyaan Seputar Jasa Web, Aplikasi & Bot Telegram | Jannah Digital Teknologi')
+
+@section('meta_description', 'Pertanyaan umum seputar jasa pembuatan website, aplikasi mobile, dan bot Telegram di Jannah Digital Teknologi. Cari tahu biaya, proses, dan teknologi yang kami gunakan.')
+
+@section('meta_keywords', 'cara membuat website, berapa biaya bikin web, tips memilih jasa pembuatan website, manfaat bot telegram untuk bisnis, perbedaan website dan aplikasi, fitur bot telegram untuk UMKM, FAQ jasa web Bandung')
 
 @section('content')
     <section style="color: white; padding: 50px 0; max-width: 900px; margin: 0 auto;">

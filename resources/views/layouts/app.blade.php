@@ -11,6 +11,40 @@
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/logo/jdt.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/logo/jdt.png') }}">
     
+    <meta name="description" content="@yield('meta_description', 'Jannah Digital Teknologi - Jasa pembuatan website, aplikasi mobile, dan bot Telegram profesional di Bandung. Terpercaya, cepat, bergaransi.')">
+    <meta name="keywords" content="@yield('meta_keywords', 'jasa pembuatan website, jasa pembuatan aplikasi, jasa bot telegram, web developer Bandung, jasa pembuatan web murah, Jannah Digital Teknologi')">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Jannah Digital Teknologi">
+    <link rel="canonical" href="{{ url()->current() }}">
+
+    <!-- Open Graph (untuk share di media sosial) -->
+    <meta property="og:title" content="@yield('title', 'Jannah Digital Teknologi - Jasa Web, Aplikasi & Bot Telegram Bandung')">
+    <meta property="og:description" content="@yield('meta_description', 'Jannah Digital Teknologi - Jasa pembuatan website, aplikasi mobile, dan bot Telegram profesional di Bandung.')">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Jannah Digital Teknologi">
+
+    <!-- JSON-LD Structured Data (Local Business) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Jannah Digital Teknologi",
+        "alternateName": "JD Technology",
+        "url": "https://jannahdigitalteknologi.site",
+        "description": "Jasa pembuatan website, aplikasi mobile, dan bot Telegram profesional di Bandung, Jawa Barat.",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Bandung",
+            "addressRegion": "Jawa Barat",
+            "addressCountry": "ID"
+        },
+        "areaServed": ["Bandung", "Jawa Barat", "Jakarta", "Indonesia"],
+        "serviceType": ["Jasa Pembuatan Website", "Jasa Pembuatan Aplikasi", "Jasa Bot Telegram", "Web Developer", "UI/UX Design"],
+        "knowsAbout": ["Laravel", "Flutter", "React Native", "WordPress", "CodeIgniter", "Telegram Bot", "Next.js"]
+    }
+    </script>
+
     <title>@yield('title', 'JD Technology - Digital Innovation')</title>
     
     <!-- Font Awesome 6 -->

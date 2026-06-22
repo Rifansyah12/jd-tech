@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Models\TeamMember;
+use App\Models\Portfolio;
+use App\Models\Service;
+use App\Models\Message;
 use App\Http\Controllers\AboutController;
 
 /*
@@ -13,15 +16,19 @@ use App\Http\Controllers\AboutController;
 
 // Halaman Publik
 Route::get('/', function () {
-    return view('home');
+    $featuredServices = Service::where('is_active', true)->latest()->take(6)->get();
+    $featuredPortfolios = Portfolio::latest()->take(6)->get();
+    return view('home', compact('featuredServices', 'featuredPortfolios'));
 })->name('home');
 
 Route::get('/services', function () {
-    return view('services');
+    $services = Service::where('is_active', true)->latest()->get();
+    return view('services', compact('services'));
 })->name('services');
 
 Route::get('/portfolio', function () {
-    return view('portfolio');
+    $portfolios = Portfolio::latest()->get();
+    return view('portfolio', compact('portfolios'));
 })->name('portfolio');
 
 // Route::get('/about', function () {
@@ -31,6 +38,39 @@ Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
+
+Route::post('/contact', function () {
+    $data = request()->validate([
+        'name'    => 'required|string|max:255',
+        'email'   => 'required|email|max:255',
+        'subject' => 'nullable|string|max:255',
+        'message' => 'required|string',
+    ]);
+
+    Message::create($data);
+
+    return back()->with('success', 'Pesan Anda berhasil dikirim! Kami akan segera menghubungi Anda.');
+})->name('contact.store');
+
+// Sitemap XML
+Route::get('/sitemap.xml', function () {
+    $portfolios = Portfolio::latest()->get();
+    $services = Service::where('is_active', true)->latest()->get();
+
+    $urls = [
+        ['loc' => url('/'),           'priority' => '1.0', 'changefreq' => 'weekly'],
+        ['loc' => url('/about'),      'priority' => '0.8', 'changefreq' => 'monthly'],
+        ['loc' => url('/services'),   'priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => url('/portfolio'),  'priority' => '0.8', 'changefreq' => 'weekly'],
+        ['loc' => url('/contact'),    'priority' => '0.7', 'changefreq' => 'monthly'],
+        ['loc' => url('/faq'),        'priority' => '0.6', 'changefreq' => 'monthly'],
+        ['loc' => url('/career'),     'priority' => '0.6', 'changefreq' => 'monthly'],
+        ['loc' => url('/privacy'),    'priority' => '0.3', 'changefreq' => 'yearly'],
+        ['loc' => url('/terms'),      'priority' => '0.3', 'changefreq' => 'yearly'],
+    ];
+
+    return response()->view('sitemap', compact('urls'))->header('Content-Type', 'application/xml');
+})->name('sitemap');
 
 // Halaman Footer
 Route::get('/privacy', function () {
@@ -110,7 +150,10 @@ Route::post('/logout', function () {
 
 // Route untuk dashboard (hanya untuk user yang sudah login)
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $totalMessages = Message::count();
+    $totalPortfolios = Portfolio::count();
+    $totalServices = Service::count();
+    return view('dashboard', compact('totalMessages', 'totalPortfolios', 'totalServices'));
 })->name('dashboard')->middleware('auth');
 
 // Route untuk profile (hanya untuk user yang sudah login)

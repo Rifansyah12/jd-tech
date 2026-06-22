@@ -120,6 +120,7 @@
                         <option value="">-- Pilih Kategori --</option>
                         <option value="Web Development" {{ old('category') == 'Web Development' ? 'selected' : '' }}>Web Development</option>
                         <option value="Mobile App" {{ old('category') == 'Mobile App' ? 'selected' : '' }}>Mobile App</option>
+                        <option value="Bot Telegram" {{ old('category') == 'Bot Telegram' ? 'selected' : '' }}>Bot Telegram</option>
                         <option value="UI/UX Design" {{ old('category') == 'UI/UX Design' ? 'selected' : '' }}>UI/UX Design</option>
                         <option value="Data Science" {{ old('category') == 'Data Science' ? 'selected' : '' }}>Data Science</option>
                         <option value="Other" {{ old('category') == 'Other' ? 'selected' : '' }}>Other</option>

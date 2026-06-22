@@ -17,19 +17,22 @@
     </div>
 
     <div class="navbar-right">
-        <!-- Notifikasi -->
-        <a href="#" class="navbar-btn">
+        <!-- Notifikasi Pesan -->
+        @php $navUnread = \App\Models\Message::where('is_read', false)->count(); @endphp
+        <a href="{{ route('admin.messages.index') }}" class="navbar-btn" title="Pesan masuk">
             <i class="fas fa-bell" style="font-size: 14px;"></i>
-            <span class="badge">0</span>
+            @if($navUnread > 0)
+                <span class="badge">{{ $navUnread }}</span>
+            @endif
         </a>
 
         <!-- Pengaturan -->
-        <a href="#" class="navbar-btn">
+        <a href="{{ route('admin.settings.index') }}" class="navbar-btn" title="Pengaturan">
             <i class="fas fa-cog" style="font-size: 14px;"></i>
         </a>
 
         <!-- Logout -->
-        <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
+        <form method="POST" action="{{ route('admin.logout') }}" style="margin: 0;">
             @csrf
             <button type="submit" class="logout-btn">
                 <i class="fas fa-sign-out-alt"></i>
