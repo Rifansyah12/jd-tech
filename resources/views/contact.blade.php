@@ -38,7 +38,7 @@
                 </div>
                 <h3 style="font-size: 1.5rem; margin-bottom: 15px; color: #6366F1;">Visit Us</h3>
                 <p style="color: rgba(255,255,255,0.7); line-height: 1.7;">
-                    Jl. Teknologi No. 123<br>Jakarta, Indonesia 12345
+                    Jl. Pasirkoja<br>Bandung, Indonesia 40221
                 </p>
             </div>
 
@@ -50,8 +50,8 @@
                 <h3 style="font-size: 1.5rem; margin-bottom: 15px; color: #6366F1;">Call Us</h3>
                 <p style="color: rgba(255,255,255,0.7); line-height: 1.7;">
                     @php
-                        $phone1 = '+62 123 4567 890';
-                        $phone2 = '+62 890 1234 567';
+                        $phone1 = '+62 85294191522';
+                        $phone2 = '+62 89696120616';
                         $cleanPhone1 = preg_replace('/[^0-9+]/', '', $phone1);
                         $cleanPhone2 = preg_replace('/[^0-9+]/', '', $phone2);
                     @endphp
@@ -79,13 +79,13 @@
                     style="color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.3s ease; display: inline-block; margin-bottom: 8px;" 
                     onmouseover="this.style.color='#6366F1'" 
                     onmouseout="this.style.color='rgba(255,255,255,0.7)'">
-                        <i class="fas fa-envelope" style="margin-right: 8px; font-size: 14px;"></i> info@jdtechnology.com
+                        <i class="fas fa-envelope" style="margin-right: 8px; font-size: 14px;"></i> syahr9610@gmail.com
                     </a><br>
                     <a href="mailto:support@jdtechnology.com?subject=Support%20Request&body=Hello%20Support%20Team%2C%0A%0AI%20need%20help%20with...%0A%0AThank%20you." 
                     style="color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.3s ease; display: inline-block;" 
                     onmouseover="this.style.color='#6366F1'" 
                     onmouseout="this.style.color='rgba(255,255,255,0.7)'">
-                        <i class="fas fa-envelope" style="margin-right: 8px; font-size: 14px;"></i> support@jdtechnology.com
+                        <i class="fas fa-envelope" style="margin-right: 8px; font-size: 14px;"></i> luminawebdepelopment@gmail.com
                     </a>
                 </p>
             </div>
