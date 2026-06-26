@@ -99,6 +99,29 @@ Route::post('/contact', function () {
 
     Message::create($data);
 
+    // Kirim notifikasi ke Discord
+    $webhookUrl = env('DISCORD_WEBHOOK_URL');
+    if ($webhookUrl) {
+        try {
+            \Illuminate\Support\Facades\Http::post($webhookUrl, [
+                'embeds' => [[
+                    'title'       => '📩 Pesan Baru dari Website!',
+                    'color'       => 0x00f2fe,
+                    'fields'      => [
+                        ['name' => '👤 Nama',    'value' => $data['name'],               'inline' => true],
+                        ['name' => '📧 Email',   'value' => $data['email'],              'inline' => true],
+                        ['name' => '📝 Subjek',  'value' => $data['subject'] ?? '-',     'inline' => false],
+                        ['name' => '💬 Pesan',   'value' => $data['message'],            'inline' => false],
+                    ],
+                    'footer'      => ['text' => 'JD Technology — jannahdigitalteknologi.site'],
+                    'timestamp'   => now()->toIso8601String(),
+                ]],
+            ]);
+        } catch (\Exception $e) {
+            // Gagal kirim Discord tidak mengganggu penyimpanan pesan
+        }
+    }
+
     return back()->with('success', 'Pesan Anda berhasil dikirim! Kami akan segera menghubungi Anda.');
 })->name('contact.store');
 
