@@ -223,24 +223,20 @@
                 <div class="map-container" style="background: rgba(0,0,0,0.03); border: 1px solid rgba(99,102,241,0.1); border-radius: 40px; padding: 40px;">
                     <h3 style="font-size: 1.8rem; margin-bottom: 20px; color: #6366F1;">Our Location</h3>
                     
-                    <!-- Google Map Placeholder -->
-                    <div class="map-placeholder" style="width: 100%; height: 250px; background: linear-gradient(135deg, #1a0a2e, #200d3e); border-radius: 20px; margin-bottom: 25px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
-                        <div style="position: absolute; width: 100%; height: 100%; opacity: 0.3;">
-                            <div style="position: absolute; top: 20%; left: 20%; width: 10px; height: 10px; background: #6366F1; border-radius: 50%; animation: ping 2s infinite;"></div>
-                            <div style="position: absolute; top: 60%; left: 50%; width: 15px; height: 15px; background: #8B5CF6; border-radius: 50%; animation: ping 2s infinite; animation-delay: 1s;"></div>
-                            <div style="position: absolute; bottom: 30%; right: 30%; width: 8px; height: 8px; background: #6366F1; border-radius: 50%; animation: ping 2s infinite; animation-delay: 1.5s;"></div>
-                        </div>
-                        <div style="text-align: center; z-index: 1;">
-                            <i class="fas fa-map-marked-alt" style="font-size: 60px; color: #6366F1; margin-bottom: 15px;"></i>
-                            <p style="color: rgba(255,255,255,0.8);">Jl. Teknologi No. 123, Jakarta</p>
-                        </div>
+                    <!-- Google Map Embed -->
+                    <div style="width: 100%; height: 250px; border-radius: 20px; margin-bottom: 25px; overflow: hidden;">
+                        <iframe
+                            src="https://maps.google.com/maps?q=-6.9274027,107.5851816&z=17&output=embed"
+                            width="100%" height="100%" style="border:0; display:block;"
+                            allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
                     </div>
 
                     <div class="map-buttons" style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
-                        <a href="#" class="map-btn" style="flex: 1; background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.2); border-radius: 50px; padding: 12px; text-align: center; color: #0a0a0a; text-decoration: none; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        <a href="https://maps.app.goo.gl/JannahDigitalTeknologi" target="_blank" class="map-btn" style="flex: 1; background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.2); border-radius: 50px; padding: 12px; text-align: center; color: white; text-decoration: none; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;">
                             <i class="fab fa-google"></i> Google Maps
                         </a>
-                        <a href="#" class="map-btn" style="flex: 1; background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.2); border-radius: 50px; padding: 12px; text-align: center; color: #0a0a0a; text-decoration: none; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        <a href="https://www.google.com/maps/dir//-6.9274027,107.5851816" target="_blank" class="map-btn" style="flex: 1; background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.2); border-radius: 50px; padding: 12px; text-align: center; color: white; text-decoration: none; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;">
                             <i class="fas fa-directions"></i> Get Directions
                         </a>
                     </div>
