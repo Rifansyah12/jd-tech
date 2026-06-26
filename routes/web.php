@@ -102,7 +102,7 @@ Route::post('/contact', function () {
     Message::create($data);
 
     // Kirim notifikasi ke Discord
-    $webhookUrl = env('DISCORD_WEBHOOK_URL');
+    $webhookUrl = config('services.discord.webhook');
     if ($webhookUrl) {
         try {
             \Illuminate\Support\Facades\Http::post($webhookUrl, [
