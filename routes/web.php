@@ -15,6 +15,7 @@ use App\Http\Controllers\AboutController;
 */
 
 // Helper: scan public/demos dan kembalikan Collection of stdClass portfolio
+if (!function_exists('getDemoPortfolios')) {
 function getDemoPortfolios(): \Illuminate\Support\Collection {
     $meta = [
         // Mobile Apps
@@ -55,6 +56,7 @@ function getDemoPortfolios(): \Illuminate\Support\Collection {
     }
     return collect($items);
 }
+} // end if !function_exists
 
 // Halaman Publik
 Route::get('/', function () {
