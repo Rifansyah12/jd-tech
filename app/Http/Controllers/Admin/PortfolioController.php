@@ -28,16 +28,22 @@ class PortfolioController extends Controller
             'title'        => 'required|string|max:255',
             'description'  => 'nullable|string',
             'thumbnail'    => 'nullable|image|max:2048',
-            'demo_url'     => 'nullable|url',
-            'github_url'   => 'nullable|url',
-            'category'     => 'nullable|string',
-            'tags'         => 'nullable|string',
-            'status'       => 'required|in:ongoing,completed',
-            'team_members' => 'nullable|array',
+            'demo_file'     => 'nullable|string',
+            'demo_url'      => 'nullable|string',
+            'card_gradient' => 'nullable|string|in:' . implode(',', array_keys(\App\Models\Portfolio::gradients())),
+            'github_url'    => 'nullable|url',
+            'category'      => 'nullable|string',
+            'tags'          => 'nullable|string',
+            'status'        => 'required|in:ongoing,completed',
+            'team_members'  => 'nullable|array',
         ]);
 
         if ($request->hasFile('thumbnail')) {
             $data['thumbnail'] = $request->file('thumbnail')->store('portfolio', 'public');
+        }
+
+        if (!empty($data['demo_file'])) {
+            $data['demo_url'] = '/demos/' . $data['demo_file'];
         }
 
         $data['tags'] = $request->tags ? array_map('trim', explode(',', $request->tags)) : [];
@@ -59,17 +65,25 @@ class PortfolioController extends Controller
             'title'        => 'required|string|max:255',
             'description'  => 'nullable|string',
             'thumbnail'    => 'nullable|image|max:2048',
-            'demo_url'     => 'nullable|url',
-            'github_url'   => 'nullable|url',
-            'category'     => 'nullable|string',
-            'tags'         => 'nullable|string',
-            'status'       => 'required|in:ongoing,completed',
-            'team_members' => 'nullable|array',
+            'demo_file'     => 'nullable|string',
+            'demo_url'      => 'nullable|string',
+            'card_gradient' => 'nullable|string|in:' . implode(',', array_keys(\App\Models\Portfolio::gradients())),
+            'github_url'    => 'nullable|url',
+            'category'      => 'nullable|string',
+            'tags'          => 'nullable|string',
+            'status'        => 'required|in:ongoing,completed',
+            'team_members'  => 'nullable|array',
         ]);
 
         if ($request->hasFile('thumbnail')) {
             if ($portfolio->thumbnail) Storage::disk('public')->delete($portfolio->thumbnail);
             $data['thumbnail'] = $request->file('thumbnail')->store('portfolio', 'public');
+        }
+
+        if (!empty($data['demo_file'])) {
+            $data['demo_url'] = '/demos/' . $data['demo_file'];
+        } elseif (array_key_exists('demo_file', $data)) {
+            $data['demo_file'] = null;
         }
 
         $data['tags'] = $request->tags ? array_map('trim', explode(',', $request->tags)) : [];

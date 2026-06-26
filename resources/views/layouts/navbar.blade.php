@@ -1,7 +1,7 @@
 <nav class="navbar" id="navbar">
     <div class="logo">
         <img src="{{ asset('images/logo/jdt.ico') }}" alt="JD Technology Logo" class="logo-img">
-        <span class="logo-text">JD Technology</span>
+        <span class="logo-text">Jannah Digital Technology</span>
     </div>
 
     <div class="nav-menu">

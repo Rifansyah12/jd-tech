@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Admin Panel') - JD Technology</title>
+    <link rel="shortcut icon" href="{{ asset('images/logo/jdt.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('images/logo/jdt.ico') }}" type="image/x-icon">
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -239,6 +241,84 @@ select.form-control option { background: #1a1a1a; color: white; }
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* Desktop sidebar collapsed — mini mode */
+        .sidebar.sidebar-collapsed {
+            width: 68px;
+            overflow: visible;
+        }
+        .main-content.sidebar-collapsed {
+            margin-left: 68px;
+        }
+
+        /* Sembunyikan elemen berteks (pakai display:none untuk elemen ber-class) */
+        .sidebar.sidebar-collapsed .sidebar-brand-text,
+        .sidebar.sidebar-collapsed .sidebar-section-title,
+        .sidebar.sidebar-collapsed .nav-badge,
+        .sidebar.sidebar-collapsed .sidebar-user-name,
+        .sidebar.sidebar-collapsed .sidebar-user-role {
+            display: none;
+        }
+
+        /* Sembunyikan text node di dalam <a> via font-size:0, restore icon */
+        .sidebar.sidebar-collapsed .sidebar-nav a {
+            font-size: 0;
+            justify-content: center;
+            padding: 10px;
+            gap: 0;
+            position: relative;
+        }
+        .sidebar.sidebar-collapsed .sidebar-nav a .nav-icon {
+            font-size: 14px;
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
+        }
+
+        /* Pusatkan brand icon */
+        .sidebar.sidebar-collapsed .sidebar-brand {
+            justify-content: center;
+            padding: 0;
+            height: var(--navbar-height);
+        }
+
+        /* Padding section lebih tipis */
+        .sidebar.sidebar-collapsed .sidebar-section {
+            padding: 10px 6px;
+        }
+
+        /* Tooltip saat hover */
+        .sidebar.sidebar-collapsed .sidebar-nav a::after {
+            content: attr(data-title);
+            position: absolute;
+            left: calc(100% + 10px);
+            top: 50%;
+            transform: translateY(-50%);
+            background: #1c1c1c;
+            color: white;
+            font-size: 0.78rem;
+            padding: 6px 12px;
+            border-radius: 8px;
+            white-space: nowrap;
+            border: 1px solid rgba(0,242,254,0.25);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.15s;
+            z-index: 9999;
+        }
+        .sidebar.sidebar-collapsed .sidebar-nav a:hover::after {
+            opacity: 1;
+        }
+
+        /* Pusatkan avatar user */
+        .sidebar.sidebar-collapsed .sidebar-footer {
+            padding: 10px 6px;
+        }
+        .sidebar.sidebar-collapsed .sidebar-user {
+            justify-content: center;
+            padding: 8px;
         }
 
         /* ===== NAVBAR TOP ===== */
@@ -263,7 +343,7 @@ select.form-control option { background: #1a1a1a; color: white; }
         }
 
         .menu-toggle {
-            display: none;
+            display: flex;
             background: none;
             border: none;
             color: var(--text-secondary);
@@ -272,6 +352,8 @@ select.form-control option { background: #1a1a1a; color: white; }
             padding: 8px;
             border-radius: 8px;
             transition: all 0.2s;
+            align-items: center;
+            justify-content: center;
         }
 
         .menu-toggle:hover { background: var(--bg-card); color: var(--text-primary); }
@@ -372,16 +454,13 @@ select.form-control option { background: #1a1a1a; color: white; }
                 transform: translateX(-100%);
             }
             .sidebar.open {
-                transform: translateX(0);
+                transform: translateX(0) !important;
             }
             .sidebar-overlay.show {
                 display: block;
             }
             .main-content {
-                margin-left: 0;
-            }
-            .menu-toggle {
-                display: flex;
+                margin-left: 0 !important;
             }
             .page-content {
                 padding: 20px 15px;
@@ -422,8 +501,17 @@ select.form-control option { background: #1a1a1a; color: white; }
     function toggleSidebar() {
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('sidebarOverlay');
-        sidebar.classList.toggle('open');
-        overlay.classList.toggle('show');
+        const mainContent = document.querySelector('.main-content');
+
+        if (window.innerWidth <= 768) {
+            // Mobile: slide in dari kiri dengan overlay
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('show');
+        } else {
+            // Desktop: collapse/expand sidebar, geser konten
+            sidebar.classList.toggle('sidebar-collapsed');
+            mainContent.classList.toggle('sidebar-collapsed');
+        }
     }
 </script>
 

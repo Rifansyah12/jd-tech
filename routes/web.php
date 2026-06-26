@@ -14,10 +14,57 @@ use App\Http\Controllers\AboutController;
 |--------------------------------------------------------------------------
 */
 
+// Helper: scan public/demos dan kembalikan Collection of stdClass portfolio
+function getDemoPortfolios(): \Illuminate\Support\Collection {
+    $meta = [
+        // Mobile Apps
+        'bankease'     => ['title' => 'BankEase',     'category' => 'Mobile App',      'icon' => 'fas fa-mobile-alt',     'tags' => ['Mobile', 'Banking', 'Fintech']],
+        'edugame'      => ['title' => 'EduGame',      'category' => 'Mobile App',      'icon' => 'fas fa-gamepad',        'tags' => ['Mobile', 'Game', 'Education']],
+        'shopease'     => ['title' => 'ShopEase',     'category' => 'Mobile App',      'icon' => 'fas fa-shopping-bag',   'tags' => ['Mobile', 'Shopping', 'E-Commerce']],
+        'socialflow'   => ['title' => 'SocialFlow',   'category' => 'Mobile App',      'icon' => 'fas fa-share-alt',      'tags' => ['Mobile', 'Social Media']],
+        'stayeasy'     => ['title' => 'StayEasy',     'category' => 'Mobile App',      'icon' => 'fas fa-hotel',          'tags' => ['Mobile', 'Hotel', 'Booking']],
+        'logitrack'    => ['title' => 'LogiTrack',    'category' => 'Mobile App',      'icon' => 'fas fa-truck',          'tags' => ['Mobile', 'Tracking', 'Logistics']],
+        // Web Development
+        'edulearn'     => ['title' => 'EduLearn',     'category' => 'Web Development', 'icon' => 'fas fa-graduation-cap', 'tags' => ['Web', 'E-Learning', 'Platform']],
+        'findash'      => ['title' => 'FinDash',      'category' => 'Web Development', 'icon' => 'fas fa-chart-line',     'tags' => ['Web', 'Dashboard', 'Analytics']],
+        'hr-pro'       => ['title' => 'HR Pro',       'category' => 'Web Development', 'icon' => 'fas fa-users',          'tags' => ['Web', 'HR', 'Management']],
+        'medicare-pro' => ['title' => 'Medicare Pro', 'category' => 'Web Development', 'icon' => 'fas fa-heartbeat',      'tags' => ['Web', 'Medical', 'Dashboard']],
+        // Bot Telegram
+        'helpdesk-bot' => ['title' => 'Helpdesk Bot', 'category' => 'Bot Telegram',    'icon' => 'fab fa-telegram',       'tags' => ['Telegram', 'Bot', 'Support']],
+        'orderbot'     => ['title' => 'OrderBot',     'category' => 'Bot Telegram',    'icon' => 'fab fa-telegram',       'tags' => ['Telegram', 'Bot', 'Order']],
+    ];
+
+    $items = [];
+    foreach ($meta as $slug => $m) {
+        $file = $slug . '.html';
+        if (!file_exists(public_path('demos/' . $file))) continue;
+        $items[] = (object) [
+            'id'           => 'demo_' . $slug,
+            'title'        => $m['title'],
+            'category'     => $m['category'],
+            'icon'         => $m['icon'],
+            'tags'         => $m['tags'],
+            'description'  => null,
+            'thumbnail'    => null,
+            'demo_url'     => '/demos/' . $file,
+            'demo_file'    => $file,
+            'github_url'   => null,
+            'status'       => 'completed',
+            'team_members' => null,
+        ];
+    }
+    return collect($items);
+}
+
 // Halaman Publik
 Route::get('/', function () {
     $featuredServices = Service::where('is_active', true)->latest()->take(6)->get();
-    $featuredPortfolios = Portfolio::latest()->take(6)->get();
+
+    $dbPortfolios  = Portfolio::latest()->take(6)->get();
+    $linkedFiles   = $dbPortfolios->pluck('demo_file')->filter()->values()->toArray();
+    $demoPortfolios = getDemoPortfolios()->filter(fn($d) => !in_array($d->demo_file, $linkedFiles));
+    $featuredPortfolios = $dbPortfolios->concat($demoPortfolios)->take(6);
+
     return view('home', compact('featuredServices', 'featuredPortfolios'));
 })->name('home');
 
@@ -27,7 +74,10 @@ Route::get('/services', function () {
 })->name('services');
 
 Route::get('/portfolio', function () {
-    $portfolios = Portfolio::latest()->get();
+    $dbPortfolios   = Portfolio::latest()->get();
+    $linkedFiles    = $dbPortfolios->pluck('demo_file')->filter()->values()->toArray();
+    $demoPortfolios = getDemoPortfolios()->filter(fn($d) => !in_array($d->demo_file, $linkedFiles));
+    $portfolios     = $dbPortfolios->concat($demoPortfolios);
     return view('portfolio', compact('portfolios'));
 })->name('portfolio');
 

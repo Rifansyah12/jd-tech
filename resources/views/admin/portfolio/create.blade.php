@@ -43,10 +43,29 @@
                     <textarea name="description" class="form-control" rows="5" placeholder="Deskripsi lengkap project...">{{ old('description') }}</textarea>
                 </div>
 
+                <!-- Demo File dari public/demos -->
+                <div class="form-group">
+                    <label class="form-label">Demo File (dari public/demos)</label>
+                    @php
+                    $demoFiles = glob(public_path('demos/*.html')) ?: [];
+                    @endphp
+                    <select name="demo_file" class="form-control" id="demoFileSelect" onchange="onDemoFileChange(this)">
+                        <option value="">— Tidak menggunakan file demo —</option>
+                        @foreach($demoFiles as $df)
+                        <option value="{{ basename($df) }}" {{ old('demo_file') == basename($df) ? 'selected' : '' }}>
+                            {{ basename($df) }}
+                        </option>
+                        @endforeach
+                    </select>
+                    <p style="color: rgba(255,255,255,0.35); font-size: 0.78rem; margin-top: 6px;">
+                        Pilih file HTML dari folder <code style="color:#8B8CF8;">public/demos</code> — demo_url otomatis terisi
+                    </p>
+                </div>
+
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                     <div class="form-group">
                         <label class="form-label">Link Demo</label>
-                        <input type="url" name="demo_url" class="form-control" value="{{ old('demo_url') }}" placeholder="https://...">
+                        <input type="text" name="demo_url" id="demoUrlInput" class="form-control" value="{{ old('demo_url') }}" placeholder="https://... atau otomatis dari file demo">
                     </div>
                     <div class="form-group">
                         <label class="form-label">Link GitHub</label>
@@ -93,20 +112,47 @@
 
             <div class="card">
                 <h3 style="color: white; font-size: 0.95rem; font-weight: 600; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(0,242,254,0.08);">
-                    <i class="fas fa-image" style="color: #00f2fe; margin-right: 8px;"></i>Thumbnail
+                    <i class="fas fa-image" style="color: #00f2fe; margin-right: 8px;"></i>Tampilan Card
                 </h3>
-                <div style="border: 2px dashed rgba(0,242,254,0.2); border-radius: 12px; padding: 25px; text-align: center; cursor: pointer; transition: all 0.2s;"
+
+                <p style="color: rgba(255,255,255,0.35); font-size: 0.78rem; margin-bottom: 14px;">
+                    <b style="color:#8B8CF8;">Gambar + Gradient:</b> foto tampil proporsional di tengah (cocok untuk screenshot mobile/portrait) &nbsp;|&nbsp;
+                    <b style="color:#8B8CF8;">Gambar saja:</b> foto mengisi penuh card &nbsp;|&nbsp;
+                    <b style="color:#8B8CF8;">Gradient saja:</b> warna + icon
+                </p>
+
+                <!-- Upload Thumbnail -->
+                <div style="border: 2px dashed rgba(0,242,254,0.2); border-radius: 12px; padding: 25px; text-align: center; cursor: pointer; transition: all 0.2s; margin-bottom: 16px;"
                     onclick="document.getElementById('thumbnail').click()"
                     onmouseover="this.style.borderColor='rgba(0,242,254,0.4)'" onmouseout="this.style.borderColor='rgba(0,242,254,0.2)'">
                     <div id="thumbnailPreview">
                         <i class="fas fa-cloud-upload-alt" style="color: rgba(0,242,254,0.4); font-size: 2rem; margin-bottom: 10px;"></i>
-                        <p style="color: rgba(255,255,255,0.4); font-size: 0.85rem;">Klik untuk upload</p>
+                        <p style="color: rgba(255,255,255,0.4); font-size: 0.85rem;">Klik untuk upload gambar</p>
                         <p style="color: rgba(255,255,255,0.25); font-size: 0.75rem; margin-top: 5px;">PNG, JPG max 2MB</p>
                     </div>
                     <img id="imgPreview" style="display: none; width: 100%; border-radius: 8px; max-height: 180px; object-fit: cover;">
                 </div>
-                <input type="file" id="thumbnail" name="thumbnail" accept="image/*" style="display: none;"
-                    onchange="previewImage(this)">
+                <input type="file" id="thumbnail" name="thumbnail" accept="image/*" style="display: none;" onchange="previewImage(this)">
+
+                <!-- Gradient Picker -->
+                <p style="color: rgba(255,255,255,0.4); font-size: 0.78rem; margin-bottom: 10px; text-align:center;">— atau pilih gradient —</p>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
+                    @php $gradients = \App\Models\Portfolio::gradients(); @endphp
+                    <label style="cursor:pointer; text-align:center;">
+                        <input type="radio" name="card_gradient" value="" class="grad-radio" style="display:none;" {{ !old('card_gradient') ? 'checked' : '' }}>
+                        <div class="grad-swatch" data-none style="background:linear-gradient(135deg,#1a1a2e,#16213e); border:2px solid transparent; border-radius: 10px; height: 44px; transition: all 0.2s; display:flex; align-items:center; justify-content:center;">
+                            <i class="fas fa-ban" style="color:rgba(255,255,255,0.25); font-size:14px;"></i>
+                        </div>
+                        <span style="color:rgba(255,255,255,0.35); font-size:0.68rem;">Tidak ada</span>
+                    </label>
+                    @foreach($gradients as $key => $g)
+                    <label style="cursor:pointer; text-align:center;">
+                        <input type="radio" name="card_gradient" value="{{ $key }}" class="grad-radio" style="display:none;" {{ old('card_gradient') == $key ? 'checked' : '' }}>
+                        <div class="grad-swatch" style="background:{{ $g['css'] }}; border:2px solid transparent; border-radius: 10px; height: 44px; transition: all 0.2s;"></div>
+                        <span style="color:rgba(255,255,255,0.35); font-size:0.68rem;">{{ $g['label'] }}</span>
+                    </label>
+                    @endforeach
+                </div>
             </div>
 
             <div class="card">
@@ -162,6 +208,42 @@ function previewImage(input) {
         reader.readAsDataURL(input.files[0]);
     }
 }
+
+// Gradient swatch highlight
+function initGradientPicker() {
+    document.querySelectorAll('.grad-radio').forEach(function(radio) {
+        radio.addEventListener('change', function() {
+            document.querySelectorAll('.grad-swatch').forEach(function(s) {
+                s.style.borderColor = 'transparent';
+                s.style.transform = 'scale(1)';
+            });
+            this.parentElement.querySelector('.grad-swatch').style.borderColor = '#00f2fe';
+            this.parentElement.querySelector('.grad-swatch').style.transform = 'scale(1.08)';
+        });
+        if (radio.checked) {
+            radio.parentElement.querySelector('.grad-swatch').style.borderColor = '#00f2fe';
+            radio.parentElement.querySelector('.grad-swatch').style.transform = 'scale(1.08)';
+        }
+    });
+}
+document.addEventListener('DOMContentLoaded', initGradientPicker);
+
+function onDemoFileChange(select) {
+    const urlInput = document.getElementById('demoUrlInput');
+    if (select.value) {
+        urlInput.value = '/demos/' + select.value;
+        urlInput.readOnly = true;
+        urlInput.style.opacity = '0.5';
+    } else {
+        urlInput.readOnly = false;
+        urlInput.style.opacity = '1';
+        if (urlInput.value.startsWith('/demos/')) urlInput.value = '';
+    }
+}
+// Init on page load
+document.addEventListener('DOMContentLoaded', function() {
+    onDemoFileChange(document.getElementById('demoFileSelect'));
+});
 </script>
 @endpush
 

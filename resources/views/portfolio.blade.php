@@ -14,7 +14,7 @@
                 <i class="fas fa-crown"></i> OUR WORK
             </div>
             <h1 style="font-size: 4rem; font-weight: 800; line-height: 1.1; margin-bottom: 20px;">
-                Featured <span style="background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Projects</span>
+                Featured <span style="background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Projects</span>
             </h1>
             <p style="font-size: 1.2rem; color: rgba(255,255,255,0.7); line-height: 1.8;">
                 Beberapa project yang telah kami kerjakan untuk klien kami dari berbagai industri
@@ -25,10 +25,10 @@
     <!-- Portfolio Filter -->
     <section style="padding: 0 5% 50px;">
         <div class="filter-container" style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
-            <button class="filter-btn active" data-filter="all" style="background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%); color: #0a0a0a; padding: 12px 30px; border: none; border-radius: 40px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 0 20px rgba(0,242,254,0.3);">All Projects</button>
-            <button class="filter-btn" data-filter="web" style="background: transparent; color: #fff; padding: 12px 30px; border: 2px solid rgba(0,242,254,0.3); border-radius: 40px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">Web Development</button>
-            <button class="filter-btn" data-filter="mobile" style="background: transparent; color: #fff; padding: 12px 30px; border: 2px solid rgba(0,242,254,0.3); border-radius: 40px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">Mobile Apps</button>
-            <button class="filter-btn" data-filter="bot-telegram" style="background: transparent; color: #fff; padding: 12px 30px; border: 2px solid rgba(0,242,254,0.3); border-radius: 40px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">Bot Telegram</button>
+            <button class="filter-btn active" data-filter="all" style="background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%); color: #0a0612; padding: 12px 30px; border: none; border-radius: 40px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 0 20px rgba(99,102,241,0.3);">All Projects</button>
+            <button class="filter-btn" data-filter="web" style="background: transparent; color: #0a0a0a; padding: 12px 30px; border: 2px solid rgba(99,102,241,0.3); border-radius: 40px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">Web Development</button>
+            <button class="filter-btn" data-filter="mobile" style="background: transparent; color: #0a0a0a; padding: 12px 30px; border: 2px solid rgba(99,102,241,0.3); border-radius: 40px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">Mobile Apps</button>
+            <button class="filter-btn" data-filter="bot-telegram" style="background: transparent; color: #0a0a0a; padding: 12px 30px; border: 2px solid rgba(99,102,241,0.3); border-radius: 40px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">Bot Telegram</button>
         </div>
     </section>
 
@@ -49,38 +49,65 @@
         <div class="portfolio-grid" id="portfolio-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; max-width: 1400px; margin: 0 auto;">
             @foreach($portfolios as $portfolio)
             @php
-                $filterValue = $categoryMap[$portfolio->category] ?? 'other';
+                $filterValue  = $categoryMap[$portfolio->category] ?? 'other';
+                $demoUrl      = $portfolio->demo_url ?? null;
+                $itemIcon     = !empty($portfolio->icon) ? $portfolio->icon : 'fas fa-briefcase';
+                $tags         = is_array($portfolio->tags) ? $portfolio->tags : [];
+                $hasThumbnail = !empty($portfolio->thumbnail);
+                $grad         = $portfolio->card_gradient ?? null;
+                $gradCss      = $grad ? (\App\Models\Portfolio::gradients()[$grad]['css'] ?? null) : null;
+                $defaultBg    = 'linear-gradient(135deg, #1a0a2e 0%, #200d3e 50%, #0f3460 100%)';
+
+                if ($hasThumbnail && $gradCss)     { $mode = 'phone'; }
+                elseif ($hasThumbnail)             { $mode = 'cover'; }
+                elseif ($demoUrl)                  { $mode = 'iframe'; }
+                elseif ($gradCss)                  { $mode = 'gradient'; }
+                else                               { $mode = 'placeholder'; }
             @endphp
-            <div class="portfolio-item" data-category="{{ $filterValue }}" style="position: relative; border-radius: 30px; overflow: hidden; height: 350px; cursor: pointer; transition: all 0.3s ease;">
+            <div class="portfolio-item" data-category="{{ $filterValue }}"
+                 style="position: relative; border-radius: 30px; overflow: hidden; height: 350px; cursor: pointer; transition: all 0.3s ease;"
+                 @if($demoUrl) onclick="window.open('{{ $demoUrl }}', '_blank')" @endif>
                 <div class="portfolio-image" style="width: 100%; height: 100%; position: relative; overflow: hidden; transition: transform 0.5s ease;">
-                    @if($portfolio->thumbnail)
-                        <img src="{{ Storage::url($portfolio->thumbnail) }}" alt="{{ $portfolio->title }}" style="width: 100%; height: 100%; object-fit: cover;">
+                    @if($mode === 'phone')
+                        <div style="width:100%;height:100%;background:{{ $gradCss }};display:flex;align-items:center;justify-content:center;">
+                            <img src="{{ Storage::url($portfolio->thumbnail) }}" alt="{{ $portfolio->title }}"
+                                 style="max-width:65%;max-height:88%;object-fit:contain;border-radius:18px;box-shadow:0 16px 48px rgba(0,0,0,0.6),0 0 0 1px rgba(255,255,255,0.08);">
+                        </div>
+                    @elseif($mode === 'cover')
+                        <img src="{{ Storage::url($portfolio->thumbnail) }}" alt="{{ $portfolio->title }}" style="width:100%;height:100%;object-fit:cover;">
+                    @elseif($mode === 'iframe')
+                        <div class="jd-port-preview">
+                            <iframe src="{{ $demoUrl }}" loading="lazy" scrolling="no" tabindex="-1"
+                                    style="width:calc(100%/0.28);height:calc(100%/0.28);transform:scale(0.28);transform-origin:top left;border:none;pointer-events:none;position:absolute;left:0;top:0;display:block;"></iframe>
+                        </div>
                     @else
-                        <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); display: flex; align-items: center; justify-content: center;">
-                            <i class="fas fa-briefcase" style="font-size: 5rem; color: rgba(0,242,254,0.2);"></i>
+                        <div style="width:100%;height:100%;background:{{ $gradCss ?: $defaultBg }};display:flex;align-items:center;justify-content:center;">
+                            <i class="{{ $itemIcon }}" style="font-size:5rem;color:rgba(255,255,255,0.15);"></i>
                         </div>
                     @endif
                 </div>
-                <div class="portfolio-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(0,242,254,0.95), rgba(79,172,254,0.95)); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; padding: 20px; text-align: center;">
-                    <h3 class="portfolio-title" style="font-size: 1.8rem; font-weight: 700; color: #0a0a0a; margin-bottom: 10px;">{{ $portfolio->title }}</h3>
-                    <p class="portfolio-category" style="color: #0a0a0a; font-size: 1rem; opacity: 0.8; margin-bottom: 15px;">{{ $portfolio->category }}</p>
-                    @if($portfolio->tags && count($portfolio->tags) > 0)
-                    <div style="display: flex; gap: 10px; margin: 10px 0; flex-wrap: wrap; justify-content: center;">
-                        @foreach(array_slice($portfolio->tags, 0, 3) as $tag)
-                        <span style="background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; color: #0a0a0a;">{{ $tag }}</span>
+                <div class="portfolio-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(99,102,241,0.95), rgba(139,92,246,0.95)); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; padding: 20px; text-align: center;">
+                    <h3 class="portfolio-title" style="font-size: 1.8rem; font-weight: 700; color: #fff; margin-bottom: 10px;">{{ $portfolio->title }}</h3>
+                    <p class="portfolio-category" style="color: rgba(255,255,255,0.75); font-size: 1rem; margin-bottom: 15px;">{{ $portfolio->category }}</p>
+                    @if(count($tags) > 0)
+                    <div style="display: flex; gap: 8px; margin: 6px 0 14px; flex-wrap: wrap; justify-content: center;">
+                        @foreach(array_slice($tags, 0, 3) as $tag)
+                        <span style="background: rgba(255,255,255,0.18); padding: 4px 12px; border-radius: 20px; font-size: 0.78rem; color: #fff;">{{ $tag }}</span>
                         @endforeach
                     </div>
                     @endif
                     @if($portfolio->description)
-                    <p style="font-size: 0.9rem; opacity: 0.9; color: #0a0a0a; margin-top: 5px;">{{ Str::limit($portfolio->description, 80) }}</p>
+                    <p style="font-size: 0.875rem; color: rgba(255,255,255,0.8); margin-bottom: 14px; line-height: 1.5;">{{ Str::limit($portfolio->description, 80) }}</p>
                     @endif
-                    @if($portfolio->demo_url)
-                    <a href="{{ $portfolio->demo_url }}" target="_blank" style="margin-top: 14px; display: inline-flex; align-items: center; gap: 6px; background: #0a0a0a; color: #00f2fe; padding: 8px 18px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; text-decoration: none;">
+                    @if($demoUrl)
+                    <a href="{{ $demoUrl }}" target="_blank" onclick="event.stopPropagation()"
+                       style="display: inline-flex; align-items: center; gap: 6px; background: #fff; color: #6366F1; padding: 8px 20px; border-radius: 20px; font-size: 0.82rem; font-weight: 700; text-decoration: none;">
                         <i class="fas fa-external-link-alt"></i> Lihat Demo
                     </a>
                     @endif
                     @if($portfolio->github_url)
-                    <a href="{{ $portfolio->github_url }}" target="_blank" style="margin-top: 8px; display: inline-flex; align-items: center; gap: 6px; background: rgba(10,10,10,0.6); color: #fff; padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; text-decoration: none;">
+                    <a href="{{ $portfolio->github_url }}" target="_blank" onclick="event.stopPropagation()"
+                       style="margin-top: 8px; display: inline-flex; align-items: center; gap: 6px; background: rgba(0,0,0,0.25); color: #fff; padding: 6px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; text-decoration: none;">
                         <i class="fab fa-github"></i> GitHub
                     </a>
                     @endif
@@ -90,7 +117,7 @@
         </div>
         @else
         <div style="text-align: center; padding: 80px 20px; max-width: 600px; margin: 0 auto;">
-            <i class="fas fa-briefcase" style="font-size: 4rem; color: rgba(0,242,254,0.2); margin-bottom: 20px; display: block;"></i>
+            <i class="fas fa-briefcase" style="font-size: 4rem; color: rgba(99,102,241,0.2); margin-bottom: 20px; display: block;"></i>
             <h3 style="font-size: 1.8rem; color: rgba(255,255,255,0.5); margin-bottom: 15px;">Portfolio Segera Hadir</h3>
             <p style="color: rgba(255,255,255,0.3);">Kami sedang mempersiapkan showcase project terbaik kami. Nantikan updatenya!</p>
         </div>
@@ -101,8 +128,8 @@
     <section class="testimonials-section" style="padding: 80px 5% 100px; position: relative; overflow: hidden;">
         <!-- Background Decoration -->
         <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;">
-            <div style="position: absolute; width: 300px; height: 300px; background: rgba(0,242,254,0.05); border-radius: 50%; filter: blur(80px); top: -100px; right: -100px;"></div>
-            <div style="position: absolute; width: 300px; height: 300px; background: rgba(79,172,254,0.05); border-radius: 50%; filter: blur(80px); bottom: -100px; left: -100px;"></div>
+            <div style="position: absolute; width: 300px; height: 300px; background: rgba(99,102,241,0.05); border-radius: 50%; filter: blur(80px); top: -100px; right: -100px;"></div>
+            <div style="position: absolute; width: 300px; height: 300px; background: rgba(139,92,246,0.05); border-radius: 50%; filter: blur(80px); bottom: -100px; left: -100px;"></div>
         </div>
 
         <div class="section-header" style="margin-bottom: 60px;">
@@ -113,9 +140,9 @@
 
         <div class="testimonials-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto;">
             <!-- Testimonial 1 -->
-            <div class="testimonial-card" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(0,242,254,0.1); border-radius: 30px; padding: 40px; transition: all 0.3s ease;">
+            <div class="testimonial-card" style="background: rgba(0,0,0,0.03); border: 1px solid rgba(99,102,241,0.1); border-radius: 30px; padding: 40px; transition: all 0.3s ease;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
-                    <i class="fas fa-quote-right" style="font-size: 40px; color: #00f2fe; opacity: 0.5;"></i>
+                    <i class="fas fa-quote-right" style="font-size: 40px; color: #6366F1; opacity: 0.5;"></i>
                     <div style="display: flex; gap: 5px;">
                         <i class="fas fa-star" style="color: #FFD700;"></i>
                         <i class="fas fa-star" style="color: #FFD700;"></i>
@@ -128,8 +155,8 @@
                     "JD Technology membantu kami membuat aplikasi yang sangat sesuai dengan kebutuhan bisnis. Profesional dan tepat waktu! Mereka benar-benar memahami visi kami."
                 </p>
                 <div style="display: flex; align-items: center; gap: 15px;">
-                    <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #00f2fe, #4facfe); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                        <span style="font-size: 24px; font-weight: 600; color: #0a0a0a;">BS</span>
+                    <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #6366F1, #8B5CF6); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <span style="font-size: 24px; font-weight: 600; color: #0a0612;">BS</span>
                     </div>
                     <div>
                         <h4 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 5px;">Budi Santoso</h4>
@@ -139,9 +166,9 @@
             </div>
 
             <!-- Testimonial 2 -->
-            <div class="testimonial-card" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(0,242,254,0.1); border-radius: 30px; padding: 40px; transition: all 0.3s ease;">
+            <div class="testimonial-card" style="background: rgba(0,0,0,0.03); border: 1px solid rgba(99,102,241,0.1); border-radius: 30px; padding: 40px; transition: all 0.3s ease;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
-                    <i class="fas fa-quote-right" style="font-size: 40px; color: #00f2fe; opacity: 0.5;"></i>
+                    <i class="fas fa-quote-right" style="font-size: 40px; color: #6366F1; opacity: 0.5;"></i>
                     <div style="display: flex; gap: 5px;">
                         <i class="fas fa-star" style="color: #FFD700;"></i>
                         <i class="fas fa-star" style="color: #FFD700;"></i>
@@ -154,8 +181,8 @@
                     "Tim sangat responsif dan memahami apa yang kami inginkan. Hasilnya melebihi ekspektasi! Aplikasi yang dibuat sangat user-friendly dan performanya luar biasa."
                 </p>
                 <div style="display: flex; align-items: center; gap: 15px;">
-                    <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #4facfe, #00f2fe); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                        <span style="font-size: 24px; font-weight: 600; color: #0a0a0a;">DL</span>
+                    <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #8B5CF6, #6366F1); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <span style="font-size: 24px; font-weight: 600; color: #0a0612;">DL</span>
                     </div>
                     <div>
                         <h4 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 5px;">Dewi Lestari</h4>
@@ -165,9 +192,9 @@
             </div>
 
             <!-- Testimonial 3 -->
-            <div class="testimonial-card" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(0,242,254,0.1); border-radius: 30px; padding: 40px; transition: all 0.3s ease;">
+            <div class="testimonial-card" style="background: rgba(0,0,0,0.03); border: 1px solid rgba(99,102,241,0.1); border-radius: 30px; padding: 40px; transition: all 0.3s ease;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
-                    <i class="fas fa-quote-right" style="font-size: 40px; color: #00f2fe; opacity: 0.5;"></i>
+                    <i class="fas fa-quote-right" style="font-size: 40px; color: #6366F1; opacity: 0.5;"></i>
                     <div style="display: flex; gap: 5px;">
                         <i class="fas fa-star" style="color: #FFD700;"></i>
                         <i class="fas fa-star" style="color: #FFD700;"></i>
@@ -180,8 +207,8 @@
                     "Pelayanan excellent, support setelah project selesai juga sangat membantu. Mereka selalu siap membantu ketika kami butuh pengembangan fitur tambahan."
                 </p>
                 <div style="display: flex; align-items: center; gap: 15px;">
-                    <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #00f2fe, #4facfe); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                        <span style="font-size: 24px; font-weight: 600; color: #0a0a0a;">RH</span>
+                    <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #6366F1, #8B5CF6); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <span style="font-size: 24px; font-weight: 600; color: #0a0612;">RH</span>
                     </div>
                     <div>
                         <h4 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 5px;">Rudi Hermawan</h4>
@@ -194,9 +221,9 @@
 
     <!-- CTA Section -->
     <section class="cta-section" style="padding: 0 5% 100px; text-align: center;">
-        <div class="cta-container" style="max-width: 800px; margin: 0 auto; padding: 60px; background: linear-gradient(135deg, rgba(0,242,254,0.1), rgba(79,172,254,0.1)); border-radius: 50px; border: 1px solid rgba(0,242,254,0.2);">
+        <div class="cta-container" style="max-width: 800px; margin: 0 auto; padding: 60px; background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(139,92,246,0.1)); border-radius: 50px; border: 1px solid rgba(99,102,241,0.2);">
             <h2 style="font-size: 3rem; font-weight: 700; margin-bottom: 20px;">
-                Have a <span style="background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Project</span> in Mind?
+                Have a <span style="background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Project</span> in Mind?
             </h2>
             <p style="font-size: 1.2rem; color: rgba(255,255,255,0.7); margin-bottom: 40px;">
                 Mari diskusikan ide Anda dan wujudkan bersama tim profesional kami
@@ -368,8 +395,8 @@
     /* Testimonial Card Hover */
     .testimonial-card:hover {
         transform: translateY(-10px);
-        border-color: #00f2fe;
-        box-shadow: 0 0 40px rgba(0,242,254,0.2);
+        border-color: #6366F1;
+        box-shadow: 0 0 40px rgba(99,102,241,0.2);
     }
     
     /* Animation for filtered items */
@@ -383,11 +410,27 @@
             font-size: 0.8rem !important;
             margin-bottom: 0 !important;
         }
-        
+
         .portfolio-overlay div[style*="margin: 15px 0"] {
             margin: 10px 0 !important;
         }
     }
+
+    /* ── Color fixes: white text → dark text (light theme) ── */
+    .portfolio-hero-content p[style*="rgba(255,255,255"] { color: var(--t2) !important; }
+    /* Empty portfolio state */
+    .portfolio-section h3[style*="rgba(255,255,255"],
+    .portfolio-section p[style*="rgba(255,255,255"]   { color: var(--t2) !important; }
+    /* Testimonials */
+    .testimonial-card p[style*="rgba(255,255,255"],
+    .testimonials-section p[style*="rgba(255,255,255"] { color: var(--t2) !important; }
+    .testimonial-card h4 { color: var(--t1) !important; }
+    /* CTA section */
+    .cta-section p[style*="rgba(255,255,255"],
+    .cta-container p[style*="rgba(255,255,255"]  { color: var(--t2) !important; }
+    .cta-container h2 { color: var(--t1) !important; }
+    /* Section header */
+    .section-header p[style*="rgba(255,255,255"] { color: var(--t2) !important; }
 </style>
 @endpush
 
@@ -420,15 +463,15 @@ document.addEventListener('DOMContentLoaded', function() {
             // Update active button
             filterButtons.forEach(btn => {
                 btn.style.background = 'transparent';
-                btn.style.color = '#fff';
-                btn.style.border = '2px solid rgba(0,242,254,0.3)';
+                btn.style.color = '#525252';
+                btn.style.border = '2px solid rgba(99,102,241,0.3)';
                 btn.style.boxShadow = 'none';
             });
             
-            button.style.background = 'linear-gradient(135deg, #00f2fe 0%, #4facfe 100%)';
-            button.style.color = '#0a0a0a';
+            button.style.background = 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)';
+            button.style.color = '#0a0612';
             button.style.border = 'none';
-            button.style.boxShadow = '0 0 20px rgba(0,242,254,0.3)';
+            button.style.boxShadow = '0 0 20px rgba(99,102,241,0.3)';
 
             // Filter items
             const filterValue = button.getAttribute('data-filter');
@@ -458,13 +501,13 @@ document.addEventListener('DOMContentLoaded', function() {
     testimonialCards.forEach(card => {
         card.addEventListener('mouseover', function() {
             this.style.transform = 'translateY(-10px)';
-            this.style.borderColor = '#00f2fe';
-            this.style.boxShadow = '0 0 40px rgba(0,242,254,0.2)';
+            this.style.borderColor = '#6366F1';
+            this.style.boxShadow = '0 0 40px rgba(99,102,241,0.2)';
         });
         
         card.addEventListener('mouseout', function() {
             this.style.transform = 'translateY(0)';
-            this.style.borderColor = 'rgba(0,242,254,0.1)';
+            this.style.borderColor = 'rgba(99,102,241,0.1)';
             this.style.boxShadow = 'none';
         });
     });

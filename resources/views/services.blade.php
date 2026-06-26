@@ -14,7 +14,7 @@
                 <i class="fas fa-crown"></i> WHAT WE OFFER
             </div>
             <h1 style="font-size: 4rem; font-weight: 800; line-height: 1.1; margin-bottom: 20px;">
-                Our <span style="background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Services</span>
+                Our <span style="background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Services</span>
             </h1>
             <p style="font-size: 1.2rem; color: rgba(255,255,255,0.7); line-height: 1.8;">
                 Solusi lengkap untuk kebutuhan digital Anda dengan teknologi terkini dan tim profesional
@@ -41,7 +41,7 @@
         </div>
         @else
         <div style="text-align: center; padding: 80px 20px; max-width: 600px; margin: 0 auto;">
-            <i class="fas fa-cogs" style="font-size: 4rem; color: rgba(0,242,254,0.2); margin-bottom: 20px; display: block;"></i>
+            <i class="fas fa-cogs" style="font-size: 4rem; color: rgba(99,102,241,0.2); margin-bottom: 20px; display: block;"></i>
             <h3 style="font-size: 1.8rem; color: rgba(255,255,255,0.5); margin-bottom: 15px;">Layanan Segera Hadir</h3>
             <p style="color: rgba(255,255,255,0.3);">Kami sedang mempersiapkan daftar layanan terbaik kami. Nantikan updatenya!</p>
         </div>
@@ -52,8 +52,8 @@
     <section style="padding: 80px 5% 100px; position: relative; overflow: hidden;">
         <!-- Background Decoration -->
         <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;">
-            <div style="position: absolute; width: 300px; height: 300px; background: rgba(0,242,254,0.05); border-radius: 50%; filter: blur(80px); top: -100px; right: -100px;"></div>
-            <div style="position: absolute; width: 300px; height: 300px; background: rgba(79,172,254,0.05); border-radius: 50%; filter: blur(80px); bottom: -100px; left: -100px;"></div>
+            <div style="position: absolute; width: 300px; height: 300px; background: rgba(99,102,241,0.05); border-radius: 50%; filter: blur(80px); top: -100px; right: -100px;"></div>
+            <div style="position: absolute; width: 300px; height: 300px; background: rgba(139,92,246,0.05); border-radius: 50%; filter: blur(80px); bottom: -100px; left: -100px;"></div>
         </div>
 
         <div class="section-header" style="margin-bottom: 60px;">
@@ -64,10 +64,10 @@
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto;">
             <!-- Fast Delivery -->
-            <div style="text-align: center; padding: 40px; background: rgba(255,255,255,0.02); border: 1px solid rgba(0,242,254,0.1); border-radius: 30px; transition: all 0.3s ease;"
-                 onmouseover="this.style.transform='translateY(-10px)'; this.style.borderColor='#00f2fe'; this.style.boxShadow='0 0 40px rgba(0,242,254,0.2)'"
-                 onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(0,242,254,0.1)'; this.style.boxShadow='none'">
-                <div style="width: 80px; height: 80px; margin: 0 auto 25px; background: rgba(0,242,254,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 36px; color: #00f2fe;">
+            <div style="text-align: center; padding: 40px; background: rgba(0,0,0,0.03); border: 1px solid rgba(99,102,241,0.1); border-radius: 30px; transition: all 0.3s ease;"
+                 onmouseover="this.style.transform='translateY(-10px)'; this.style.borderColor='#6366F1'; this.style.boxShadow='0 0 40px rgba(99,102,241,0.2)'"
+                 onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(99,102,241,0.1)'; this.style.boxShadow='none'">
+                <div style="width: 80px; height: 80px; margin: 0 auto 25px; background: rgba(99,102,241,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 36px; color: #6366F1;">
                     <i class="fas fa-clock"></i>
                 </div>
                 <h3 style="font-size: 1.8rem; font-weight: 600; margin-bottom: 15px;">Fast Delivery</h3>
@@ -75,10 +75,10 @@
             </div>
 
             <!-- Quality Guarantee -->
-            <div style="text-align: center; padding: 40px; background: rgba(255,255,255,0.02); border: 1px solid rgba(0,242,254,0.1); border-radius: 30px; transition: all 0.3s ease;"
-                 onmouseover="this.style.transform='translateY(-10px)'; this.style.borderColor='#00f2fe'; this.style.boxShadow='0 0 40px rgba(0,242,254,0.2)'"
-                 onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(0,242,254,0.1)'; this.style.boxShadow='none'">
-                <div style="width: 80px; height: 80px; margin: 0 auto 25px; background: rgba(0,242,254,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 36px; color: #00f2fe;">
+            <div style="text-align: center; padding: 40px; background: rgba(0,0,0,0.03); border: 1px solid rgba(99,102,241,0.1); border-radius: 30px; transition: all 0.3s ease;"
+                 onmouseover="this.style.transform='translateY(-10px)'; this.style.borderColor='#6366F1'; this.style.boxShadow='0 0 40px rgba(99,102,241,0.2)'"
+                 onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(99,102,241,0.1)'; this.style.boxShadow='none'">
+                <div style="width: 80px; height: 80px; margin: 0 auto 25px; background: rgba(99,102,241,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 36px; color: #6366F1;">
                     <i class="fas fa-shield-alt"></i>
                 </div>
                 <h3 style="font-size: 1.8rem; font-weight: 600; margin-bottom: 15px;">Quality Guarantee</h3>
@@ -86,10 +86,10 @@
             </div>
 
             <!-- 24/7 Support -->
-            <div style="text-align: center; padding: 40px; background: rgba(255,255,255,0.02); border: 1px solid rgba(0,242,254,0.1); border-radius: 30px; transition: all 0.3s ease;"
-                 onmouseover="this.style.transform='translateY(-10px)'; this.style.borderColor='#00f2fe'; this.style.boxShadow='0 0 40px rgba(0,242,254,0.2)'"
-                 onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(0,242,254,0.1)'; this.style.boxShadow='none'">
-                <div style="width: 80px; height: 80px; margin: 0 auto 25px; background: rgba(0,242,254,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 36px; color: #00f2fe;">
+            <div style="text-align: center; padding: 40px; background: rgba(0,0,0,0.03); border: 1px solid rgba(99,102,241,0.1); border-radius: 30px; transition: all 0.3s ease;"
+                 onmouseover="this.style.transform='translateY(-10px)'; this.style.borderColor='#6366F1'; this.style.boxShadow='0 0 40px rgba(99,102,241,0.2)'"
+                 onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(99,102,241,0.1)'; this.style.boxShadow='none'">
+                <div style="width: 80px; height: 80px; margin: 0 auto 25px; background: rgba(99,102,241,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 36px; color: #6366F1;">
                     <i class="fas fa-headset"></i>
                 </div>
                 <h3 style="font-size: 1.8rem; font-weight: 600; margin-bottom: 15px;">24/7 Support</h3>
@@ -97,10 +97,10 @@
             </div>
 
             <!-- Competitive Price -->
-            <div style="text-align: center; padding: 40px; background: rgba(255,255,255,0.02); border: 1px solid rgba(0,242,254,0.1); border-radius: 30px; transition: all 0.3s ease;"
-                 onmouseover="this.style.transform='translateY(-10px)'; this.style.borderColor='#00f2fe'; this.style.boxShadow='0 0 40px rgba(0,242,254,0.2)'"
-                 onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(0,242,254,0.1)'; this.style.boxShadow='none'">
-                <div style="width: 80px; height: 80px; margin: 0 auto 25px; background: rgba(0,242,254,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 36px; color: #00f2fe;">
+            <div style="text-align: center; padding: 40px; background: rgba(0,0,0,0.03); border: 1px solid rgba(99,102,241,0.1); border-radius: 30px; transition: all 0.3s ease;"
+                 onmouseover="this.style.transform='translateY(-10px)'; this.style.borderColor='#6366F1'; this.style.boxShadow='0 0 40px rgba(99,102,241,0.2)'"
+                 onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(99,102,241,0.1)'; this.style.boxShadow='none'">
+                <div style="width: 80px; height: 80px; margin: 0 auto 25px; background: rgba(99,102,241,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 36px; color: #6366F1;">
                     <i class="fas fa-hand-hold-usd"></i>
                 </div>
                 <h3 style="font-size: 1.8rem; font-weight: 600; margin-bottom: 15px;">Competitive Price</h3>
@@ -108,10 +108,10 @@
             </div>
 
             <!-- Experienced Team -->
-            <div style="text-align: center; padding: 40px; background: rgba(255,255,255,0.02); border: 1px solid rgba(0,242,254,0.1); border-radius: 30px; transition: all 0.3s ease;"
-                 onmouseover="this.style.transform='translateY(-10px)'; this.style.borderColor='#00f2fe'; this.style.boxShadow='0 0 40px rgba(0,242,254,0.2)'"
-                 onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(0,242,254,0.1)'; this.style.boxShadow='none'">
-                <div style="width: 80px; height: 80px; margin: 0 auto 25px; background: rgba(0,242,254,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 36px; color: #00f2fe;">
+            <div style="text-align: center; padding: 40px; background: rgba(0,0,0,0.03); border: 1px solid rgba(99,102,241,0.1); border-radius: 30px; transition: all 0.3s ease;"
+                 onmouseover="this.style.transform='translateY(-10px)'; this.style.borderColor='#6366F1'; this.style.boxShadow='0 0 40px rgba(99,102,241,0.2)'"
+                 onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(99,102,241,0.1)'; this.style.boxShadow='none'">
+                <div style="width: 80px; height: 80px; margin: 0 auto 25px; background: rgba(99,102,241,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 36px; color: #6366F1;">
                     <i class="fas fa-users"></i>
                 </div>
                 <h3 style="font-size: 1.8rem; font-weight: 600; margin-bottom: 15px;">Experienced Team</h3>
@@ -119,10 +119,10 @@
             </div>
 
             <!-- Modern Technology -->
-            <div style="text-align: center; padding: 40px; background: rgba(255,255,255,0.02); border: 1px solid rgba(0,242,254,0.1); border-radius: 30px; transition: all 0.3s ease;"
-                 onmouseover="this.style.transform='translateY(-10px)'; this.style.borderColor='#00f2fe'; this.style.boxShadow='0 0 40px rgba(0,242,254,0.2)'"
-                 onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(0,242,254,0.1)'; this.style.boxShadow='none'">
-                <div style="width: 80px; height: 80px; margin: 0 auto 25px; background: rgba(0,242,254,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 36px; color: #00f2fe;">
+            <div style="text-align: center; padding: 40px; background: rgba(0,0,0,0.03); border: 1px solid rgba(99,102,241,0.1); border-radius: 30px; transition: all 0.3s ease;"
+                 onmouseover="this.style.transform='translateY(-10px)'; this.style.borderColor='#6366F1'; this.style.boxShadow='0 0 40px rgba(99,102,241,0.2)'"
+                 onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(99,102,241,0.1)'; this.style.boxShadow='none'">
+                <div style="width: 80px; height: 80px; margin: 0 auto 25px; background: rgba(99,102,241,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 36px; color: #6366F1;">
                     <i class="fas fa-microchip"></i>
                 </div>
                 <h3 style="font-size: 1.8rem; font-weight: 600; margin-bottom: 15px;">Modern Technology</h3>
@@ -133,9 +133,9 @@
 
     <!-- CTA Section -->
     <section style="padding: 80px 5%; text-align: center;">
-        <div style="max-width: 800px; margin: 0 auto; padding: 60px; background: linear-gradient(135deg, rgba(0,242,254,0.1), rgba(79,172,254,0.1)); border-radius: 50px; border: 1px solid rgba(0,242,254,0.2);">
+        <div style="max-width: 800px; margin: 0 auto; padding: 60px; background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(139,92,246,0.1)); border-radius: 50px; border: 1px solid rgba(99,102,241,0.2);">
             <h2 style="font-size: 3rem; font-weight: 700; margin-bottom: 20px;">
-                Ready to <span style="background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Start</span> Your Project?
+                Ready to <span style="background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Start</span> Your Project?
             </h2>
             <p style="font-size: 1.2rem; color: rgba(255,255,255,0.7); margin-bottom: 40px;">
                 Konsultasi gratis dengan tim kami dan dapatkan solusi terbaik untuk bisnis Anda
@@ -146,3 +146,30 @@
         </div>
     </section>
 @endsection
+
+@push('styles')
+<style>
+/* ── Color fixes: white text → dark text (light theme) ── */
+.services-hero p { color: var(--t2) !important; }
+section p[style*="rgba(255,255,255"]  { color: var(--t2) !important; }
+section h3[style*="rgba(255,255,255"] { color: var(--t1) !important; }
+
+/* ── Responsive ── */
+@media (max-width: 992px) {
+    .services-hero h1 { font-size: 3rem !important; }
+    [style*="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px"] { grid-template-columns: 1fr 1fr !important; }
+}
+@media (max-width: 768px) {
+    .services-hero h1 { font-size: 2.5rem !important; }
+    .services-hero p  { font-size: 1rem !important; }
+    [style*="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px"] { grid-template-columns: 1fr !important; }
+    [style*="padding: 80px 5%; text-align: center"] > div { padding: 40px 24px !important; }
+    [style*="padding: 80px 5%; text-align: center"] h2  { font-size: 2rem !important; }
+    [style*="padding: 80px 5%; text-align: center"] p   { font-size: 1rem !important; }
+}
+@media (max-width: 480px) {
+    .services-hero h1 { font-size: 2rem !important; }
+    .services-hero { min-height: auto !important; padding-top: 40px; }
+}
+</style>
+@endpush
