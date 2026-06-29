@@ -42,6 +42,12 @@
                 </a>
             </li>
             <li>
+                <a href="{{ route('admin.blogs.index') }}" data-title="Blog" class="{{ request()->routeIs('admin.blogs*') ? 'active' : '' }}">
+                    <span class="nav-icon"><i class="fas fa-newspaper"></i></span>
+                    Blog
+                </a>
+            </li>
+            <li>
                 <a href="{{ route('admin.team.index') }}" data-title="Anggota Tim" class="{{ request()->routeIs('admin.team*') ? 'active' : '' }}">
                     <span class="nav-icon"><i class="fas fa-user-friends"></i></span>
                     Anggota Tim

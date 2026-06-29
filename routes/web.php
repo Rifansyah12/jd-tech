@@ -6,7 +6,10 @@ use App\Models\TeamMember;
 use App\Models\Portfolio;
 use App\Models\Service;
 use App\Models\Message;
+use App\Models\BlogPost;
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\Admin\BlogController as AdminBlogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -83,6 +86,9 @@ Route::get('/portfolio', function () {
     return view('portfolio', compact('portfolios'));
 })->name('portfolio');
 
+Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/{blogPost}', [BlogController::class, 'show'])->name('blog.show');
+
 // Route::get('/about', function () {
 //     $members = TeamMember::where('is_active', true)->get();
 Route::get('/about', [AboutController::class, 'index'])->name('about');
@@ -131,18 +137,28 @@ Route::post('/contact', function () {
 Route::get('/sitemap.xml', function () {
     $portfolios = Portfolio::latest()->get();
     $services = Service::where('is_active', true)->latest()->get();
+    $blogs = BlogPost::published()->latest('published_at')->get();
 
     $urls = [
         ['loc' => url('/'),           'priority' => '1.0', 'changefreq' => 'weekly'],
         ['loc' => url('/about'),      'priority' => '0.8', 'changefreq' => 'monthly'],
         ['loc' => url('/services'),   'priority' => '0.9', 'changefreq' => 'weekly'],
         ['loc' => url('/portfolio'),  'priority' => '0.8', 'changefreq' => 'weekly'],
+        ['loc' => url('/blog'),       'priority' => '0.8', 'changefreq' => 'weekly'],
         ['loc' => url('/contact'),    'priority' => '0.7', 'changefreq' => 'monthly'],
         ['loc' => url('/faq'),        'priority' => '0.6', 'changefreq' => 'monthly'],
         ['loc' => url('/career'),     'priority' => '0.6', 'changefreq' => 'monthly'],
         ['loc' => url('/privacy'),    'priority' => '0.3', 'changefreq' => 'yearly'],
         ['loc' => url('/terms'),      'priority' => '0.3', 'changefreq' => 'yearly'],
     ];
+
+    foreach ($blogs as $blog) {
+        $urls[] = [
+            'loc' => route('blog.show', $blog),
+            'priority' => '0.6',
+            'changefreq' => 'monthly',
+        ];
+    }
 
     return response()->view('sitemap', compact('urls'))->header('Content-Type', 'application/xml');
 })->name('sitemap');
@@ -228,7 +244,8 @@ Route::get('/dashboard', function () {
     $totalMessages = Message::count();
     $totalPortfolios = Portfolio::count();
     $totalServices = Service::count();
-    return view('dashboard', compact('totalMessages', 'totalPortfolios', 'totalServices'));
+    $totalBlogs = BlogPost::published()->count();
+    return view('dashboard', compact('totalMessages', 'totalPortfolios', 'totalServices', 'totalBlogs'));
 })->name('dashboard')->middleware('auth');
 
 // Route untuk profile (hanya untuk user yang sudah login)
@@ -260,6 +277,9 @@ Route::prefix('admin')
 
     // Services
     Route::resource('services', App\Http\Controllers\Admin\ServiceController::class);
+
+    // Blog
+    Route::resource('blogs', AdminBlogController::class);
 
     // Team
     Route::resource('team', App\Http\Controllers\Admin\TeamController::class);

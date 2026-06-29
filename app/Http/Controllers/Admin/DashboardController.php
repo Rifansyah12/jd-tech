@@ -6,6 +6,7 @@ use App\Models\Portfolio;
 use App\Models\Service;
 use App\Models\TeamMember;
 use App\Models\Message;
+use App\Models\BlogPost;
 
 class DashboardController extends Controller
 {
@@ -14,6 +15,7 @@ class DashboardController extends Controller
         return view('admin.dashboard', [
             'totalPortfolio'  => Portfolio::count(),
             'totalServices'   => Service::count(),
+            'totalBlogs'      => BlogPost::count(),
             'totalTeam'       => TeamMember::count(),
             'totalMessages'   => Message::count(),
             'unreadMessages'  => Message::where('is_read', false)->count(),

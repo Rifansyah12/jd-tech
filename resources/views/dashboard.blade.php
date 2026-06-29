@@ -48,6 +48,16 @@
                 <div style="font-size: 2.5rem; font-weight: 800; color: #00f2fe; margin-bottom: 5px;">{{ $totalMessages }}</div>
                 <div style="color: rgba(255,255,255,0.6); font-size: 0.95rem;">Total Pesan</div>
             </div>
+
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(0,242,254,0.1); border-radius: 25px; padding: 30px; text-align: center; transition: all 0.3s ease;"
+                 onmouseover="this.style.borderColor='#00f2fe'; this.style.transform='translateY(-5px)'; this.style.boxShadow='0 0 30px rgba(0,242,254,0.15)'"
+                 onmouseout="this.style.borderColor='rgba(0,242,254,0.1)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <div style="width: 60px; height: 60px; background: rgba(0,242,254,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #00f2fe; margin: 0 auto 15px;">
+                    <i class="fas fa-newspaper"></i>
+                </div>
+                <div style="font-size: 2.5rem; font-weight: 800; color: #00f2fe; margin-bottom: 5px;">{{ $totalBlogs }}</div>
+                <div style="color: rgba(255,255,255,0.6); font-size: 0.95rem;">Artikel Blog</div>
+            </div>
         </div>
 
         <!-- Quick Links -->
@@ -73,6 +83,12 @@
                    onmouseout="this.style.borderColor='rgba(0,242,254,0.1)'; this.style.background='rgba(0,242,254,0.04)'">
                     <i class="fas fa-users" style="font-size: 1.8rem; color: #00f2fe;"></i>
                     <span style="font-weight: 500;">Tim Kami</span>
+                </a>
+                <a href="{{ route('blog.index') }}" style="display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 25px; background: rgba(0,242,254,0.04); border: 1px solid rgba(0,242,254,0.1); border-radius: 20px; text-decoration: none; color: #fff; transition: all 0.3s ease;"
+                   onmouseover="this.style.borderColor='#00f2fe'; this.style.background='rgba(0,242,254,0.08)'"
+                   onmouseout="this.style.borderColor='rgba(0,242,254,0.1)'; this.style.background='rgba(0,242,254,0.04)'">
+                    <i class="fas fa-newspaper" style="font-size: 1.8rem; color: #00f2fe;"></i>
+                    <span style="font-weight: 500;">Blog</span>
                 </a>
                 <a href="{{ route('contact') }}" style="display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 25px; background: rgba(0,242,254,0.04); border: 1px solid rgba(0,242,254,0.1); border-radius: 20px; text-decoration: none; color: #fff; transition: all 0.3s ease;"
                    onmouseover="this.style.borderColor='#00f2fe'; this.style.background='rgba(0,242,254,0.08)'"
