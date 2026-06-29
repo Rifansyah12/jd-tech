@@ -52,6 +52,11 @@
 @endif
 
 <section class="blog-list-section">
+    <div class="blog-list-head">
+        <h2>Semua Artikel</h2>
+        <p>Artikel terbaru yang sudah dipublikasikan akan tetap tersimpan dan tampil di sini.</p>
+    </div>
+
     <div class="blog-grid">
         @forelse($blogs as $blog)
         @php
@@ -113,6 +118,9 @@
     .blog-featured p { color: var(--t2); line-height: 1.75; margin-bottom: 22px; }
     .blog-meta { display: flex; gap: 16px; flex-wrap: wrap; color: var(--t3); font-size: 0.88rem; }
     .blog-list-section { padding: 52px 5% 96px; background: var(--canvas); }
+    .blog-list-head { max-width: 1120px; margin: 0 auto 24px; }
+    .blog-list-head h2 { font-family: var(--font-d); color: var(--t1); font-size: clamp(1.55rem, 3vw, 2rem); letter-spacing: -0.5px; margin-bottom: 6px; }
+    .blog-list-head p { color: var(--t2); line-height: 1.65; font-size: 0.95rem; }
     .blog-grid { max-width: 1120px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; align-items: stretch; }
     .blog-card { min-height: 100%; overflow: hidden; border: 1px solid var(--b-subtle); border-radius: var(--r-card); background: #fff; color: inherit; text-decoration: none; transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease; display: flex; flex-direction: column; }
     .blog-card:hover { transform: translateY(-4px); border-color: var(--b-normal); box-shadow: 0 14px 34px rgba(15,23,42,0.09); }

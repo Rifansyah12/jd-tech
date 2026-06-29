@@ -23,7 +23,6 @@ class BlogController extends Controller
                 });
             })
             ->when($request->category, fn($query, $category) => $query->where('category', $category))
-            ->when($featuredBlog && !$request->filled('search') && !$request->filled('category'), fn($query) => $query->whereKey('!=', $featuredBlog->getKey()))
             ->latest('published_at')
             ->paginate(9)
             ->withQueryString();
